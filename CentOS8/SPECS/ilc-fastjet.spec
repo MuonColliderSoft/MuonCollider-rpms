@@ -27,15 +27,15 @@ mkdir -p %{buildroot}
 mkdir %{_builddir}/%{name}-%{version}/build
 cd %{_builddir}/%{name}-%{version}/build
 %{_builddir}/%{name}-%{version}/configure \
-    --prefix=%{buildroot}/usr \
+    --prefix=%{buildroot}%{_prefix} \
+    --libdir=%{buildroot}%{_libdir} \
     --enable-auto-ptr=no --enable-shared
 make %{?_smp_mflags}
 
 %install
 cd %{_builddir}/%{name}-%{version}/build
 make install
-mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
-sed -i -e 's|%{buildroot}/usr|/usr|g' %{buildroot}%{_bindir}/fastjet-config
+sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{_bindir}/fastjet-config
 sed -i -e 's|%{buildroot}/usr/lib|%{_libdir}|g' %{buildroot}%{_libdir}/*.la
 
 %clean
@@ -59,17 +59,17 @@ jet-algorithm, and the inclusive anti-kt algorithm.
 %defattr(-,root,root)
 %{_bindir}/fastjet-config
 %{_libdir}/*.so
-%dir /usr/include/fastjet
-%dir /usr/include/fastjet/internal
-%dir /usr/include/fastjet/tools
-%dir /usr/include/siscone
-%dir /usr/include/siscone/spherical
-/usr/include/fastjet/*.h
-/usr/include/fastjet/*.hh
-/usr/include/fastjet/internal/*.hh
-/usr/include/fastjet/tools/*.hh
-/usr/include/siscone/*.h
-/usr/include/siscone/spherical/*.h
+%dir %{_includedir}/fastjet
+%dir %{_includedir}/fastjet/internal
+%dir %{_includedir}/fastjet/tools
+%dir %{_includedir}/siscone
+%dir %{_includedir}/siscone/spherical
+%{_includedir}/fastjet/*.h
+%{_includedir}/fastjet/*.hh
+%{_includedir}/fastjet/internal/*.hh
+%{_includedir}/fastjet/tools/*.hh
+%{_includedir}/siscone/*.h
+%{_includedir}/siscone/spherical/*.h
 
 %package static
 Summary: Sequential recombination jet algorithms (static libraries)

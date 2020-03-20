@@ -1,3 +1,13 @@
+%if %{?rhel}%{!?rhel:0} >= 8
+%global _cmakecmd cmake
+%global _cmakepkg cmake
+%else
+%global _cmakecmd cmake3
+%global _cmakepkg cmake3
+%endif
+
+%global cmake_cdbm_dir %{_libdir}/cmake/CondDBMySQL
+
 Summary: Interface to MySQL Conditions Database
 Name: ilc-cond-db-mysql
 Version: 0.9.7
@@ -7,11 +17,7 @@ Vendor: CERN
 URL: https://github.com/iLCSoft/CondDBMySQL.git
 Group: Development/Libraries
 BuildArch: %{_arch}
-%if %{?rhel}%{!?rhel:0} >= 8
-BuildRequires: cmake
-%else
-BuildRequires: cmake3
-%endif
+BuildRequires: %{_cmakepkg}
 BuildRequires: chrpath
 BuildRequires: mysql-devel
 BuildRequires: ilc-utils-devel
@@ -30,24 +36,24 @@ mkdir -p %{buildroot}
 %build
 mkdir %{_builddir}/%{name}-%{version}/build
 cd %{_builddir}/%{name}-%{version}/build
-%cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}/usr \
-       -DINCLUDE_INSTALL_DIR=%{buildroot}/usr/include/CondDBMySQL \
-       -DLIB_INSTALL_DIR=%{buildroot}%{_libdir} \
-       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-       -DCMAKE_CXX_STANDARD=14 \
-       -Wno-dev \
-       %{_builddir}/%{name}-%{version}
+%{_cmakecmd} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
+             -DINCLUDE_INSTALL_DIR=%{buildroot}%{_includedir}/CondDBMySQL \
+             -DLIB_INSTALL_DIR=%{buildroot}%{_libdir} \
+             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+             -DCMAKE_CXX_STANDARD=14 \
+             -Wno-dev \
+             %{_builddir}/%{name}-%{version}
 make %{?_smp_mflags}
 
 %install
 cd %{_builddir}/%{name}-%{version}/build
 make install
 
-mkdir -p %{buildroot}%{_libdir}/cmake/CondDBMySQL
-mv %{buildroot}/usr/lib/cmake/* %{buildroot}/usr/*.cmake %{buildroot}%{_libdir}/cmake/CondDBMySQL
+mkdir -p %{buildroot}%{cmake_cdbm_dir}
+mv %{buildroot}/usr/lib/cmake/* %{buildroot}/usr/*.cmake %{buildroot}%{cmake_cdbm_dir}
 rm -rf %{buildroot}/usr/lib
 
-sed -i -e 's|%{buildroot}/usr|/usr|g' %{buildroot}%{_libdir}/cmake/CondDBMySQL/*.cmake
+sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_cdbm_dir}/*.cmake
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.0.9.6
 
 %clean
@@ -67,12 +73,12 @@ Interface to MySQL Conditions Database.
 
 %files devel
 %defattr(-,root,root)
-%{_libdir}/cmake/CondDBMySQL/*.cmake
+%{cmake_cdbm_dir}/*.cmake
 %{_libdir}/*.so
-%dir /usr/include/CondDBMySQL
-/usr/include/CondDBMySQL/*.h
-%dir /usr/include/CondDBMySQL/ConditionsDB
-/usr/include/CondDBMySQL/ConditionsDB/*.h
+%dir %{_includedir}/CondDBMySQL
+%{_includedir}/CondDBMySQL/*.h
+%dir %{_includedir}/CondDBMySQL/ConditionsDB
+%{_includedir}/CondDBMySQL/ConditionsDB/*.h
 
 %changelog
 * Fri Feb 28 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.6-1
