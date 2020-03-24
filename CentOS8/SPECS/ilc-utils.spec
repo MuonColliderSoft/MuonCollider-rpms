@@ -66,6 +66,7 @@ rm -rf %{buildroot}
 
 %package devel
 Summary: Utilities for the iLCSoft software framework (development files)
+Requires: %{name}
 
 %description devel
 ILCUTIL is a utility package for the iLCSoft software framework.

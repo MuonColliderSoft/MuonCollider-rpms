@@ -47,6 +47,7 @@ rm -rf %{buildroot}
 
 %package devel
 Summary: Sequential recombination jet algorithms (development files)
+Requires: %{name}
 
 %description devel
 The FastJet package provides a fast implementation of several

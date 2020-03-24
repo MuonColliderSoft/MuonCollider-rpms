@@ -65,6 +65,7 @@ rm -rf %{buildroot}
 
 %package devel
 Summary: Application for OpenGL drawing
+Requires: %{name}
 Requires: freeglut-devel
 Requires: ilc-utils-devel
 

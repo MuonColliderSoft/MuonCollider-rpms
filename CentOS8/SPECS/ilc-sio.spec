@@ -20,6 +20,7 @@ BuildArch: %{_arch}
 BuildRequires: %{_cmakepkg}
 BuildRequires: zlib-devel
 BuildRequires: chrpath
+Conflicts: ilc-lcio
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 Source: %{name}-%{version}.tar.gz
@@ -69,7 +70,9 @@ rm -rf %{buildroot}
 
 %package devel
 Summary: Persistency solution for reading and writing binary data (development files)
+Requires: %{name}
 Requires: zlib-devel
+Conflicts: ilc-lcio-devel
 
 %description devel
 SIO is a persistency solution for reading and writing binary data

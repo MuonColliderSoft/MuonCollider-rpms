@@ -65,6 +65,7 @@ rm -rf %{buildroot}
 
 %package devel
 Summary: Interface to MySQL Conditions Database (development files)
+Requires: %{name}
 Requires: mysql-devel
 Requires: ilc-utils-devel
 
