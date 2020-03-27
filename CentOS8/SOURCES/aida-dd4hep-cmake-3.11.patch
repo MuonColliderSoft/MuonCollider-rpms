@@ -1,0 +1,21 @@
+diff -ru aida-dd4hep-orig/CMakeLists.txt aida-dd4hep/CMakeLists.txt
+--- aida-dd4hep-orig/CMakeLists.txt	2020-03-27 13:30:25.031598757 +0000
++++ aida-dd4hep/CMakeLists.txt	2020-03-27 13:31:35.913071574 +0000
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
++cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
+ PROJECT( DD4hep LANGUAGES NONE)
+ SET_PROPERTY(DIRECTORY . PROPERTY PACKAGE_NAME DD4hep)
+ 
+@@ -102,8 +102,8 @@
+ ########################
+ 
+ # Configure Python
+-find_package(Python COMPONENTS Development)
+-set(DD4HEP_PYTHON_INSTALL_DIR lib/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages)
++find_package(PythonInterp)
++set(DD4HEP_PYTHON_INSTALL_DIR lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages)
+ 
+ # Configure ROOT
+ find_package (ROOT 6.08 REQUIRED)
+
