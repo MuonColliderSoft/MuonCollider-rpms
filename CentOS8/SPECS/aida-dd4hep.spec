@@ -6,7 +6,7 @@
 %global _cmakepkg cmake3
 %endif
 
-%global cmake_dd4hep_dir %{_libdir}/cmake/dd4hep
+%global cmake_dd4hep_dir %{_datadir}/DD4hep/cmake
 %global _pypkg python36
 %global _pycmd python3
 %global _pylibdir %{_prefix}/lib/python3.6/site-packages
@@ -30,6 +30,8 @@ BuildRequires: geant4-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 Source0: %{name}-%{version}.tar.gz
+Source1: aida-setup.sh
+Source2: aida-setup.csh
 Patch0: aida-dd4hep-cmake-3.11.patch
 
 %description
@@ -74,8 +76,7 @@ mv %{buildroot}%{_prefix}/lib/*.so* \
 mkdir -p %{buildroot}%{_datadir}/DD4hep
 mv %{buildroot}%{_prefix}/DDDetectors %{buildroot}%{_prefix}/examples %{buildroot}%{_datadir}/DD4hep
 
-mkdir -p %{buildroot}%{_libdir}/cmake
-mv %{buildroot}%{_prefix}/cmake %{buildroot}%{cmake_dd4hep_dir}
+mv %{buildroot}%{_prefix}/cmake %{buildroot}%{_datadir}/DD4hep
 sed -i -e 's|/include|/include/dd4hep|g' %{buildroot}%{cmake_dd4hep_dir}/DD4hepConfig-targets.cmake
 
 mv %{buildroot}%{_prefix}/include %{buildroot}%{_prefix}/dd4hep
@@ -87,11 +88,21 @@ sed -i -e 's|env python|env %{_pycmd}|g' %{buildroot}%{_bindir}/check* \
                                          %{buildroot}%{_bindir}/g4MaterialScan
 sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' %{buildroot}%{_bindir}/run_test.sh
 
+mkdir -p %{buildroot}%{_sysconfdir}/profile.d
+cp %{SOURCE1} %{buildroot}%{_sysconfdir}/profile.d
+cp %{SOURCE2} %{buildroot}%{_sysconfdir}/profile.d
+
+#workaround for cmake
+ln -sf %{_bindir}     %{buildroot}%{_datadir}/DD4hep/bin
+ln -sf %{_libdir}     %{buildroot}%{_datadir}/DD4hep/lib
+ln -sf %{_includedir} %{buildroot}%{_datadir}/DD4hep/include
+
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
+%{_sysconfdir}/profile.d/aida-setup.*
 %{_bindir}/ddeve
 %{_bindir}/dumpBfield
 %{_bindir}/dumpdetector
@@ -139,6 +150,8 @@ cycle (detector concept development, detector optimization, construction, operat
 
 %files devel
 %defattr(-,root,root)
+%{_bindir}/*.sh
+%{_bindir}/test_*
 %{_libdir}/*.so
 %dir %{_includedir}/dd4hep
 %dir %{_includedir}/dd4hep/DD4hep
@@ -186,26 +199,16 @@ cycle (detector concept development, detector optimization, construction, operat
 %{_includedir}/dd4hep/XML/*.inl
 %dir %{cmake_dd4hep_dir}
 %{cmake_dd4hep_dir}/*
-
-
-%package test
-Summary: Detector description and life cycle framework (test files)
-Requires: %{name}
-
-%description test
-DD4hep is a software framework for providing a complete solution
-for full detector description (geometry, materials, visualization,
-readout, alignment, calibration, etc.) for the full experiment life
-cycle (detector concept development, detector optimization, construction, operation).
-
-%files test
-%defattr(-,root,root)
-%{_bindir}/*.sh
-%{_bindir}/test_*
+#workaround for cmake
+%{_datadir}/DD4hep/bin
+%{_datadir}/DD4hep/lib
+%{_datadir}/DD4hep/include
 
 %package -n python3-dd4hep
 Summary: Event data model and persistency for Linear Collider detector (python files)
+BuildArch: noarch
 Requires: %{name}
+Requires: %{name}-devel
 Requires: %{_pypkg}
 Requires: python3-root
 
