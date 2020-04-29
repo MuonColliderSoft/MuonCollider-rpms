@@ -18,6 +18,8 @@ URL: https://github.com/iLCSoft/iLCUtil.git
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: %{_cmakepkg}
+BuildRequires: make
+BuildRequires: doxygen
 BuildRequires: chrpath
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes

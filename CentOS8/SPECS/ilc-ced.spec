@@ -18,6 +18,7 @@ URL: https://github.com/iLCSoft/CED.git
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: %{_cmakepkg}
+BuildRequires: make
 BuildRequires: chrpath
 BuildRequires: freeglut-devel
 BuildRequires: ilc-utils-devel

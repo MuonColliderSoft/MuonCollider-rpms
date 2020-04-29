@@ -19,8 +19,12 @@ URL: https://github.com/iLCSoft/LCIO
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: %{_cmakepkg}
+BuildRequires: make
+BuildRequires: %{_pypkg}
+BuildRequires: %{_pypkg}-rpm-macros
 BuildRequires: zlib-devel
 BuildRequires: chrpath
+BuildRequires: root
 Conflicts: ilc-sio
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
@@ -55,7 +59,7 @@ mkdir -p %{buildroot}%{_includedir}
 mv %{buildroot}/lcio-includedir %{buildroot}%{_includedir}/lcio
 mkdir -p %{buildroot}%{cmake_lcio_dir}
 mv %{buildroot}/usr/*.cmake %{buildroot}%{_libdir}/cmake/*.cmake %{buildroot}%{cmake_lcio_dir}
-sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_lcio_dir}/*.cmake
+sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' %{buildroot}%{cmake_lcio_dir}/*.cmake
 sed -i -e 's|lib/cmake|lib64/cmake/lcio|g' %{buildroot}%{cmake_lcio_dir}/*.cmake
 sed -i -e 's|PATHS|PATHS %{_includedir}/lcio|g' %{buildroot}%{cmake_lcio_dir}/LCIOConfig.cmake
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
@@ -77,6 +81,7 @@ rm -rf %{buildroot}
 %package devel
 Summary: Event data model and persistency for Linear Collider detector (development files)
 Requires: %{name}
+Requires: root
 Requires: zlib-devel
 Conflicts: ilc-sio-devel
 
@@ -109,6 +114,7 @@ and persistency solution for Linear Collider detector R&D studies.
 
 %package -n python3-lcio
 Summary: Event data model and persistency for Linear Collider detector (python files)
+BuildArch: noarch
 Requires: %{name}
 Requires: %{_pypkg}
 

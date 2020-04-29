@@ -18,6 +18,7 @@ URL: https://github.com/iLCSoft/SIO
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: %{_cmakepkg}
+BuildRequires: make
 BuildRequires: zlib-devel
 BuildRequires: chrpath
 Conflicts: ilc-lcio

@@ -19,9 +19,12 @@ URL: https://github.com/iLCSoft/GEAR
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: %{_cmakepkg}
+BuildRequires: make
 BuildRequires: ilc-utils-devel
 BuildRequires: root
 BuildRequires: root-geom
+BuildRequires: root-gdml
+BuildRequires: clhep-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 Source: %{name}-%{version}.tar.gz
@@ -68,6 +71,10 @@ rm -rf %{buildroot}
 Summary: GEometry Api for Reconstruction (development files)
 Requires: %{name}
 Requires: ilc-utils-devel
+Requires: clhep-devel
+Requires: root
+Requires: root-geom
+Requires: root-gdml
 
 %description devel
 GEometry Api for Reconstruction.
