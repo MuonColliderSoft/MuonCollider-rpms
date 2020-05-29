@@ -17,8 +17,25 @@ index f54391d0..02afa361 100644
 +find_package(PythonLibs)
 +set(Python_VERSION "${PYTHON_VERSION_STRING}")
 +set(Python_VERSION_MAJOR "${PYTHON_VERSION_MAJOR}")
-+set(Python_VERSION_MINOR "${PYTHON_VERSION_MINOR}")
++set(Python_VERSION_MAJOR "${PYTHON_VERSION_MINOR}")
  set(DD4HEP_PYTHON_INSTALL_DIR lib/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages)
  
  # Configure ROOT
+diff --git a/cmake/DD4hepConfig.cmake.in b/cmake/DD4hepConfig.cmake.in
+index ed777aa8..15d9b864 100644
+--- a/cmake/DD4hepConfig.cmake.in
++++ b/cmake/DD4hepConfig.cmake.in
+@@ -59,7 +59,11 @@ if(DD4HEP_USE_GEANT4)
+   DD4HEP_SETUP_GEANT4_TARGETS()
+ endif()
+ 
+-FIND_DEPENDENCY(Python COMPONENTS Development)
++find_package(PythonInterp)
++find_package(PythonLibs)
++set(Python_VERSION "${PYTHON_VERSION_STRING}")
++set(Python_VERSION_MAJOR "${PYTHON_VERSION_MAJOR}")
++set(Python_VERSION_MAJOR "${PYTHON_VERSION_MINOR}")
+ 
+ FIND_DEPENDENCY(ROOT REQUIRED)
+ DD4HEP_SETUP_ROOT_TARGETS()
 
