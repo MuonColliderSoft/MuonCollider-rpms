@@ -14,7 +14,7 @@
 
 Summary: Detector description and life cycle framework
 Name: aida-dd4hep
-Version: 1.11.1
+Version: 1.12.1
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: CERN
@@ -22,11 +22,15 @@ URL: https://github.com/AIDASoft/DD4hep
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: %{_cmakepkg}
+BuildRequires: make
+BuildRequires: %{_pypkg}
 BuildRequires: %{_pypkg}-rpm-macros
+BuildRequires: python3-root
 BuildRequires: ilc-gear-devel
 BuildRequires: ilc-lcio-devel
 BuildRequires: %{_boostp}-devel
 BuildRequires: geant4-devel
+BuildRequires: root-genvector
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 Source0: %{name}-%{version}.tar.gz
@@ -141,6 +145,7 @@ Requires: ilc-gear-devel
 Requires: ilc-lcio-devel
 Requires: %{_boostp}-devel
 Requires: geant4-devel
+Requires: root-genvector
 
 %description devel
 DD4hep is a software framework for providing a complete solution
@@ -160,6 +165,7 @@ cycle (detector concept development, detector optimization, construction, operat
 %dir %{_includedir}/dd4hep/DDCond
 %dir %{_includedir}/dd4hep/DDCond/Type1
 %dir %{_includedir}/dd4hep/DDDigi
+%dir %{_includedir}/dd4hep/DDDigi/segmentations
 %dir %{_includedir}/dd4hep/DDEve
 %dir %{_includedir}/dd4hep/DDG4
 %dir %{_includedir}/dd4hep/DDG4/Python
@@ -179,6 +185,7 @@ cycle (detector concept development, detector optimization, construction, operat
 %{_includedir}/dd4hep/DDCond/*.h
 %{_includedir}/dd4hep/DDCond/Type1/*.h
 %{_includedir}/dd4hep/DDDigi/*.h
+%{_includedir}/dd4hep/DDDigi/segmentations/*.h
 %{_includedir}/dd4hep/DDEve/*.h
 %{_includedir}/dd4hep/DDG4/*.h
 %{_includedir}/dd4hep/DDG4/*.inl
@@ -236,7 +243,7 @@ cycle (detector concept development, detector optimization, construction, operat
 
 
 %changelog
-* Wed Mar 25 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.11.1-1
+* Fri May 29 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.12.1-1
 - Repackaging for CentOS 8
 
 
