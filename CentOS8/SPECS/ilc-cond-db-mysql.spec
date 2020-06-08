@@ -54,7 +54,10 @@ mkdir -p %{buildroot}%{cmake_cdbm_dir}
 mv %{buildroot}/usr/lib/cmake/* %{buildroot}/usr/*.cmake %{buildroot}%{cmake_cdbm_dir}
 rm -rf %{buildroot}/usr/lib
 
-sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_cdbm_dir}/*.cmake
+sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' \
+       -e 's|PATH_SUFFIXES|PATH_SUFFIXES include/CondDBMySQL|g' \
+       -e 's|lib/cmake|lib64/cmake/CondDBMySQL|g' \
+       %{buildroot}%{cmake_cdbm_dir}/*.cmake
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.0.9.6
 
 %clean
