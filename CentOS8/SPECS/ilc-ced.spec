@@ -6,7 +6,7 @@
 %global _cmakepkg cmake3
 %endif
 
-%global cmake_ced_dir %{_libdir}/cmake/%{name}-%{version}
+%global cmake_ced_dir %{_libdir}/cmake/CED
 
 Summary: Application for OpenGL drawing
 Name: ilc-ced
@@ -50,7 +50,9 @@ make install
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{cmake_ced_dir}
 mv %{buildroot}/usr/*.cmake %{buildroot}%{_libdir}/cmake/*.cmake %{buildroot}%{cmake_ced_dir}
-sed -i -e 's|%{buildroot}/usr|/usr|g' %{buildroot}%{cmake_ced_dir}/*.cmake
+sed -i -e 's|%{buildroot}/usr|/usr|g' \
+       -e 's|lib/cmake|lib64/cmake/CED|g' \
+       %{buildroot}%{cmake_ced_dir}/*.cmake
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.1.9.3
 chrpath --replace %{_libdir} %{buildroot}%{_bindir}/*
 

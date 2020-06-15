@@ -21,6 +21,7 @@ Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: %{_cmakepkg}
 BuildRequires: make
+BuildRequires: chrpath
 BuildRequires: ilc-utils-devel
 BuildRequires: ilc-lcio-devel
 BuildRequires: ilc-gear-devel
