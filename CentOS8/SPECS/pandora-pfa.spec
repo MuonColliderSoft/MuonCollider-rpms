@@ -62,6 +62,7 @@ mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 
 mkdir -p %{buildroot}%{cmake_panutil_dir}
 cp %{_builddir}/%{name}-%{version}/cmakemodules/MacroCheckPackageLibs.cmake \
+   %{_builddir}/%{name}-%{version}/cmakemodules/MacroCheckPackageVersion.cmake \
    %{buildroot}%{cmake_panutil_dir}
 
 mkdir -p %{buildroot}%{cmake_pansdk_dir}
