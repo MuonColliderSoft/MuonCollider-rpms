@@ -33,7 +33,12 @@ BuildRequires: geant4-devel
 BuildRequires: root-genvector
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
+%if ! ("x%{mc_source_url}" == "x")
+%undefine _disable_source_fetch
+Source0: %{mc_source_url}/%{name}-%{version}.tar.gz
+%else
 Source0: %{name}-%{version}.tar.gz
+%endif
 Source1: aida-setup.sh
 Source2: aida-setup.csh
 Patch0: aida-dd4hep-cmake-3.11.patch

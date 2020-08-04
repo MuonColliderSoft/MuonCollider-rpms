@@ -13,7 +13,12 @@ BuildRequires: make
 BuildRequires: ilc-fastjet-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
+%if ! ("x%{mc_source_url}" == "x")
+%undefine _disable_source_fetch
+Source: %{mc_source_url}/ilc-fastjet-contrib-%{version}.tar.gz
+%else
 Source: ilc-fastjet-contrib-%{version}.tar.gz
+%endif
 
 %description
 3rd-party add-ons for FastJet.

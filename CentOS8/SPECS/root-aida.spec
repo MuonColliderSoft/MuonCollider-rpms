@@ -26,7 +26,12 @@ BuildRequires: root
 BuildRequires: ilc-utils-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
+%if ! ("x%{mc_source_url}" == "x")
+%undefine _disable_source_fetch
+Source: %{mc_source_url}/%{name}-%{version}.tar.gz
+%else
 Source: %{name}-%{version}.tar.gz
+%endif
 
 %description
 The motivation for the development of RAIDA was to offer the possibility to create

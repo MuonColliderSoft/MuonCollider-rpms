@@ -25,7 +25,12 @@ BuildRequires: ilc-lcio-devel
 BuildRequires: ilc-cond-db-mysql-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
+%if ! ("x%{mc_source_url}" == "x")
+%undefine _disable_source_fetch
+Source: %{mc_source_url}/%{name}-%{version}.tar.gz
+%else
 Source: %{name}-%{version}.tar.gz
+%endif
 
 %description
 Linear Collider Conditions Data framework

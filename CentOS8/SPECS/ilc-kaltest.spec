@@ -25,7 +25,12 @@ BuildRequires: root
 BuildRequires: root-graf3d-eve
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
+%if ! ("x%{mc_source_url}" == "x")
+%undefine _disable_source_fetch
+Source: %{mc_source_url}/%{name}-%{version}.tar.gz
+%else
 Source: %{name}-%{version}.tar.gz
+%endif
 
 %description
 Classes and utilities for Kalman filter algorithms.

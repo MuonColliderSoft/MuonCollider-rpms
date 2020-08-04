@@ -28,7 +28,12 @@ BuildRequires: aida-tracking-toolkit-devel
 BuildRequires: gsl-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
+%if ! ("x%{mc_source_url}" == "x")
+%undefine _disable_source_fetch
+Source: %{mc_source_url}/%{name}-%{version}.tar.gz
+%else
 Source: %{name}-%{version}.tar.gz
+%endif
 
 %description
 Re-implentation of some of the code in KalDet, now using the DDRec:Surface
