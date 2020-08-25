@@ -71,12 +71,18 @@ sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' \
     %{buildroot}%{cmake_marlkin_dir}/*.cmake
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
 
+mkdir -p %{buildroot}%{_sysconfdir}/profile.d
+printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libMarlinKinfit.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-marlin-kinfit.sh
+printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libMarlinKinfit.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-marlin-kinfit.csh
+
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
+%{_sysconfdir}/profile.d/*
 %{_libdir}/*.so.*
+%{_libdir}/*.so
 
 %package devel
 Summary: Kinematic fitting library for MarlinKinfit (development files)
@@ -94,7 +100,6 @@ Kinematic fitting library for MarlinKinfit.
 %defattr(-,root,root)
 %dir %{cmake_marlkin_dir}
 %{cmake_marlkin_dir}/*.cmake
-%{_libdir}/*.so
 %dir %{_includedir}/MarlinKinfit
 %{_includedir}/MarlinKinfit/*.h
 

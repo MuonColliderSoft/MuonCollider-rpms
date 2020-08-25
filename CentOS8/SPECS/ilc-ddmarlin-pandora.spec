@@ -63,12 +63,18 @@ make install
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
 
+mkdir -p %{buildroot}%{_sysconfdir}/profile.d
+printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libDDMarlinPandora.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-ddmarlin-pandora.sh
+printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libDDMarlinPandora.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-ddmarlin-pandora.csh
+
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%{_libdir}/*.so*
+%{_sysconfdir}/profile.d/*
+%{_libdir}/*.so.*
+%{_libdir}/*.so
 
 %package devel
 Summary: Interface between Marlin and PandoraPFA files)
@@ -87,7 +93,6 @@ Interface between Marlin and PandoraPFA.
 
 %files devel
 %defattr(-,root,root)
-%{_libdir}/*.so
 %dir %{_includedir}
 %{_includedir}/*.h
 
