@@ -10,11 +10,11 @@
 
 Summary: Track Reconstruction for the Forward Direction (for the FTD)
 Name: ilc-forward-tracking
-Version: 1.14.0
+Version: 1.14.1
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: INFN
-URL: https://github.com/iLCSoft/ForwardTracking.git
+URL: https://github.com/MuonColliderSoft/ForwardTracking
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: %{_cmakepkg}
@@ -68,7 +68,7 @@ cd %{_builddir}/%{name}-%{version}/build
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
+chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.1.14.0
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libForwardTracking.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-forward-tracking.sh
@@ -83,6 +83,6 @@ rm -rf %{buildroot}
 %{_libdir}/*.so*
 
 %changelog
-* Tue Aug 25 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.14.0-1
+* Thu Aug 27 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.14.1-1
 - Repackaging for CentOS 8
 

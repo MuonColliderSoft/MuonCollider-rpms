@@ -8,13 +8,17 @@
 
 %global _boostp boost169
 
+#
+# The version 0.22.1 is the tag "mc" in github
+#
+
 Summary: Event overlay with Marlin
 Name: ilc-overlay
-Version: 0.22.0
+Version: 0.22.1
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: INFN
-URL: https://github.com/MuonColliderSoft/lcgeo
+URL: https://github.com/MuonColliderSoft/Overlay
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: %{_cmakepkg}
@@ -62,7 +66,7 @@ cd %{_builddir}/%{name}-%{version}/build
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
+chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.0.22.0
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libOverlay.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-overlay.sh
@@ -77,7 +81,7 @@ rm -rf %{buildroot}
 %{_libdir}/*.so*
 
 %changelog
-* Fri Aug 07 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.22.0-1
+* Thu Aug 27 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.22.1-1
 - Repackaging for CentOS 8
 
 
