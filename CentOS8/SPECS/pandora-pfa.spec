@@ -99,9 +99,9 @@ sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' \
        -e 's|usr/lib/lib|usr/lib64/lib|g' \
     %{buildroot}%{cmake_panlcc_dir}/*.cmake
 
-chrpath --delete %{buildroot}%{_libdir}/libLCContent.so.03.01.04 \
-                 %{buildroot}%{_libdir}/libPandoraMonitoring.so.03.04.03 \
-                 %{buildroot}%{_libdir}/libPandoraSDK.so.03.03.03
+chrpath --replace %{_libdir} %{buildroot}%{_libdir}/libLCContent.so.03.01.04 
+chrpath --replace %{_libdir} %{buildroot}%{_libdir}/libPandoraMonitoring.so.03.04.03
+chrpath --replace %{_libdir} %{buildroot}%{_libdir}/libPandoraSDK.so.03.03.03
 
 %clean
 rm -rf %{buildroot}

@@ -27,6 +27,8 @@ BuildRequires: ilc-lcio-devel
 BuildRequires: ilc-gear-devel
 BuildRequires: aida-dd4hep-devel
 BuildRequires: root
+BuildRequires: root-minuit2
+BuildRequires: root-unuran
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 %if ! ("x%{mc_source_url}" == "x")

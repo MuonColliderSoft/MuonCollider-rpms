@@ -135,17 +135,17 @@ and persistency solution for Linear Collider detector R&D studies.
 %dir %{python3_sitelib}/pyLCIO/exceptions
 %dir %{python3_sitelib}/pyLCIO/io
 %{python3_sitelib}/*.py
-%{python3_sitelib}/__pycache__/*.pyc
+#%{python3_sitelib}/__pycache__/*.pyc
 %{python3_sitelib}/pyLCIO/*.py
-%{python3_sitelib}/pyLCIO/__pycache__/*.pyc
+#%{python3_sitelib}/pyLCIO/__pycache__/*.pyc
 %{python3_sitelib}/pyLCIO/base/*.py
-%{python3_sitelib}/pyLCIO/base/__pycache__/*.pyc
+#%{python3_sitelib}/pyLCIO/base/__pycache__/*.pyc
 %{python3_sitelib}/pyLCIO/drivers/*.py
-%{python3_sitelib}/pyLCIO/drivers/__pycache__/*.pyc
+#%{python3_sitelib}/pyLCIO/drivers/__pycache__/*.pyc
 %{python3_sitelib}/pyLCIO/exceptions/*.py
-%{python3_sitelib}/pyLCIO/exceptions/__pycache__/*.pyc
+#%{python3_sitelib}/pyLCIO/exceptions/__pycache__/*.pyc
 %{python3_sitelib}/pyLCIO/io/*.py
-%{python3_sitelib}/pyLCIO/io/__pycache__/*.pyc
+#%{python3_sitelib}/pyLCIO/io/__pycache__/*.pyc
 
 %changelog
 * Mon Mar 23 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.13.1-1

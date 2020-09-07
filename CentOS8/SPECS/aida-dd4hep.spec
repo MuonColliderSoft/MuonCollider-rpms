@@ -242,9 +242,9 @@ cycle (detector concept development, detector optimization, construction, operat
 %{_pylibdir}/*.C
 %{_pylibdir}/DDSim/*.py
 %{_pylibdir}/DDSim/Helper/*.py
-%{_pylibdir}/__pycache__/*.pyc
-%{_pylibdir}/DDSim/__pycache__/*.pyc
-%{_pylibdir}/DDSim/Helper/__pycache__/*.pyc
+#%{_pylibdir}/__pycache__/*.pyc
+#%{_pylibdir}/DDSim/__pycache__/*.pyc
+#%{_pylibdir}/DDSim/Helper/__pycache__/*.pyc
 
 
 %changelog

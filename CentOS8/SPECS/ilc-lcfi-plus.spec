@@ -26,6 +26,7 @@ BuildRequires: ilc-marlin-devel
 BuildRequires: ilc-marlin-util-devel
 BuildRequires: ilc-lcfi-vertex-devel
 BuildRequires: root
+BuildRequires: root-smatrix
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 %if ! ("x%{mc_source_url}" == "x")
