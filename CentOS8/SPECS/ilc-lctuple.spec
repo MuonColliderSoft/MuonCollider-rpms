@@ -6,13 +6,9 @@
 %global _cmakepkg cmake3
 %endif
 
-#
-# Version 1.12.1 corresponds to the tag "v01-12mc" in github
-#
-
 Summary: Marlin package that creates a ROOT TTree with a column wise ntuple from LCIO collections
 Name: ilc-lctuple
-Version: 1.12.1
+Version: 1.12.2
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: INFN
@@ -73,6 +69,8 @@ rm -rf %{buildroot}
 %{_libdir}/*.so
 
 %changelog
+* Mon Sep 21 2020 Alessio Gianelle <gianelle@pd.infn.it> - 1.12.2-1
+- Add branches for the time of the hits
 * Thu Aug 27 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.12.1-1
 - Repackaging for CentOS 8
 
