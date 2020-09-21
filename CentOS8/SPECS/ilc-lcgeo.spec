@@ -10,7 +10,7 @@
 
 Summary: Implementation of Linear Collider detector models in DD4hep.
 Name: ilc-lcgeo
-Version: 0.16.5
+Version: 0.16.6
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: INFN
@@ -66,6 +66,10 @@ rm -rf %{buildroot}
 %{_libdir}/*.components
 
 %changelog
+* Mon Sep 21 2020 Nazar Bartosik <nazar.bartosik@to.infn.it> - 0.16.6-1
+- Added a modified version of the Generic Cal Endcap without cutout
+- Added support of Z segmentation to ZPlanarTracker class
+- Implemented Z segmentation in a separate plugin: ZSegmentedPlanarTracker
 * Fri Apr 03 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.16.5-1
 - Repackaging for CentOS 8
 
