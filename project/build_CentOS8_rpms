@@ -7,7 +7,11 @@ sudo yum -y install epel-release yum-utils wget git
 sudo yum-config-manager --set-enabled PowerTools
 sudo yum-config-manager --set-enabled AppStream
 
-sudo yum -y localinstall http://artifacts.pd.infn.it/packages/CAP/misc/CentOS8/noarch/ca_TERENA-SSL-CA-3-1.0-2.el8.noarch.rpm
+sudo wget -O /etc/yum.repos.d/EGI-trustanchors.repo http://repository.egi.eu/sw/production/cas/1/current/repo-files/EGI-trustanchors.repo
+sudo yum -y install ca-policy-egi-core
+sudo ln -s /etc/grid-security/certificates/USERTrustRSACertificationAuthority.pem /etc/pki/ca-trust/source/anchors/
+sudo ln -s /etc/grid-security/certificates/GEANTeScienceSSLCA4.pem /etc/pki/ca-trust/source/anchors/
+sudo update-ca-trust extract
 
 sudo wget -O /etc/yum.repos.d/geant4.repo http://artifacts.pd.infn.it/packages/MuonColliderSoft/repos/CentOS8/geant4.repo
 
