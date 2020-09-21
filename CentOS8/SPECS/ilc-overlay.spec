@@ -8,13 +8,9 @@
 
 %global _boostp boost169
 
-#
-# The version 0.22.1 is the tag "mc" in github
-#
-
 Summary: Event overlay with Marlin
 Name: ilc-overlay
-Version: 0.22.1
+Version: 0.22.2
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: INFN
@@ -81,6 +77,10 @@ rm -rf %{buildroot}
 %{_libdir}/*.so*
 
 %changelog
+* Mon Sep 21 2020 Nazar Bartosik <nazar.bartosik@cern.ch> - 0.22.2-1
+- Added support for lower/upper integration time boundaries in OverlayTimingGeneric
+- OverlayTimingGeneric: Added option to make integration times symmetric
+- OverlayTiming: Skipping merging of collections that have no integration times configured
 * Thu Aug 27 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.22.1-1
 - Repackaging for CentOS 8
 
