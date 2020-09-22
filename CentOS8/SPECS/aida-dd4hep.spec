@@ -26,6 +26,7 @@ BuildRequires: make
 BuildRequires: %{_pypkg}
 BuildRequires: %{_pypkg}-rpm-macros
 BuildRequires: python3-root
+BuildRequires: python36-devel
 BuildRequires: ilc-gear-devel
 BuildRequires: ilc-lcio-devel
 BuildRequires: %{_boostp}-devel
@@ -124,6 +125,7 @@ rm -rf %{buildroot}
 %{_bindir}/listcomponents
 %{_bindir}/materialBudget
 %{_bindir}/print_materials
+%{_bindir}/pyddg4
 %{_bindir}/materialScan
 %{_bindir}/teveDisplay
 %{_bindir}/teveLCIO

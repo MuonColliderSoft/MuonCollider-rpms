@@ -33,6 +33,8 @@ cat << EOF > $HOME/.rpmmacros
 %mc_source_url https://cld-smact-02.pd.infn.it/artifacts/repository/mc-sources
 EOF
 
+sudo alternatives --set python /usr/bin/python3
+
 git clone https://github.com/MuonColliderSoft/MuonCollider-rpms.git
 ln -s $HOME/MuonCollider-rpms/CentOS8/ $HOME/rpmbuild
 cd rpmbuild
