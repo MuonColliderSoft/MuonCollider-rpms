@@ -14,14 +14,14 @@
 
 Summary: Detector description and life cycle framework
 Name: aida-dd4hep
-Version: 1.12.1
+Version: 1.13.1
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: CERN
 URL: https://github.com/AIDASoft/DD4hep
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: %{_cmakepkg}
+BuildRequires: %{_cmakepkg} >= 3.14.5-1
 BuildRequires: make
 BuildRequires: %{_pypkg}
 BuildRequires: %{_pypkg}-rpm-macros
@@ -32,6 +32,7 @@ BuildRequires: ilc-lcio-devel
 BuildRequires: %{_boostp}-devel
 BuildRequires: geant4-devel
 BuildRequires: root-genvector
+BuildRequires: root-tpython
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 %if ! ("x%{mc_source_url}" == "x")
@@ -42,7 +43,6 @@ Source0: %{name}-%{version}.tar.gz
 %endif
 Source1: aida-setup.sh
 Source2: aida-setup.csh
-Patch0: aida-dd4hep-cmake-3.11.patch
 
 %description
 DD4hep is a software framework for providing a complete solution
@@ -52,7 +52,6 @@ cycle (detector concept development, detector optimization, construction, operat
 
 %prep
 %setup -c
-%patch0 -p1
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
@@ -250,6 +249,8 @@ cycle (detector concept development, detector optimization, construction, operat
 
 
 %changelog
+* Wed Sep 23 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.13.1-1
+- New version with ROOT 6.22 support
 * Fri May 29 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.12.1-1
 - Repackaging for CentOS 8
 
