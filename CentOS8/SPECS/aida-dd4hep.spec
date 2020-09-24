@@ -65,6 +65,8 @@ cd %{_builddir}/%{name}-%{version}/build
              -DDD4HEP_USE_LCIO=ON \
              -DDD4HEP_USE_XERCESC=OFF \
              -DDD4HEP_USE_GEAR=ON \
+             -DBUILD_TESTING=OFF \
+             -DDD4HEP_SET_RPATH=OFF \
              -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
              -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
              -Wno-dev \
@@ -162,7 +164,6 @@ cycle (detector concept development, detector optimization, construction, operat
 %files devel
 %defattr(-,root,root)
 %{_bindir}/*.sh
-%{_bindir}/test_*
 %{_libdir}/*.so
 %dir %{_includedir}/dd4hep
 %dir %{_includedir}/dd4hep/DD4hep
