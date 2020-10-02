@@ -10,7 +10,7 @@
 
 Summary: Assembly of various Marlin processor for reconstruction
 Name: ilc-marlin-reco
-Version: 1.27.0
+Version: 1.28.0
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: INFN
@@ -80,6 +80,8 @@ rm -rf %{buildroot}
 %{_libdir}/*.so*
 
 %changelog
+* Fri Oct 02 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.28.0-1
+- New version of MarlinReco
 * Mon Jul 13 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.27.0-1
 - Repackaging for CentOS 8
 

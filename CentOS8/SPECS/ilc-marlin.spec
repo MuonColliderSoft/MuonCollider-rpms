@@ -12,7 +12,7 @@
 
 Summary: Modular Analysis and Reconstruction for the LINear Collider
 Name: ilc-marlin
-Version: 1.17.0
+Version: 1.17.1
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: INFN
@@ -99,6 +99,8 @@ Modular Analysis and Reconstruction for the LINear Collider.
 %{_includedir}/marlin/*.h
 
 %changelog
+* Fri Oct 02 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.17.1-1
+- New version of Marlin
 * Thu Jun 11 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.17.0-1
 - Repackaging for CentOS 8
 

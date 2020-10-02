@@ -10,7 +10,7 @@
 
 Summary: Utilities for the iLCSoft software framework
 Name: ilc-utils
-Version: 1.6
+Version: 1.6.1
 Release: 1%{?dist}
 License: GPLv3 License
 Vendor: CERN
@@ -113,6 +113,8 @@ utility packages living in separate sub-directories.
 %{_datadir}/doc/ilcutil/*
 
 %changelog
+* Fri Oct 02 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.6.1-1
+- New version of iLC utils
 * Fri Feb 28 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.6-1
 - Repackaging for CentOS 8
 

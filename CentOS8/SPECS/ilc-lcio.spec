@@ -11,7 +11,7 @@
 
 Summary: Event data model and persistency for Linear Collider detector
 Name: ilc-lcio
-Version: 2.13.1
+Version: 2.15.3
 Release: 1%{?dist}
 License: BSD v.3
 Vendor: DESY/SLAC
@@ -25,7 +25,6 @@ BuildRequires: %{_pypkg}-rpm-macros
 BuildRequires: zlib-devel
 BuildRequires: chrpath
 BuildRequires: root
-Conflicts: ilc-sio
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 %if ! ("x%{mc_source_url}" == "x")
@@ -88,7 +87,6 @@ Summary: Event data model and persistency for Linear Collider detector (developm
 Requires: %{name}
 Requires: root
 Requires: zlib-devel
-Conflicts: ilc-sio-devel
 
 %description devel
 LCIO (Linear Collider I/O) provides the event data model (EDM)
@@ -104,6 +102,7 @@ and persistency solution for Linear Collider detector R&D studies.
 %dir %{_includedir}/lcio/IMPL
 %dir %{_includedir}/lcio/IO
 %dir %{_includedir}/lcio/IOIMPL
+%dir %{_includedir}/lcio/MT
 %dir %{_includedir}/lcio/UTIL
 %dir %{_includedir}/lcio/rootDict
 %{_includedir}/lcio/*.h
@@ -112,6 +111,7 @@ and persistency solution for Linear Collider detector R&D studies.
 %{_includedir}/lcio/IMPL/*
 %{_includedir}/lcio/IO/*
 %{_includedir}/lcio/IOIMPL/*
+%{_includedir}/lcio/MT/*
 %{_includedir}/lcio/UTIL/*
 %{_includedir}/lcio/rootDict/*
 %dir %{cmake_lcio_dir}
@@ -122,6 +122,7 @@ Summary: Event data model and persistency for Linear Collider detector (python f
 BuildArch: noarch
 Requires: %{name}
 Requires: %{_pypkg}
+Requires: python3-root
 
 %description -n python3-lcio
 LCIO (Linear Collider I/O) provides the event data model (EDM)
@@ -135,19 +136,15 @@ and persistency solution for Linear Collider detector R&D studies.
 %dir %{python3_sitelib}/pyLCIO/exceptions
 %dir %{python3_sitelib}/pyLCIO/io
 %{python3_sitelib}/*.py
-#%{python3_sitelib}/__pycache__/*.pyc
 %{python3_sitelib}/pyLCIO/*.py
-#%{python3_sitelib}/pyLCIO/__pycache__/*.pyc
 %{python3_sitelib}/pyLCIO/base/*.py
-#%{python3_sitelib}/pyLCIO/base/__pycache__/*.pyc
 %{python3_sitelib}/pyLCIO/drivers/*.py
-#%{python3_sitelib}/pyLCIO/drivers/__pycache__/*.pyc
 %{python3_sitelib}/pyLCIO/exceptions/*.py
-#%{python3_sitelib}/pyLCIO/exceptions/__pycache__/*.pyc
 %{python3_sitelib}/pyLCIO/io/*.py
-#%{python3_sitelib}/pyLCIO/io/__pycache__/*.pyc
 
 %changelog
+* Fri Oct 02 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.15.3-1
+- New version of LCIO
 * Mon Mar 23 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.13.1-1
 - Repackaging for CentOS 8
 
