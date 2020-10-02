@@ -14,7 +14,7 @@
 
 Summary: Detector description and life cycle framework
 Name: aida-dd4hep
-Version: 1.13.1
+Version: 1.14.0
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: CERN
@@ -33,6 +33,8 @@ BuildRequires: %{_boostp}-devel
 BuildRequires: geant4-devel
 BuildRequires: root-genvector
 BuildRequires: root-tpython
+BuildRequires: root-graf3d-eve7
+BuildRequires: root-gui-browserv7
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 %if ! ("x%{mc_source_url}" == "x")
@@ -96,7 +98,8 @@ mv %{buildroot}%{_prefix}/dd4hep %{buildroot}%{_includedir}
 
 sed -i -e 's|env python|env %{_pycmd}|g' %{buildroot}%{_bindir}/check* \
                                          %{buildroot}%{_bindir}/ddsim \
-                                         %{buildroot}%{_bindir}/g4MaterialScan
+                                         %{buildroot}%{_bindir}/g4MaterialScan \
+                                         %{buildroot}%{_bindir}/g4GeometryScan
 sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' %{buildroot}%{_bindir}/run_test.sh
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
@@ -122,6 +125,7 @@ rm -rf %{buildroot}
 %{_bindir}/geoConverter
 %{_bindir}/geoDisplay
 %{_bindir}/geoPluginRun
+%{_bindir}/geoWebDisplay
 %{_bindir}/graphicalScan
 %{_bindir}/listcomponents
 %{_bindir}/materialBudget
@@ -154,6 +158,9 @@ Requires: ilc-lcio-devel
 Requires: %{_boostp}-devel
 Requires: geant4-devel
 Requires: root-genvector
+Requires: root-tpython
+Requires: root-graf3d-eve7
+Requires: root-gui-browserv7
 
 %description devel
 DD4hep is a software framework for providing a complete solution
@@ -238,6 +245,7 @@ cycle (detector concept development, detector optimization, construction, operat
 %{_bindir}/checkOverlaps
 %{_bindir}/ddsim
 %{_bindir}/g4MaterialScan
+%{_bindir}/g4GeometryScan
 %dir %{_pylibdir}/DDSim
 %dir %{_pylibdir}/DDSim/Helper
 %{_pylibdir}/*.py
@@ -250,6 +258,8 @@ cycle (detector concept development, detector optimization, construction, operat
 
 
 %changelog
+* Thu Oct 01 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.14.0-1
+- New version of DD4hep
 * Wed Sep 23 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.13.1-1
 - New version with ROOT 6.22 support
 * Fri May 29 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.12.1-1
