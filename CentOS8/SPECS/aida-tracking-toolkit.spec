@@ -51,7 +51,7 @@ cd %{_builddir}/%{name}-%{version}/build
              -DCMAKE_CXX_STANDARD=14 \
              -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
              -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
-             -Dstreamlog_DIR=%{_libdir}/cmake/ilcutil-1.6/ \
+             -Dstreamlog_DIR=%{_libdir}/cmake/ilcutil/ \
              -Wno-dev \
              %{_builddir}/%{name}-%{version}
 make %{?_smp_mflags}

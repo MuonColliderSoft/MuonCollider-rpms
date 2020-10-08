@@ -6,7 +6,7 @@
 %global _cmakepkg cmake3
 %endif
 
-%global cmake_ilcutil_dir %{_libdir}/cmake/ilcutil-%{version}
+%global cmake_ilcutil_dir %{_libdir}/cmake/ilcutil
 
 Summary: Utilities for the iLCSoft software framework
 Name: ilc-utils
@@ -14,7 +14,7 @@ Version: 1.6.1
 Release: 1%{?dist}
 License: GPLv3 License
 Vendor: CERN
-URL: https://github.com/iLCSoft/iLCUtil.git
+URL: https://github.com/iLCSoft/iLCUtil
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: %{_cmakepkg}
@@ -46,6 +46,7 @@ cd %{_builddir}/%{name}-%{version}/build
 %{_cmakecmd} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
              -DCMAKE_BUILD_TYPE=RelWithDebInfo \
              -DCMAKE_CXX_STANDARD=14 \
+             -DINSTALL_DOC=OFF \
              -Wno-dev \
              %{_builddir}/%{name}-%{version}
 
@@ -53,8 +54,8 @@ cd %{_builddir}/%{name}-%{version}/build
 cd %{_builddir}/%{name}-%{version}/build
 make %{?_smp_mflags}
 make install
-mkdir -p %{buildroot}%{_datadir}
-mv %{buildroot}/usr/doc %{buildroot}%{_datadir}
+rm -rf %{buildroot}/usr/doc
+
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{cmake_ilcutil_dir}
 mv %{buildroot}/usr/*.cmake %{buildroot}/usr/cmakemodules %{buildroot}%{cmake_ilcutil_dir}
@@ -103,14 +104,6 @@ Summary: Utilities for the iLCSoft software framework (documentation)
 ILCUTIL is a utility package for the iLCSoft software framework.
 It is intended to be a "meta-package" which packages together a set of independent
 utility packages living in separate sub-directories.
-
-%files doc
-%defattr(-,root,root)
-%dir %{_datadir}/doc/streamlog
-%dir %{_datadir}/doc/streamlog/html
-%{_datadir}/doc/streamlog/html/*
-%dir %{_datadir}/doc/ilcutil
-%{_datadir}/doc/ilcutil/*
 
 %changelog
 * Fri Oct 02 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.6.1-1

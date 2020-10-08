@@ -22,7 +22,7 @@ sudo yum -y install boost169-devel chrpath clhep-devel cmake doxygen \
                     python36-rpm-macros python3-root root root-gdml \
                     root-genvector root-geom root-graf3d-eve root-tpython \
                     root-tmva root-minuit2 root-unuran root-smatrix \
-                    zlib-devel rpm-build
+                    root-graf3d-eve7 root-gui-browserv7 zlib-devel rpm-build
 
 sudo geant4-dataset-download
 
@@ -39,8 +39,11 @@ sudo alternatives --set python /usr/bin/python3
 git clone https://github.com/MuonColliderSoft/MuonCollider-rpms.git
 ln -s $HOME/MuonCollider-rpms/CentOS8/ $HOME/rpmbuild
 cd rpmbuild
+mkdir DEBUGINFO DEBUGSOURCES
 
 rpmbuild -ba SPECS/ilc-utils.spec
+mv RPMS/x86_64/*-debuginfo-*.rpm DEBUGINFO
+mv RPMS/x86_64/*-debugsource-*.rpm DEBUGSOURCES
 sudo yum -y localinstall RPMS/x86_64/ilc-utils*
 
 rpmbuild -ba SPECS/ilc-ced.spec
@@ -53,6 +56,8 @@ rpmbuild -ba SPECS/root-aida.spec
 rpmbuild -ba SPECS/ilc-kaltest.spec
 QA_SKIP_BUILD_ROOT=1 rpmbuild -ba SPECS/pandora-pfa.spec
 rpmbuild -ba SPECS/ilc-physsim.spec
+mv RPMS/x86_64/*-debuginfo-*.rpm DEBUGINFO
+mv RPMS/x86_64/*-debugsource-*.rpm DEBUGSOURCES
 sudo yum -y localinstall RPMS/x86_64/ilc-ced* \
                          RPMS/x86_64/ilc-gear* \
                          RPMS/x86_64/ilc-fastjet* \
@@ -66,6 +71,8 @@ sudo yum -y localinstall RPMS/x86_64/ilc-ced* \
 rpmbuild -ba SPECS/aida-dd4hep.spec
 rpmbuild -ba SPECS/ilc-lccd.spec
 rpmbuild -ba SPECS/ilc-fastjet-contrib.spec
+mv RPMS/x86_64/*-debuginfo-*.rpm DEBUGINFO
+mv RPMS/x86_64/*-debugsource-*.rpm DEBUGSOURCES
 sudo yum -y localinstall RPMS/x86_64/aida-dd4hep* \
                          RPMS/x86_64/ilc-lccd* \
                          RPMS/x86_64/ilc-fastjet-contrib*
@@ -73,6 +80,8 @@ sudo yum -y localinstall RPMS/x86_64/aida-dd4hep* \
 rpmbuild -ba SPECS/aida-tracking-toolkit.spec
 rpmbuild -ba SPECS/ilc-marlin.spec
 rpmbuild -ba SPECS/ilc-lcgeo.spec
+mv RPMS/x86_64/*-debuginfo-*.rpm DEBUGINFO
+mv RPMS/x86_64/*-debugsource-*.rpm DEBUGSOURCES
 sudo yum -y localinstall RPMS/x86_64/aida-tracking-toolkit* \
                          RPMS/x86_64/ilc-marlin*
 
@@ -84,6 +93,8 @@ rpmbuild -ba SPECS/ilc-lctuple.spec
 rpmbuild -ba SPECS/ilc-marlin-dd4hep.spec
 rpmbuild -ba SPECS/ilc-marlin-fastjet.spec
 rpmbuild -ba SPECS/ilc-marlin-kinfit.spec
+mv RPMS/x86_64/*-debuginfo-*.rpm DEBUGINFO
+mv RPMS/x86_64/*-debugsource-*.rpm DEBUGSOURCES
 sudo yum -y localinstall RPMS/x86_64/ilc-marlin-util* \
                          RPMS/x86_64/ilc-ddkaltest* \
                          RPMS/x86_64/ilc-kitrack* \
@@ -97,12 +108,16 @@ rpmbuild -ba SPECS/ilc-marlin-kinfit-processors.spec
 rpmbuild -ba SPECS/ilc-marlin-lich.spec
 rpmbuild -ba SPECS/ilc-overlay.spec
 rpmbuild -ba SPECS/pandora-analysis.spec
+mv RPMS/x86_64/*-debuginfo-*.rpm DEBUGINFO
+mv RPMS/x86_64/*-debugsource-*.rpm DEBUGSOURCES
 sudo yum -y localinstall RPMS/x86_64/ilc-ced-viewer* \
                          RPMS/x86_64/ilc-kaldet* \
                          RPMS/x86_64/ilc-lcfi-vertex*
 
 rpmbuild -ba SPECS/ilc-marlin-trk.spec
 rpmbuild -ba SPECS/ilc-lcfi-plus.spec
+mv RPMS/x86_64/*-debuginfo-*.rpm DEBUGINFO
+mv RPMS/x86_64/*-debugsource-*.rpm DEBUGSOURCES
 sudo yum -y localinstall RPMS/x86_64/ilc-marlin-trk*
 
 rpmbuild -ba SPECS/ilc-clupatra.spec
@@ -111,6 +126,8 @@ rpmbuild -ba SPECS/ilc-ddmarlin-pandora.spec
 rpmbuild -ba SPECS/ilc-kitrack-marlin.spec
 rpmbuild -ba SPECS/ilc-ild-preformance.spec
 rpmbuild -ba SPECS/ilc-marlin-reco.spec
+mv RPMS/x86_64/*-debuginfo-*.rpm DEBUGINFO
+mv RPMS/x86_64/*-debugsource-*.rpm DEBUGSOURCES
 sudo yum -y localinstall RPMS/x86_64/ilc-ddmarlin-pandora* \
                          RPMS/x86_64/ilc-kitrack-marlin*
 
@@ -119,7 +136,7 @@ rpmbuild -ba SPECS/ilc-marlin-trk-processors.spec
 
 
 
-
+## https://root.cern/manual/python/
 
 
 
