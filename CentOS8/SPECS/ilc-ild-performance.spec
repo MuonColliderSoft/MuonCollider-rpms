@@ -9,7 +9,7 @@
 %global _boostp boost169
 
 Summary: Performance evaluation of the ILD detector simulation
-Name: ilc-ild-preformance
+Name: ilc-ild-performance
 Version: 1.8.0
 Release: 1%{?dist}
 License: GPL v.3
@@ -70,8 +70,8 @@ chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
 chrpath --replace %{_libdir} %{buildroot}%{_bindir}/*
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libILDPerformance.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-ild-preformance.sh
-printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libILDPerformance.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-ild-preformance.csh
+printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libILDPerformance.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-ild-performance.sh
+printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libILDPerformance.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-ild-performance.csh
 
 %clean
 rm -rf %{buildroot}

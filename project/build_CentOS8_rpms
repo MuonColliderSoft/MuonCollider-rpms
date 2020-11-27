@@ -124,7 +124,7 @@ rpmbuild -ba SPECS/ilc-clupatra.spec
 rpmbuild -ba SPECS/ilc-conformal-tracking.spec
 rpmbuild -ba SPECS/ilc-ddmarlin-pandora.spec
 rpmbuild -ba SPECS/ilc-kitrack-marlin.spec
-rpmbuild -ba SPECS/ilc-ild-preformance.spec
+rpmbuild -ba SPECS/ilc-ild-performance.spec
 rpmbuild -ba SPECS/ilc-marlin-reco.spec
 mv RPMS/x86_64/*-debuginfo-*.rpm DEBUGINFO
 mv RPMS/x86_64/*-debugsource-*.rpm DEBUGSOURCES
