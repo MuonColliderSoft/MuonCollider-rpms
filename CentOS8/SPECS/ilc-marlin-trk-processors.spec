@@ -10,7 +10,7 @@
 
 Summary: A collection of tracking related processors based on MarlinTrk
 Name: ilc-marlin-trk-processors
-Version: 2.11.0
+Version: 2.12.0
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: INFN
@@ -61,7 +61,7 @@ cd %{_builddir}/%{name}-%{version}/build
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
+chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.2.11.0
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libMarlinTrkProcessors.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-marlin-trk-processors.sh
@@ -77,6 +77,6 @@ rm -rf %{buildroot}
 %{_libdir}/*.so
 
 %changelog
-* Thu Aug 27 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.11.0-1
-- Repackaging for CentOS 8
+* Fri Nov 27 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.12.0-1
+- Fork for MuonColliderSoft
 

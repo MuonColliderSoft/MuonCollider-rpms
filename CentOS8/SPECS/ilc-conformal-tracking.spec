@@ -10,11 +10,11 @@
 
 Summary: Conformal Tracking for all-silicon trackers at future electron-positron colliders
 Name: ilc-conformal-tracking
-Version: 1.10.0
+Version: 1.11.0
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: INFN
-URL: https://github.com/iLCSoft/ConformalTracking.git
+URL: https://github.com/MuonColliderSoft/ConformalTracking.git
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: %{_cmakepkg}
@@ -62,7 +62,7 @@ cd %{_builddir}/%{name}-%{version}/build
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
+chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.1.10.0
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libConformalTracking.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-conformal-tracking.sh
@@ -77,6 +77,9 @@ rm -rf %{buildroot}
 %{_libdir}/*.so*
 
 %changelog
+* Fri Nov 27 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.11.0-1
+- Fork for MuonColliderSoft
+
 * Mon Aug 24 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.10.0-1
 - Repackaging for CentOS 8
 

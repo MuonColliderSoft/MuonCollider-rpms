@@ -11,11 +11,11 @@
 
 Summary: Event data model and persistency for Linear Collider detector
 Name: ilc-lcio
-Version: 2.15.3
+Version: 2.15.4
 Release: 1%{?dist}
 License: BSD v.3
-Vendor: DESY/SLAC
-URL: https://github.com/iLCSoft/LCIO
+Vendor: INFN
+URL: https://github.com/MuonColliderSoft/LCIO
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: %{_cmakepkg}
@@ -143,8 +143,9 @@ and persistency solution for Linear Collider detector R&D studies.
 %{python3_sitelib}/pyLCIO/io/*.py
 
 %changelog
-* Fri Oct 02 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.15.3-1
-- New version of LCIO
+* Fri Nov 27 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.15.4-1
+- Fork for MuonColliderSoft
+
 * Mon Mar 23 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.13.1-1
 - Repackaging for CentOS 8
 
