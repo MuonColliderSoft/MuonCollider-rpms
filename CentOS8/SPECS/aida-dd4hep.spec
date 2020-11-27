@@ -14,7 +14,7 @@
 
 Summary: Detector description and life cycle framework
 Name: aida-dd4hep
-Version: 1.14.0
+Version: 1.13.1
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: CERN
@@ -98,8 +98,7 @@ mv %{buildroot}%{_prefix}/dd4hep %{buildroot}%{_includedir}
 
 sed -i -e 's|env python|env %{_pycmd}|g' %{buildroot}%{_bindir}/check* \
                                          %{buildroot}%{_bindir}/ddsim \
-                                         %{buildroot}%{_bindir}/g4MaterialScan \
-                                         %{buildroot}%{_bindir}/g4GeometryScan
+                                         %{buildroot}%{_bindir}/g4MaterialScan
 sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' %{buildroot}%{_bindir}/run_test.sh
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
@@ -110,6 +109,9 @@ cp %{SOURCE2} %{buildroot}%{_sysconfdir}/profile.d
 ln -sf %{_bindir}     %{buildroot}%{_datadir}/DD4hep/bin
 ln -sf %{_libdir}     %{buildroot}%{_datadir}/DD4hep/lib
 ln -sf %{_includedir} %{buildroot}%{_datadir}/DD4hep/include
+
+#workaround for bad default option
+sed -i -e 's|@DD4HEP_USE_HEPMC3@|OFF|g' %{buildroot}%{_pylibdir}/DDSim/Helper/HepMC3.py
 
 %clean
 rm -rf %{buildroot}
@@ -125,7 +127,6 @@ rm -rf %{buildroot}
 %{_bindir}/geoConverter
 %{_bindir}/geoDisplay
 %{_bindir}/geoPluginRun
-%{_bindir}/geoWebDisplay
 %{_bindir}/graphicalScan
 %{_bindir}/listcomponents
 %{_bindir}/materialBudget
@@ -245,21 +246,15 @@ cycle (detector concept development, detector optimization, construction, operat
 %{_bindir}/checkOverlaps
 %{_bindir}/ddsim
 %{_bindir}/g4MaterialScan
-%{_bindir}/g4GeometryScan
 %dir %{_pylibdir}/DDSim
 %dir %{_pylibdir}/DDSim/Helper
 %{_pylibdir}/*.py
 %{_pylibdir}/*.C
 %{_pylibdir}/DDSim/*.py
 %{_pylibdir}/DDSim/Helper/*.py
-#%{_pylibdir}/__pycache__/*.pyc
-#%{_pylibdir}/DDSim/__pycache__/*.pyc
-#%{_pylibdir}/DDSim/Helper/__pycache__/*.pyc
 
 
 %changelog
-* Thu Oct 01 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.14.0-1
-- New version of DD4hep
 * Wed Sep 23 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.13.1-1
 - New version with ROOT 6.22 support
 * Fri May 29 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.12.1-1
