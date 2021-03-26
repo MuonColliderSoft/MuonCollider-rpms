@@ -14,7 +14,7 @@
 
 Summary: Detector description and life cycle framework
 Name: aida-dd4hep
-Version: 1.13.1
+Version: 1.16.1
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: CERN
@@ -35,6 +35,7 @@ BuildRequires: root-genvector
 BuildRequires: root-tpython
 BuildRequires: root-graf3d-eve7
 BuildRequires: root-gui-browserv7
+BuildRequires: HepMC3-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 %if ! ("x%{mc_source_url}" == "x")
@@ -67,6 +68,7 @@ cd %{_builddir}/%{name}-%{version}/build
              -DDD4HEP_USE_LCIO=ON \
              -DDD4HEP_USE_XERCESC=OFF \
              -DDD4HEP_USE_GEAR=ON \
+             -DDD4HEP_USE_HEPMC3=ON \
              -DBUILD_TESTING=OFF \
              -DDD4HEP_SET_RPATH=OFF \
              -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
@@ -98,7 +100,8 @@ mv %{buildroot}%{_prefix}/dd4hep %{buildroot}%{_includedir}
 
 sed -i -e 's|env python|env %{_pycmd}|g' %{buildroot}%{_bindir}/check* \
                                          %{buildroot}%{_bindir}/ddsim \
-                                         %{buildroot}%{_bindir}/g4MaterialScan
+                                         %{buildroot}%{_bindir}/g4MaterialScan \
+                                         %{buildroot}%{_bindir}/g4GeometryScan
 sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' %{buildroot}%{_bindir}/run_test.sh
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
@@ -109,9 +112,6 @@ cp %{SOURCE2} %{buildroot}%{_sysconfdir}/profile.d
 ln -sf %{_bindir}     %{buildroot}%{_datadir}/DD4hep/bin
 ln -sf %{_libdir}     %{buildroot}%{_datadir}/DD4hep/lib
 ln -sf %{_includedir} %{buildroot}%{_datadir}/DD4hep/include
-
-#workaround for bad default option
-sed -i -e 's|@DD4HEP_USE_HEPMC3@|OFF|g' %{buildroot}%{_pylibdir}/DDSim/Helper/HepMC3.py
 
 %clean
 rm -rf %{buildroot}
@@ -127,12 +127,13 @@ rm -rf %{buildroot}
 %{_bindir}/geoConverter
 %{_bindir}/geoDisplay
 %{_bindir}/geoPluginRun
+%{_bindir}/geoWebDisplay
 %{_bindir}/graphicalScan
-%{_bindir}/listcomponents
+%{_bindir}/listcomponents_dd4hep
 %{_bindir}/materialBudget
+%{_bindir}/materialScan
 %{_bindir}/print_materials
 %{_bindir}/pyddg4
-%{_bindir}/materialScan
 %{_bindir}/teveDisplay
 %{_bindir}/teveLCIO
 %{_libdir}/*.so.*
@@ -162,6 +163,7 @@ Requires: root-genvector
 Requires: root-tpython
 Requires: root-graf3d-eve7
 Requires: root-gui-browserv7
+Requires: HepMC3-devel
 
 %description devel
 DD4hep is a software framework for providing a complete solution
@@ -187,6 +189,7 @@ cycle (detector concept development, detector optimization, construction, operat
 %dir %{_includedir}/dd4hep/DDRec
 %dir %{_includedir}/dd4hep/DDSegmentation
 %dir %{_includedir}/dd4hep/Evaluator
+%dir %{_includedir}/dd4hep/Evaluator/detail
 %dir %{_includedir}/dd4hep/JSON
 %dir %{_includedir}/dd4hep/Parsers
 %dir %{_includedir}/dd4hep/Parsers/spirit
@@ -208,6 +211,7 @@ cycle (detector concept development, detector optimization, construction, operat
 %{_includedir}/dd4hep/DDRec/*.h
 %{_includedir}/dd4hep/DDSegmentation/*.h
 %{_includedir}/dd4hep/Evaluator/*.h
+%{_includedir}/dd4hep/Evaluator/detail/*.h
 %{_includedir}/dd4hep/JSON/*.h
 %{_includedir}/dd4hep/JSON/*.inl
 %{_includedir}/dd4hep/Parsers/*.h
@@ -246,6 +250,7 @@ cycle (detector concept development, detector optimization, construction, operat
 %{_bindir}/checkOverlaps
 %{_bindir}/ddsim
 %{_bindir}/g4MaterialScan
+%{_bindir}/g4GeometryScan
 %dir %{_pylibdir}/DDSim
 %dir %{_pylibdir}/DDSim/Helper
 %{_pylibdir}/*.py

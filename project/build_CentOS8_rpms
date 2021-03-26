@@ -19,7 +19,7 @@ sudo wget -O /etc/yum.repos.d/geant4.repo https://cld-smact-02.pd.infn.it/artifa
 sudo wget -O /etc/yum.repos.d/root.repo https://cld-smact-02.pd.infn.it/artifacts/repository/repo-files/root-c17.repo
 
 sudo yum -y install boost169-devel chrpath clhep-devel cmake doxygen \
-                    eigen3-devel freeglut-devel geant4-devel \
+                    eigen3-devel freeglut-devel geant4-devel HepMC3-devel \
                     gsl-devel make mysql-devel python36 python36-devel \
                     python36-rpm-macros python3-root root root-gdml \
                     root-genvector root-geom root-graf3d-eve root-tpython \
