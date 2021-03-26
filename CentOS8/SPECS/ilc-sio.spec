@@ -46,7 +46,7 @@ mkdir %{_builddir}/%{name}-%{version}/build
 cd %{_builddir}/%{name}-%{version}/build
 %{_cmakecmd} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
              -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-             -DCMAKE_CXX_STANDARD=14 \
+             -DCMAKE_CXX_STANDARD=17 \
              -DSIO_BUILTIN_ZLIB=OFF \
              -DSIO_EXAMPLES=OFF \
              -DSIO_MACROS_WITH_EXCEPTION=OFF \

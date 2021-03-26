@@ -45,7 +45,7 @@ cd %{_builddir}/%{name}-%{version}/build
 sed -i -e 's|Eigen3 REQUIRED|Eigen3 CONFIG REQUIRED|g' %{_builddir}/%{name}-%{version}/CMakeLists.txt
 %{_cmakecmd} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
              -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-             -DCMAKE_CXX_STANDARD=14 \
+             -DCMAKE_CXX_STANDARD=17 \
              -DSUPPORT_ROOT=ON \
              -Wno-dev \
              %{_builddir}/%{name}-%{version}

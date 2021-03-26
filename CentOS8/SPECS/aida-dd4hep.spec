@@ -62,7 +62,7 @@ mkdir %{_builddir}/%{name}-%{version}/build
 cd %{_builddir}/%{name}-%{version}/build
 %{_cmakecmd} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
              -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-             -DCMAKE_CXX_STANDARD=14 \
+             -DCMAKE_CXX_STANDARD=17 \
              -DDD4HEP_USE_GEANT4=ON \
              -DDD4HEP_USE_LCIO=ON \
              -DDD4HEP_USE_XERCESC=OFF \

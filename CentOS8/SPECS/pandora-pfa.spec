@@ -49,7 +49,7 @@ mkdir %{_builddir}/%{name}-%{version}/build
 cd %{_builddir}/%{name}-%{version}/build
 %{_cmakecmd} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
              -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-             -DCMAKE_CXX_STANDARD=14 \
+             -DCMAKE_CXX_STANDARD=17 \
              -DPANDORA_MONITORING=ON \
              -DLC_PANDORA_CONTENT=ON \
              -DEXAMPLE_PANDORA_CONTENT=OFF \

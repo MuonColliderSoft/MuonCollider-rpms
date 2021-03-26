@@ -50,7 +50,7 @@ mkdir %{_builddir}/%{name}-%{version}/build
 cd %{_builddir}/%{name}-%{version}/build
 %{_cmakecmd} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
              -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-             -DCMAKE_CXX_STANDARD=14 \
+             -DCMAKE_CXX_STANDARD=17 \
              -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
              -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
              -Wno-dev \

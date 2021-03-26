@@ -46,7 +46,7 @@ cd %{_builddir}/%{name}-%{version}/build
              -DINCLUDE_INSTALL_DIR=%{buildroot}%{_includedir}/CondDBMySQL \
              -DLIB_INSTALL_DIR=%{buildroot}%{_libdir} \
              -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-             -DCMAKE_CXX_STANDARD=14 \
+             -DCMAKE_CXX_STANDARD=17 \
              -Wno-dev \
              %{_builddir}/%{name}-%{version}
 make %{?_smp_mflags}

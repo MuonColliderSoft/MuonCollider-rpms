@@ -2,10 +2,11 @@
 
 set -e
 
+sudo yum -y update
 sudo yum -y install epel-release yum-utils wget git
 
-sudo yum-config-manager --set-enabled PowerTools
-sudo yum-config-manager --set-enabled AppStream
+sudo yum-config-manager --set-enabled powertools
+sudo yum-config-manager --set-enabled appstream
 
 sudo wget -O /etc/yum.repos.d/EGI-trustanchors.repo http://repository.egi.eu/sw/production/cas/1/current/repo-files/EGI-trustanchors.repo
 sudo yum -y install ca-policy-egi-core
@@ -15,6 +16,7 @@ sudo update-ca-trust extract
 
 sudo wget -O /etc/yum.repos.d/mc-extras.repo https://cld-smact-02.pd.infn.it/artifacts/repository/repo-files/mc-extras.repo
 sudo wget -O /etc/yum.repos.d/geant4.repo https://cld-smact-02.pd.infn.it/artifacts/repository/repo-files/geant4.repo
+sudo wget -O /etc/yum.repos.d/root.repo https://cld-smact-02.pd.infn.it/artifacts/repository/repo-files/root-c17.repo
 
 sudo yum -y install boost169-devel chrpath clhep-devel cmake doxygen \
                     eigen3-devel freeglut-devel geant4-devel \
