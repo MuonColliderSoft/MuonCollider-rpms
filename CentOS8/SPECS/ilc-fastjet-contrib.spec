@@ -53,6 +53,7 @@ rm -rf %{buildroot}
 Summary: 3rd-party add-ons for FastJet (development files)
 Requires: %{name}
 Requires: ilc-fastjet-devel
+Provides: libfastjetcontribfragile.so()(64bit)
 
 %description devel
 3rd-party add-ons for FastJet.
