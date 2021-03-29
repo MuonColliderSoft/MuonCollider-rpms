@@ -135,11 +135,32 @@ sudo yum -y localinstall RPMS/x86_64/ilc-ddmarlin-pandora* \
 
 rpmbuild -ba SPECS/ilc-forward-tracking.spec
 rpmbuild -ba SPECS/ilc-marlin-trk-processors.spec
-rpmbuild -ba SPECS/muonc-detector-simulator.spec
+rpmbuild -ba SPECS/muonc-detector-geometry.spec
 mv RPMS/x86_64/*-debuginfo-*.rpm DEBUGINFO
 mv RPMS/x86_64/*-debugsource-*.rpm DEBUGSOURCES
 
-
+# Install all packages
+sudo yum -y localinstall RPMS/x86_64/ilc-physsim* \
+                         RPMS/x86_64/ilc-lcgeo* \
+                         RPMS/x86_64/ilc-fcal-clusterer* \
+                         RPMS/x86_64/ilc-lctuple* \
+                         RPMS/x86_64/ilc-marlin-dd4hep* \
+                         RPMS/x86_64/ilc-marlin-fastjet* \
+                         RPMS/x86_64/ilc-garlic* \
+                         RPMS/x86_64/ilc-marlin-kinfit-processors* \
+                         RPMS/x86_64/ilc-marlin-lich* \
+                         RPMS/x86_64/ilc-overlay* \
+                         RPMS/x86_64/pandora-analysis* \
+                         RPMS/x86_64/ilc-lcfi-plus* \
+                         RPMS/x86_64/ilc-clupatra* \
+                         RPMS/x86_64/ilc-conformal-tracking* \
+                         RPMS/x86_64/ilc-ild-performance* \
+                         RPMS/x86_64/ilc-marlin-reco* \
+                         RPMS/x86_64/ilc-forward-tracking* \
+                         RPMS/x86_64/ilc-marlin-trk-processors* \
+                         RPMS/noarch/python3-lcio* \
+                         RPMS/noarch/python3-dd4hep* \
+                         RPMS/noarch/muonc-detector-geometry*
 
 
 ## https://root.cern/manual/python/

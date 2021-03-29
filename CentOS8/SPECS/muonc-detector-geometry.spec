@@ -7,6 +7,7 @@ Vendor: INFN
 URL: https://github.com/MuonColliderSoft/detector-simulator
 Group: Development/Libraries
 BuildArch: noarch
+Requires: ilc-lcgeo
 
 %if ! ("x%{mc_source_url}" == "x")
 %undefine _disable_source_fetch
