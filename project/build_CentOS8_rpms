@@ -32,6 +32,12 @@ sudo sed -i 's|include_next|include|g' /usr/include/c++/8/cstdlib
 sudo sed -i 's|include_next|include|g' /usr/include/c++/8/bits/std_abs.h
 sudo sed -i 's|include_next|include|g' /usr/include/c++/8/cmath
 
+#
+# TODO fix assertions in
+# /usr/include/c++/8/x86_64-redhat-linux/bits/c++config.h
+# /usr/include/c++/8/x86_64-redhat-linux/32/bits/c++config.h
+#
+
 cat << EOF > $HOME/.rpmmacros
 %mc_source_url https://cld-smact-02.pd.infn.it/artifacts/repository/mc-sources
 EOF
@@ -127,6 +133,7 @@ rpmbuild -ba SPECS/ilc-conformal-tracking.spec
 rpmbuild -ba SPECS/ilc-ddmarlin-pandora.spec
 rpmbuild -ba SPECS/ilc-kitrack-marlin.spec
 rpmbuild -ba SPECS/ilc-ild-performance.spec
+rpmbuild -ba SPECS/ilc-clic-performance.spec
 rpmbuild -ba SPECS/ilc-marlin-reco.spec
 mv RPMS/x86_64/*-debuginfo-*.rpm DEBUGINFO
 mv RPMS/x86_64/*-debugsource-*.rpm DEBUGSOURCES
@@ -154,6 +161,7 @@ sudo yum -y localinstall RPMS/x86_64/ilc-lcgeo* \
                          RPMS/x86_64/ilc-clupatra* \
                          RPMS/x86_64/ilc-conformal-tracking* \
                          RPMS/x86_64/ilc-ild-performance* \
+                         RPMS/x86_64/ilc-clic-performance* \
                          RPMS/x86_64/ilc-marlin-reco* \
                          RPMS/x86_64/ilc-forward-tracking* \
                          RPMS/x86_64/ilc-marlin-trk-processors* \
