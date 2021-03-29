@@ -26,7 +26,7 @@ sudo yum -y install boost169-devel chrpath clhep-devel cmake doxygen \
                     root-tmva root-minuit2 root-unuran root-smatrix \
                     root-graf3d-eve7 root-gui-browserv7 zlib-devel rpm-build
 
-sudo geant4-dataset-download
+#sudo geant4-dataset-download
 
 sudo sed -i 's|include_next|include|g' /usr/include/c++/8/cstdlib
 sudo sed -i 's|include_next|include|g' /usr/include/c++/8/bits/std_abs.h
@@ -57,7 +57,7 @@ rpmbuild -ba SPECS/gbl.spec
 rpmbuild -ba SPECS/root-aida.spec
 rpmbuild -ba SPECS/ilc-kaltest.spec
 QA_SKIP_BUILD_ROOT=1 rpmbuild -ba SPECS/pandora-pfa.spec
-rpmbuild -ba SPECS/ilc-physsim.spec
+#rpmbuild -ba SPECS/ilc-physsim.spec
 mv RPMS/x86_64/*-debuginfo-*.rpm DEBUGINFO
 mv RPMS/x86_64/*-debugsource-*.rpm DEBUGSOURCES
 sudo yum -y localinstall RPMS/x86_64/ilc-ced* \
@@ -140,8 +140,7 @@ mv RPMS/x86_64/*-debuginfo-*.rpm DEBUGINFO
 mv RPMS/x86_64/*-debugsource-*.rpm DEBUGSOURCES
 
 # Install all packages
-sudo yum -y localinstall RPMS/x86_64/ilc-physsim* \
-                         RPMS/x86_64/ilc-lcgeo* \
+sudo yum -y localinstall RPMS/x86_64/ilc-lcgeo* \
                          RPMS/x86_64/ilc-fcal-clusterer* \
                          RPMS/x86_64/ilc-lctuple* \
                          RPMS/x86_64/ilc-marlin-dd4hep* \
@@ -165,6 +164,8 @@ sudo yum -y localinstall RPMS/x86_64/ilc-physsim* \
 
 ## https://root.cern/manual/python/
 
+## Problems:
+# file /usr/lib64/utilsDict_rdict.pcm from install of ilc-physsim-0.4.1-1.el8.x86_64 conflicts with file from package ilc-kaltest-2.5.0-1.el8.x86_64
 
 
 
