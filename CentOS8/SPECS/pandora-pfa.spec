@@ -53,7 +53,7 @@ cd %{_builddir}/%{name}-%{version}/build
              -DPANDORA_MONITORING=ON \
              -DLC_PANDORA_CONTENT=ON \
              -DEXAMPLE_PANDORA_CONTENT=OFF \
-             -DCMAKE_CXX_FLAGS="-std=c++14" \
+             -DCMAKE_CXX_FLAGS="-std=c++17" \
              -Wno-dev \
              %{_builddir}/%{name}-%{version}
 make %{?_smp_mflags}
