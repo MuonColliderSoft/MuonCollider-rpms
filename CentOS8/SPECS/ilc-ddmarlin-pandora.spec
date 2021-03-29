@@ -10,11 +10,11 @@
 
 Summary: Interface between Marlin and PandoraPFA
 Name: ilc-ddmarlin-pandora
-Version: 0.11.0
+Version: 0.12.0
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: INFN
-URL: https://github.com/iLCSoft/DDMarlinPandora
+URL: https://github.com/MuonColliderSoft/DDMarlinPandora
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: %{_cmakepkg}
@@ -61,7 +61,7 @@ cd %{_builddir}/%{name}-%{version}/build
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
+chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.0.11.0
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libDDMarlinPandora.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-ddmarlin-pandora.sh
@@ -97,6 +97,8 @@ Interface between Marlin and PandoraPFA.
 %{_includedir}/*.h
 
 %changelog
+* Wed Dec 16 2020 Alessio Gianelle <gianelle@pd.infn.it> - 0.12.0-1
+- New processor DDCaloDigi_BIB
 * Mon Jul 13 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.11.0-1
 - Repackaging for CentOS 8
 
