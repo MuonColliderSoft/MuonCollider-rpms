@@ -1,0 +1,3 @@
+set(tensorflow-lite_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+set(tensorflow-lite_LIBRARIES tensorflow-lite)
+
