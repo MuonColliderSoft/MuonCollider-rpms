@@ -28,34 +28,49 @@ add_subdirectory(
   EXCLUDE_FROM_ALL
 )
 
-install(TARGETS tensorflow-lite
-        RUNTIME DESTINATION ${INSTALL_LIB_DIR} COMPONENT lib)
+set(TF_ALL_TARGETS tensorflow-lite
+                   ruy
+                   flatbuffers
+                   farmhash
+                   pthreadpool
+                   cpuinfo
+                   clog
+                   XNNPACK
+                   fft2d_fftsg
+                   fft2d_fftsg2d)
+
+install(TARGETS ${TF_ALL_TARGETS}
+        LIBRARY DESTINATION ${INSTALL_LIB_DIR}
+                COMPONENT runtime
+        ARCHIVE DESTINATION ${INSTALL_LIB_DIR}
+                COMPONENT runtime
+        PUBLIC_HEADER OPTIONAL
+                      DESTINATION "${INSTALL_INCLUDE_DIR}"
+                      COMPONENT development)
 
 install(DIRECTORY "${TENSORFLOW_SOURCE_DIR}/tensorflow/core/public"
         DESTINATION "${INSTALL_INCLUDE_DIR}/tensorflow/core"
+        COMPONENT development
         FILES_MATCHING PATTERN "*.h")
 
 install(DIRECTORY "${TENSORFLOW_SOURCE_DIR}/tensorflow/lite" 
         DESTINATION "${INSTALL_INCLUDE_DIR}/tensorflow"
+        COMPONENT development
         FILES_MATCHING PATTERN "*.h"
-        PATTERN "delegates" EXCLUDE
-        PATTERN "examples" EXCLUDE
-        PATTERN "g3doc" EXCLUDE
-        PATTERN "ios" EXCLUDE
-        PATTERN "java" EXCLUDE
-        PATTERN "micro" EXCLUDE
-        PATTERN "nnapi" EXCLUDE
-        PATTERN "python" EXCLUDE
-        PATTERN "objc" EXCLUDE
-        PATTERN "swift" EXCLUDE
-        PATTERN "testdata" EXCLUDE
-        PATTERN "testing" EXCLUDE
-        PATTERN "toco" EXCLUDE
-        PATTERN "tools" EXCLUDE
-        PATTERN "tutorials" EXCLUDE)
+                       PATTERN "delegates" EXCLUDE
+                       PATTERN "examples" EXCLUDE
+                       PATTERN "java" EXCLUDE
+                       PATTERN "nnapi" EXCLUDE
+                       PATTERN "objc" EXCLUDE
+                       PATTERN "python" EXCLUDE
+                       PATTERN "swift" EXCLUDE
+                       PATTERN "testing" EXCLUDE
+                       PATTERN "toco" EXCLUDE
+                       PATTERN "tools" EXCLUDE)
 
 install(DIRECTORY "${PROJECT_BINARY_DIR}/flatbuffers/include/flatbuffers"
         DESTINATION "${INSTALL_INCLUDE_DIR}"
+        COMPONENT development
         FILES_MATCHING PATTERN "*.h")
 
 set(CONF_INCLUDE_DIRS "${INSTALL_INCLUDE_DIR}")
@@ -66,7 +81,7 @@ configure_file(tensorflow-liteConfigVersion.cmake.in
 
 install(FILES "${PROJECT_BINARY_DIR}/tensorflow-liteConfig.cmake"
               "${PROJECT_BINARY_DIR}/tensorflow-liteConfigVersion.cmake"
-        DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT dev)
+        DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT development)
 
 
 #
