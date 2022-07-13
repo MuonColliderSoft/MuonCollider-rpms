@@ -1,24 +1,22 @@
-%if %{?rhel}%{!?rhel:0} >= 8
-%global _cmakecmd cmake
-%global _cmakepkg cmake
-%else
-%global _cmakecmd cmake3
-%global _cmakepkg cmake3
-%endif
+%global _pver 0.10.0
+%global _tagver v00-10
+
+%global _maindir %{_builddir}/%{name}-%{version}
 
 %global cmake_aidatt_dir %{_libdir}/cmake/aidaTT
 %global _boostp boost169
 
 Summary: Tracking Toolkit from the AIDA project
 Name: aida-tracking-toolkit
-Version: 0.10.0
+Version: %{_pver}
 Release: 1%{?dist}
 License: GPLv3 License
 Vendor: INFN
 URL: https://github.com/AIDASoft/aidaTT
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: %{_cmakepkg}
+BuildRequires: git
+BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
 BuildRequires: ilc-utils-devel
@@ -28,36 +26,33 @@ BuildRequires: ilc-lcio-devel
 BuildRequires: eigen3-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
-%if ! ("x%{mc_source_url}" == "x")
-%undefine _disable_source_fetch
-Source: %{mc_source_url}/%{name}-%{version}.tar.gz
-%else
-Source: %{name}-%{version}.tar.gz
-%endif
 
 %description
 Tracking Toolkit from the AIDA project.
 
 %prep
-%setup -c
+[ -e %{_maindir} ] && rm -rf %{_maindir}
+git clone https://github.com/AIDASoft/aidaTT %{_maindir}
+cd %{_maindir}
+git checkout %{_tagver}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_builddir}/%{name}-%{version}/build
-cd %{_builddir}/%{name}-%{version}/build
-%{_cmakecmd} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
-             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-             -DCMAKE_CXX_STANDARD=17 \
-             -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
-             -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
-             -Dstreamlog_DIR=%{_libdir}/cmake/ilcutil/ \
-             -Wno-dev \
-             %{_builddir}/%{name}-%{version}
+mkdir %{_maindir}/build
+cd %{_maindir}/build
+cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+      -DCMAKE_CXX_STANDARD=17 \
+      -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
+      -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
+      -Dstreamlog_DIR=%{_libdir}/cmake/ilcutil/ \
+      -Wno-dev \
+      %{_maindir}
 make %{?_smp_mflags}
 
 %install
-cd %{_builddir}/%{name}-%{version}/build
+cd %{_maindir}/build
 make install
 
 mv %{buildroot}%{_prefix}/lib %{buildroot}%{_libdir}
@@ -69,6 +64,7 @@ sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' \
 
 %clean
 rm -rf %{buildroot}
+rm -rf %{_maindir}
 
 %files
 %defattr(-,root,root)
