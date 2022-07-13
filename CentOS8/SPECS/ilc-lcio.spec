@@ -1,24 +1,22 @@
-%if %{?rhel}%{!?rhel:0} >= 8
-%global _cmakecmd cmake
-%global _cmakepkg cmake
-%else
-%global _cmakecmd cmake3
-%global _cmakepkg cmake3
-%endif
+%global _pver 2.16.1
+%global _tagver v02-16-01-MC
+
+%global _maindir %{_builddir}/%{name}-%{version}
 
 %global cmake_lcio_dir %{_libdir}/cmake/lcio
 %global _pypkg python36
 
 Summary: Event data model and persistency for Linear Collider detector
 Name: ilc-lcio
-Version: 2.15.4
+Version: %{_pver}
 Release: 1%{?dist}
 License: BSD v.3
 Vendor: INFN
 URL: https://github.com/MuonColliderSoft/LCIO
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: %{_cmakepkg}
+BuildRequires: git
+BuildRequires: cmake
 BuildRequires: make
 BuildRequires: %{_pypkg}
 BuildRequires: %{_pypkg}-rpm-macros
@@ -27,35 +25,32 @@ BuildRequires: chrpath
 BuildRequires: root
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
-%if ! ("x%{mc_source_url}" == "x")
-%undefine _disable_source_fetch
-Source: %{mc_source_url}/%{name}-%{version}.tar.gz
-%else
-Source: %{name}-%{version}.tar.gz
-%endif
 
 %description
 LCIO (Linear Collider I/O) provides the event data model (EDM)
 and persistency solution for Linear Collider detector R&D studies.
 
 %prep
-%setup -c
+[ -e %{_maindir} ] && rm -rf %{_maindir}
+git clone https://github.com/MuonColliderSoft/LCIO %{_maindir}
+cd %{_maindir}
+git checkout %{_tagver}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_builddir}/%{name}-%{version}/build
-cd %{_builddir}/%{name}-%{version}/build
-%{_cmakecmd} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
-             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-             -DCMAKE_CXX_STANDARD=17 \
-             -DBUILD_ROOTDICT=ON  \
-             -Wno-dev \
-             %{_builddir}/%{name}-%{version}
+mkdir %{_maindir}/build
+cd %{_maindir}/build
+cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+      -DCMAKE_CXX_STANDARD=17 \
+      -DBUILD_ROOTDICT=ON  \
+      -Wno-dev \
+      %{_maindir}
 make %{?_smp_mflags}
 
 %install
-cd %{_builddir}/%{name}-%{version}/build
+cd %{_maindir}/build
 make install
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 mv %{buildroot}%{_includedir} %{buildroot}/lcio-includedir
@@ -66,7 +61,7 @@ mv %{buildroot}/usr/*.cmake %{buildroot}%{_libdir}/cmake/*.cmake %{buildroot}%{c
 sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' %{buildroot}%{cmake_lcio_dir}/*.cmake
 sed -i -e 's|lib/cmake|lib64/cmake/lcio|g' %{buildroot}%{cmake_lcio_dir}/*.cmake
 sed -i -e 's|PATHS|PATHS %{_includedir}/lcio|g' %{buildroot}%{cmake_lcio_dir}/LCIOConfig.cmake
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
+chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.*
 chrpath --replace %{_libdir} %{buildroot}%{_bindir}/*
 
 mkdir -p %{buildroot}%{python3_sitelib}
@@ -75,6 +70,7 @@ rm -rf %{buildroot}/usr/python
 
 %clean
 rm -rf %{buildroot}
+rm -rf %{_maindir}
 
 %files
 %defattr(-,root,root)
@@ -143,9 +139,10 @@ and persistency solution for Linear Collider detector R&D studies.
 %{python3_sitelib}/pyLCIO/io/*.py
 
 %changelog
+* Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.16.1-1
+- New version of LCIO
 * Fri Nov 27 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.15.4-1
 - Fork for MuonColliderSoft
-
 * Mon Mar 23 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.13.1-1
 - Repackaging for CentOS 8
 

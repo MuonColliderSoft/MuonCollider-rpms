@@ -1,58 +1,52 @@
-%if %{?rhel}%{!?rhel:0} >= 8
-%global _cmakecmd cmake
-%global _cmakepkg cmake
-%else
-%global _cmakecmd cmake3
-%global _cmakepkg cmake3
-%endif
+%global _pver 0.9.7
+%global _tagver CondDBMySQL_ILC-0-9-7
 
+%global _maindir %{_builddir}/%{name}-%{version}
 %global cmake_cdbm_dir %{_libdir}/cmake/CondDBMySQL
 
 Summary: Interface to MySQL Conditions Database
 Name: ilc-cond-db-mysql
-Version: 0.9.7
+Version: %{_pver}
 Release: 1%{?dist}
 License: GPLv2 License
 Vendor: CERN
-URL: https://github.com/iLCSoft/CondDBMySQL.git
+URL: https://github.com/iLCSoft/CondDBMySQL
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: %{_cmakepkg}
+BuildRequires: git
+BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
 BuildRequires: mysql-devel
 BuildRequires: ilc-utils-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
-%if ! ("x%{mc_source_url}" == "x")
-%undefine _disable_source_fetch
-Source: %{mc_source_url}/%{name}-%{version}.tar.gz
-%else
-Source: %{name}-%{version}.tar.gz
-%endif
 
 %description
 Interface to MySQL Conditions Database.
 
 %prep
-%setup -c
+[ -e %{_maindir} ] && rm -rf %{_maindir}
+git clone https://github.com/iLCSoft/CondDBMySQL %{_maindir}
+cd %{_maindir}
+git checkout %{_tagver}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_builddir}/%{name}-%{version}/build
-cd %{_builddir}/%{name}-%{version}/build
-%{_cmakecmd} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
-             -DINCLUDE_INSTALL_DIR=%{buildroot}%{_includedir}/CondDBMySQL \
-             -DLIB_INSTALL_DIR=%{buildroot}%{_libdir} \
-             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-             -DCMAKE_CXX_STANDARD=17 \
-             -Wno-dev \
-             %{_builddir}/%{name}-%{version}
+mkdir %{_maindir}/build
+cd %{_maindir}/build
+cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
+      -DINCLUDE_INSTALL_DIR=%{buildroot}%{_includedir}/CondDBMySQL \
+      -DLIB_INSTALL_DIR=%{buildroot}%{_libdir} \
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+      -DCMAKE_CXX_STANDARD=17 \
+      -Wno-dev \
+      %{_maindir}
 make %{?_smp_mflags}
 
 %install
-cd %{_builddir}/%{name}-%{version}/build
+cd %{_maindir}/build
 make install
 
 mkdir -p %{buildroot}%{cmake_cdbm_dir}
@@ -67,6 +61,7 @@ chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.0.9.6
 
 %clean
 rm -rf %{buildroot}
+rm -rf %{_maindir}
 
 %files
 %defattr(-,root,root)
@@ -91,6 +86,6 @@ Interface to MySQL Conditions Database.
 %{_includedir}/CondDBMySQL/ConditionsDB/*.h
 
 %changelog
-* Fri Feb 28 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.6-1
+* Fri Feb 28 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.9.7-1
 - Repackaging for CentOS 8
 

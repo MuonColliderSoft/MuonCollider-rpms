@@ -1,13 +1,10 @@
 # workaround: QA_SKIP_BUILD_ROOT=1 rpmbuild -ba pandora-pfa.spec
 %global debug_package %{nil}
 
-%if %{?rhel}%{!?rhel:0} >= 8
-%global _cmakecmd cmake
-%global _cmakepkg cmake
-%else
-%global _cmakecmd cmake3
-%global _cmakepkg cmake3
-%endif
+%global _pver 3.25.3
+%global _tagver v03-25-03
+
+%global _maindir %{_builddir}/%{name}-%{version}
 
 %global cmake_panutil_dir %{_libdir}/cmake/PandoraUtil
 %global cmake_panmon_dir %{_libdir}/cmake/PandoraMonitoring
@@ -16,50 +13,48 @@
 
 Summary: Suite for particle flow analysis
 Name: pandora-pfa
-Version: 3.14.0
+Version: %{_pver}
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: INFN
 URL: https://github.com/PandoraPFA/PandoraPFA
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: %{_cmakepkg}
+BuildRequires: git
+BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
 BuildRequires: root
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
-%if ! ("x%{mc_source_url}" == "x")
-%undefine _disable_source_fetch
-Source: %{mc_source_url}/%{name}-%{version}.tar.gz
-%else
-Source: %{name}-%{version}.tar.gz
-%endif
 
 %description
 Suite for particle flow analysis.
 
 %prep
-%setup -c
+[ -e %{_maindir} ] && rm -rf %{_maindir}
+git clone https://github.com/PandoraPFA/PandoraPFA %{_maindir}
+cd %{_maindir}
+git checkout %{_tagver}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_builddir}/%{name}-%{version}/build
-cd %{_builddir}/%{name}-%{version}/build
-%{_cmakecmd} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
-             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-             -DCMAKE_CXX_STANDARD=17 \
-             -DPANDORA_MONITORING=ON \
-             -DLC_PANDORA_CONTENT=ON \
-             -DEXAMPLE_PANDORA_CONTENT=OFF \
-             -DCMAKE_CXX_FLAGS="-std=c++17" \
-             -Wno-dev \
-             %{_builddir}/%{name}-%{version}
+mkdir %{_maindir}/build
+cd %{_maindir}/build
+cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+      -DCMAKE_CXX_STANDARD=17 \
+      -DPANDORA_MONITORING=ON \
+      -DLC_PANDORA_CONTENT=ON \
+      -DEXAMPLE_PANDORA_CONTENT=OFF \
+      -DCMAKE_CXX_FLAGS="-std=c++17" \
+      -Wno-dev \
+      %{_maindir}
 make %{?_smp_mflags}
 
 %install
-cd %{_builddir}/%{name}-%{version}/build
+cd %{_maindir}/build
 make install
 rm -rf %{buildroot}/usr/doc
 
@@ -99,12 +94,13 @@ sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' \
        -e 's|usr/lib/lib|usr/lib64/lib|g' \
     %{buildroot}%{cmake_panlcc_dir}/*.cmake
 
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/libLCContent.so.03.01.04 
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/libPandoraMonitoring.so.03.04.03
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/libPandoraSDK.so.03.03.03
+chrpath --replace %{_libdir} %{buildroot}%{_libdir}/libLCContent.so.*
+chrpath --replace %{_libdir} %{buildroot}%{_libdir}/libPandoraMonitoring.so.*
+chrpath --replace %{_libdir} %{buildroot}%{_libdir}/libPandoraSDK.so.*
 
 %clean
 rm -rf %{buildroot}
+rm -rf %{_maindir}
 
 %files
 %defattr(-,root,root)
@@ -183,6 +179,8 @@ Suite for particle flow analysis.
 %{_includedir}/TTreeWrapper.h
 
 %changelog
+* Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 3.25.3-1
+- New version of Pandora PFA
 * Thu Jul 09 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 3.14.0-1
 - Repackaging for CentOS 8
 

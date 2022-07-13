@@ -1,6 +1,11 @@
+
+%global _pver 3.2.1
+
+%global _maindir %{_builddir}/fastjet-%{_pver}
+
 Summary: Sequential recombination jet algorithms
 Name: ilc-fastjet
-Version: 3.2.1
+Version: %{_pver}
 Release: 1%{?dist}
 License: GPLv2 License
 URL: http://fastjet.fr/
@@ -9,12 +14,7 @@ BuildArch: %{_arch}
 BuildRequires: make
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
-%if ! ("x%{mc_source_url}" == "x")
-%undefine _disable_source_fetch
-Source: %{mc_source_url}/%{name}-%{version}.tar.gz
-%else
-Source: %{name}-%{version}.tar.gz
-%endif
+Source: https://fastjet.fr/repo/fastjet-%{_pver}.tar.gz
 
 %description
 The FastJet package provides a fast implementation of several
@@ -24,21 +24,21 @@ inclusive longitudinally invariant version of the Cambridge/Aachen
 jet-algorithm, and the inclusive anti-kt algorithm.
 
 %prep
-%setup -c
+%setup -n fastjet-%{_pver}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_builddir}/%{name}-%{version}/build
-cd %{_builddir}/%{name}-%{version}/build
-%{_builddir}/%{name}-%{version}/configure \
+mkdir %{_maindir}/build
+cd %{_maindir}/build
+%{_maindir}/configure \
     --prefix=%{buildroot}%{_prefix} \
     --libdir=%{buildroot}%{_libdir} \
     --enable-auto-ptr=no --enable-shared
 make %{?_smp_mflags}
 
 %install
-cd %{_builddir}/%{name}-%{version}/build
+cd %{_maindir}/build
 make install
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{_bindir}/fastjet-config
 sed -i -e 's|%{buildroot}/usr/lib|%{_libdir}|g' %{buildroot}%{_libdir}/*.la
