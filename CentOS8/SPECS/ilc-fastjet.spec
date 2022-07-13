@@ -1,3 +1,4 @@
+%undefine _disable_source_fetch
 
 %global _pver 3.2.1
 

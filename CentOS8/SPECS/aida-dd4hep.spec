@@ -1,10 +1,7 @@
-%if %{?rhel}%{!?rhel:0} >= 8
-%global _cmakecmd cmake
-%global _cmakepkg cmake
-%else
-%global _cmakecmd cmake3
-%global _cmakepkg cmake3
-%endif
+%global _pver 1.20.2
+%global _tagver v01-20-02
+
+%global _maindir %{_builddir}/%{name}-%{version}
 
 %global cmake_dd4hep_dir %{_datadir}/DD4hep/cmake
 %global _pypkg python36
@@ -14,14 +11,15 @@
 
 Summary: Detector description and life cycle framework
 Name: aida-dd4hep
-Version: 1.16.1
+Version: %{_pver}
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: CERN
 URL: https://github.com/AIDASoft/DD4hep
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: %{_cmakepkg} >= 3.14.5-1
+BuildRequires: git
+BuildRequires: cmake
 BuildRequires: make
 BuildRequires: %{_pypkg}
 BuildRequires: %{_pypkg}-rpm-macros
@@ -38,14 +36,8 @@ BuildRequires: root-gui-browserv7
 BuildRequires: HepMC3-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
-%if ! ("x%{mc_source_url}" == "x")
-%undefine _disable_source_fetch
-Source0: %{mc_source_url}/%{name}-%{version}.tar.gz
-%else
-Source0: %{name}-%{version}.tar.gz
-%endif
-Source1: aida-setup.sh
-Source2: aida-setup.csh
+Source0: aida-setup.sh
+Source1: aida-setup.csh
 
 %description
 DD4hep is a software framework for providing a complete solution
@@ -54,31 +46,34 @@ readout, alignment, calibration, etc.) for the full experiment life
 cycle (detector concept development, detector optimization, construction, operation).
 
 %prep
-%setup -c
+[ -e %{_maindir} ] && rm -rf %{_maindir}
+git clone https://github.com/AIDASoft/DD4hep %{_maindir}
+cd %{_maindir}
+git checkout %{_tagver}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_builddir}/%{name}-%{version}/build
-cd %{_builddir}/%{name}-%{version}/build
-%{_cmakecmd} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
-             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-             -DCMAKE_CXX_STANDARD=17 \
-             -DDD4HEP_USE_GEANT4=ON \
-             -DDD4HEP_USE_LCIO=ON \
-             -DDD4HEP_USE_XERCESC=OFF \
-             -DDD4HEP_USE_GEAR=ON \
-             -DDD4HEP_USE_HEPMC3=ON \
-             -DBUILD_TESTING=OFF \
-             -DDD4HEP_SET_RPATH=OFF \
-             -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
-             -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
-             -Wno-dev \
-             %{_builddir}/%{name}-%{version}
+mkdir %{_maindir}/build
+cd %{_maindir}/build
+cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+      -DCMAKE_CXX_STANDARD=17 \
+      -DDD4HEP_USE_GEANT4=ON \
+      -DDD4HEP_USE_LCIO=ON \
+      -DDD4HEP_USE_XERCESC=OFF \
+      -DDD4HEP_USE_GEAR=ON \
+      -DDD4HEP_USE_HEPMC3=ON \
+      -DBUILD_TESTING=OFF \
+      -DDD4HEP_SET_RPATH=OFF \
+      -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
+      -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
+      -Wno-dev \
+      %{_maindir}
 make %{?_smp_mflags}
 
 %install
-cd %{_builddir}/%{name}-%{version}/build
+cd %{_maindir}/build
 make install
 
 rm -rf %{buildroot}%{_pylibdir}/DDSim/bin
@@ -105,8 +100,8 @@ sed -i -e 's|env python|env %{_pycmd}|g' %{buildroot}%{_bindir}/check* \
 sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' %{buildroot}%{_bindir}/run_test.sh
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
+cp %{SOURCE0} %{buildroot}%{_sysconfdir}/profile.d
 cp %{SOURCE1} %{buildroot}%{_sysconfdir}/profile.d
-cp %{SOURCE2} %{buildroot}%{_sysconfdir}/profile.d
 
 #workaround for cmake
 ln -sf %{_bindir}     %{buildroot}%{_datadir}/DD4hep/bin
@@ -115,6 +110,7 @@ ln -sf %{_includedir} %{buildroot}%{_datadir}/DD4hep/include
 
 %clean
 rm -rf %{buildroot}
+rm -rf %{_maindir}
 
 %files
 %defattr(-,root,root)
@@ -260,6 +256,8 @@ cycle (detector concept development, detector optimization, construction, operat
 
 
 %changelog
+* Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.20.2-1
+- New version of DD4Hep
 * Wed Sep 23 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.13.1-1
 - New version with ROOT 6.22 support
 * Fri May 29 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.12.1-1
