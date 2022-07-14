@@ -1,23 +1,21 @@
-%if %{?rhel}%{!?rhel:0} >= 8
-%global _cmakecmd cmake
-%global _cmakepkg cmake
-%else
-%global _cmakecmd cmake3
-%global _cmakepkg cmake3
-%endif
+%global _pver 0.13.0
+%global _tagver v00-13-MC
+
+%global _maindir %{_builddir}/%{name}-%{version}
 
 %global _boostp boost169
 
 Summary: Interface between Marlin and PandoraPFA
 Name: ilc-ddmarlin-pandora
-Version: 0.12.0
+Version: %{_pver}
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: INFN
 URL: https://github.com/MuonColliderSoft/DDMarlinPandora
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: %{_cmakepkg}
+BuildRequires: git
+BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
 BuildRequires: %{_boostp}-devel
@@ -29,39 +27,36 @@ BuildRequires: ilc-marlin-util-devel
 BuildRequires: pandora-pfa-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
-%if ! ("x%{mc_source_url}" == "x")
-%undefine _disable_source_fetch
-Source: %{mc_source_url}/%{name}-%{version}.tar.gz
-%else
-Source: %{name}-%{version}.tar.gz
-%endif
 
 %description
 Interface between Marlin and PandoraPFA.
 
 %prep
-%setup -c
+[ -e %{_maindir} ] && rm -rf %{_maindir}
+git clone https://github.com/MuonColliderSoft/DDMarlinPandora %{_maindir}
+cd %{_maindir}
+git checkout %{_tagver}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_builddir}/%{name}-%{version}/build
-cd %{_builddir}/%{name}-%{version}/build
-%{_cmakecmd} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
-             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-             -DCMAKE_CXX_STANDARD=17 \
-             -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
-             -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
-             -Wno-dev \
-             %{_builddir}/%{name}-%{version}
+mkdir %{_maindir}/build
+cd %{_maindir}/build
+cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+      -DCMAKE_CXX_STANDARD=17 \
+      -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
+      -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
+      -Wno-dev \
+      %{_maindir}
 make %{?_smp_mflags}
 
 %install
-cd %{_builddir}/%{name}-%{version}/build
+cd %{_maindir}/build
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.0.11.0
+chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.0.*
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libDDMarlinPandora.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-ddmarlin-pandora.sh
@@ -69,6 +64,7 @@ printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libDDMarlinPandora.so\n" | tee
 
 %clean
 rm -rf %{buildroot}
+rm -rf %{_maindir}
 
 %files
 %defattr(-,root,root)
@@ -97,6 +93,8 @@ Interface between Marlin and PandoraPFA.
 %{_includedir}/*.h
 
 %changelog
+* Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.13.0-1
+- New version of Marlin Pandora PFA
 * Wed Dec 16 2020 Alessio Gianelle <gianelle@pd.infn.it> - 0.12.0-1
 - New processor DDCaloDigi_BIB
 * Mon Jul 13 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.11.0-1

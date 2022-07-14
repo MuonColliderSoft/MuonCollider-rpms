@@ -1,26 +1,28 @@
+%global _pver 1.2.0
+%global _taglabel 01-02-MC
+%global _tagver v%{_taglabel}
+
 Summary: The Muon Collider detector geometry
 Name: muonc-detector-geometry
-Version: 1.1.0
+Version: %{_pver}
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: INFN
 URL: https://github.com/MuonColliderSoft/detector-simulator
 Group: Development/Libraries
 BuildArch: noarch
+BuildRequires: wget
 Requires: ilc-lcgeo
-
-%if ! ("x%{mc_source_url}" == "x")
-%undefine _disable_source_fetch
-Source: %{mc_source_url}/%{name}-%{version}.tar.gz
-%else
-Source: %{name}-%{version}.tar.gz
-%endif
 
 %description
 The Muon Collider detector geometry.
 
 %prep
-%setup -c
+cd %{_builddir}
+wget -O %{_tagver}.tar.gz https://github.com/MuonColliderSoft/detector-simulation/archive/refs/tags/%{_tagver}.tar.gz
+tar zxf %{_tagver}.tar.gz
+rm -f %{_tagver}.tar.gz
+mv detector-simulation-%{_taglabel} %{name}-%{version}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
@@ -34,6 +36,7 @@ rm %{buildroot}%{_datadir}/%{name}/MuColl_v1/*.md %{buildroot}%{_datadir}/%{name
 
 %clean
 rm -rf %{buildroot}
+rm -rf %{_maindir}
 
 %files
 %defattr(-,root,root)
@@ -42,6 +45,8 @@ rm -rf %{buildroot}
 %{_datadir}/%{name}/MuColl_v1/*.xml
 
 %changelog
+* Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.2.0-1
+- New version of the geometry
 * Wed Dec 09 2020 Nazar Bartosik <nazar.bartosik@cern.ch> - 1.1.0-1
 - geometry with fixed endcap tracker support asymmetry
 * Fri Nov 27 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.0.0-1
