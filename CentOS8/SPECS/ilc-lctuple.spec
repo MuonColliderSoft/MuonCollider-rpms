@@ -1,21 +1,19 @@
-%if %{?rhel}%{!?rhel:0} >= 8
-%global _cmakecmd cmake
-%global _cmakepkg cmake
-%else
-%global _cmakecmd cmake3
-%global _cmakepkg cmake3
-%endif
+%global _pver 1.14.0
+%global _tagver v01-14-MC
+
+%global _maindir %{_builddir}/%{name}-%{version}
 
 Summary: Marlin package that creates a ROOT TTree with a column wise ntuple from LCIO collections
 Name: ilc-lctuple
-Version: 1.13.0
+Version: %{_pver}
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: INFN
 URL: https://github.com/MuonColliderSoft/LCTuple
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: %{_cmakepkg}
+BuildRequires: git
+BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
 BuildRequires: ilc-utils-devel
@@ -23,37 +21,34 @@ BuildRequires: ilc-marlin-devel
 BuildRequires: root
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
-%if ! ("x%{mc_source_url}" == "x")
-%undefine _disable_source_fetch
-Source: %{mc_source_url}/%{name}-%{version}.tar.gz
-%else
-Source: %{name}-%{version}.tar.gz
-%endif
 
 %description
 Marlin package that creates a ROOT TTree with a column wise ntuple from LCIO collections.
 
 %prep
-%setup -c
+[ -e %{_maindir} ] && rm -rf %{_maindir}
+git clone https://github.com/MuonColliderSoft/LCTuple %{_maindir}
+cd %{_maindir}
+git checkout %{_tagver}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_builddir}/%{name}-%{version}/build
-cd %{_builddir}/%{name}-%{version}/build
-%{_cmakecmd} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
-             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-             -DCMAKE_CXX_STANDARD=17 \
-             -Wno-dev \
-             %{_builddir}/%{name}-%{version}
+mkdir %{_maindir}/build
+cd %{_maindir}/build
+cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+      -DCMAKE_CXX_STANDARD=17 \
+      -Wno-dev \
+      %{_maindir}
 make %{?_smp_mflags}
 
 %install
-cd %{_builddir}/%{name}-%{version}/build
+cd %{_maindir}/build
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.1.12.0
+chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.*
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libLCTuple.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-lctuple.sh
@@ -61,6 +56,7 @@ printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libLCTuple.so\n" | tee %{build
 
 %clean
 rm -rf %{buildroot}
+rm -rf %{_maindir}
 
 %files
 %defattr(-,root,root)
@@ -69,6 +65,8 @@ rm -rf %{buildroot}
 %{_libdir}/*.so
 
 %changelog
+* Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.14.0-1
+- New version of LCtuple
 * Fri Dec 04 2020 Alessio Gianelle <gianelle@pd.infn.it> - 1.13.0-1
 - Added track hits to the tracks branches
 - Fixed the index assignment to the track hits

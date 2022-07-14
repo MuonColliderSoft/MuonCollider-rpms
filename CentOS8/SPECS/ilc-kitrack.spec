@@ -1,23 +1,21 @@
-%if %{?rhel}%{!?rhel:0} >= 8
-%global _cmakecmd cmake
-%global _cmakepkg cmake
-%else
-%global _cmakecmd cmake3
-%global _cmakepkg cmake3
-%endif
+%global _pver 1.10.0
+%global _tagver v01-10
+
+%global _maindir %{_builddir}/%{name}-%{version}
 
 %global cmake_kitrack_dir %{_libdir}/cmake/KiTrack
 
 Summary: Toolkit for tracking
 Name: ilc-kitrack
-Version: 1.10.0
+Version: %{_pver}
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: INFN
-URL: https://github.com/iLCSoft/KiTrack.git
+URL: https://github.com/iLCSoft/KiTrack
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: %{_cmakepkg}
+BuildRequires: git
+BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
 BuildRequires: ilc-utils-devel
@@ -25,35 +23,32 @@ BuildRequires: ilc-marlin-devel
 BuildRequires: root
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
-%if ! ("x%{mc_source_url}" == "x")
-%undefine _disable_source_fetch
-Source: %{mc_source_url}/%{name}-%{version}.tar.gz
-%else
-Source: %{name}-%{version}.tar.gz
-%endif
 
 %description
 The package consists of KiTrack (Cellular Automaton, a Hopfield Neural Network, the hit
 and track classes) and Criteria (the criteria classes)
 
 %prep
-%setup -c
+[ -e %{_maindir} ] && rm -rf %{_maindir}
+git clone https://github.com/iLCSoft/KiTrack %{_maindir}
+cd %{_maindir}
+git checkout %{_tagver}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-sed -i -e '/ILCTEST_INCLUDE_DIRS/d' %{_builddir}/%{name}-%{version}/CMakeLists.txt
-mkdir %{_builddir}/%{name}-%{version}/build
-cd %{_builddir}/%{name}-%{version}/build
-%{_cmakecmd} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
-             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-             -DCMAKE_CXX_STANDARD=17 \
-             -Wno-dev \
-             %{_builddir}/%{name}-%{version}
+sed -i -e '/ILCTEST_INCLUDE_DIRS/d' %{_maindir}/CMakeLists.txt
+mkdir %{_maindir}/build
+cd %{_maindir}/build
+cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+      -DCMAKE_CXX_STANDARD=17 \
+      -Wno-dev \
+      %{_maindir}
 make %{?_smp_mflags}
 
 %install
-cd %{_builddir}/%{name}-%{version}/build
+cd %{_maindir}/build
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
@@ -68,6 +63,7 @@ chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
 
 %clean
 rm -rf %{buildroot}
+rm -rf %{_maindir}
 
 %files
 %defattr(-,root,root)
