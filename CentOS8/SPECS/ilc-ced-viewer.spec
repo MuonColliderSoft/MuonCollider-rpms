@@ -1,10 +1,7 @@
-%if %{?rhel}%{!?rhel:0} >= 8
-%global _cmakecmd cmake
-%global _cmakepkg cmake
-%else
-%global _cmakecmd cmake3
-%global _cmakepkg cmake3
-%endif
+%global _pver 1.19.1
+%global _tagver v01-19-01
+
+%global _maindir %{_builddir}/%{name}-%{version}
 
 %global _pypkg python2
 
@@ -13,14 +10,15 @@
 
 Summary: CEDViewer processor for the CED event display
 Name: ilc-ced-viewer
-Version: 1.17.1
+Version: %{_pver}
 Release: 1%{?dist}
 License: GPL v.3
 Vendor: INFN
-URL: https://github.com/iLCSoft/CEDViewer.git
+URL: https://github.com/iLCSoft/CEDViewer
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: %{_cmakepkg}
+BuildRequires: git
+BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
 BuildRequires: %{_boostp}-devel
@@ -32,35 +30,32 @@ BuildRequires: aida-dd4hep-devel
 Requires: %{_pypkg}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
-%if ! ("x%{mc_source_url}" == "x")
-%undefine _disable_source_fetch
-Source: %{mc_source_url}/%{name}-%{version}.tar.gz
-%else
-Source: %{name}-%{version}.tar.gz
-%endif
 
 %description
 CEDViewer processor for the CED event display.
 
 %prep
-%setup -c
+[ -e %{_maindir} ] && rm -rf %{_maindir}
+git clone https://github.com/iLCSoft/CEDViewer %{_maindir}
+cd %{_maindir}
+git checkout %{_tagver}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_builddir}/%{name}-%{version}/build
-cd %{_builddir}/%{name}-%{version}/build
-%{_cmakecmd} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
-             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-             -DCMAKE_CXX_STANDARD=17 \
-             -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
-             -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
-             -Wno-dev \
-             %{_builddir}/%{name}-%{version}
+mkdir %{_maindir}/build
+cd %{_maindir}/build
+cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+      -DCMAKE_CXX_STANDARD=17 \
+      -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
+      -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
+      -Wno-dev \
+      %{_maindir}
 make %{?_smp_mflags}
 
 %install
-cd %{_builddir}/%{name}-%{version}/build
+cd %{_maindir}/build
 make install
 
 sed -i -e 's|bin/python|usr/bin/python2|g' \
@@ -79,6 +74,7 @@ printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libCEDViewer.so\n" | tee %{bui
 
 %clean
 rm -rf %{buildroot}
+rm -rf %{_maindir}
 
 %files
 %defattr(-,root,root)
@@ -90,6 +86,8 @@ rm -rf %{buildroot}
 %{_cedv_datadir}/*.xml
 
 %changelog
+* Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.19.1-1
+- New version of CED viewer
 * Mon Aug 24 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.17.1-1
 - Repackaging for CentOS 8
 
