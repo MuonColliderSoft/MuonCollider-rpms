@@ -45,6 +45,8 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DACTS_USE_SYSTEM_BOOST=ON \
       -DACTS_USE_SYSTEM_EIGEN3=ON \
       -DACTS_USE_SYSTEM_NLOHMANN_JSON=ON \
+      -DACTS_BUILD_PLUGIN_DD4HEP=ON \
+      -DACTS_BUILD_PLUGIN_JSON=ON \
       -Wno-dev \
       %{_maindir}
 make %{?_smp_mflags}
@@ -141,6 +143,15 @@ Toolkit for charged particle track reconstruction.
 %{_includedir}/Acts/Visualization/*.hpp
 %dir %{_includedir}/Acts/Visualization/detail
 %{_includedir}/Acts/Visualization/detail/*.ipp
+%dir %{_includedir}/Acts/Plugins
+%dir %{_includedir}/Acts/Plugins/DD4hep
+%{_includedir}/Acts/Plugins/DD4hep/*.hpp
+%dir %{_includedir}/Acts/Plugins/Identification
+%{_includedir}/Acts/Plugins/Identification/*.hpp
+%dir %{_includedir}/Acts/Plugins/Json
+%{_includedir}/Acts/Plugins/Json/*.hpp
+%dir %{_includedir}/Acts/Plugins/TGeo
+%{_includedir}/Acts/Plugins/TGeo/*.hpp
 %{_bindir}/this_acts.sh
 
 
