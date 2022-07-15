@@ -5,7 +5,7 @@
 
 %global _pypkg python2
 
-%global _boostp boost169
+%global _boostp boost173
 %global _cedv_datadir %{_datadir}/ilc-ced-viewer
 
 Summary: CEDViewer processor for the CED event display

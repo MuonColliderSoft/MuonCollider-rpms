@@ -7,7 +7,7 @@
 %global _pypkg python36
 %global _pycmd python3
 %global _pylibdir %{_prefix}/lib/python3.6/site-packages
-%global _boostp boost169
+%global _boostp boost173
 
 Summary: Detector description and life cycle framework
 Name: aida-dd4hep

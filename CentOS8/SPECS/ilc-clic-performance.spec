@@ -3,7 +3,7 @@
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
-%global _boostp boost169
+%global _boostp boost173
 
 Summary: Processors and configurations to determine the performance of the CLIC detector model
 Name: ilc-clic-performance

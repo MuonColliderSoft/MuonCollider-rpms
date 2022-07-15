@@ -3,7 +3,7 @@
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
-%global _boostp boost169
+%global _boostp boost173
 
 Summary: A collection of tracking related processors based on MarlinTrk
 Name: ilc-marlin-trk-processors

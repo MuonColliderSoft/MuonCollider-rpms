@@ -3,7 +3,7 @@
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
-%global _boostp boost169
+%global _boostp boost173
 
 Summary: Marlin processor for DD4hep detector geometry
 Name: ilc-marlin-dd4hep

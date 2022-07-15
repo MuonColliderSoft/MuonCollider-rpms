@@ -3,7 +3,7 @@
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
-%global _boostp boost169
+%global _boostp boost173
 %global cmake_martrk_dir %{_libdir}/cmake/MarlinTrk
 
 Summary: Tracking Package for Marlin

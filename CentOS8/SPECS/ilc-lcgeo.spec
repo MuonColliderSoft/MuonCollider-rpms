@@ -3,7 +3,7 @@
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
-%global _boostp boost169
+%global _boostp boost173
 
 Summary: Implementation of Linear Collider detector models in DD4hep.
 Name: ilc-lcgeo

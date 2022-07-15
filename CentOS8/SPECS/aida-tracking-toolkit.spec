@@ -4,7 +4,7 @@
 %global _maindir %{_builddir}/%{name}-%{version}
 
 %global cmake_aidatt_dir %{_libdir}/cmake/aidaTT
-%global _boostp boost169
+%global _boostp boost173
 
 Summary: Tracking Toolkit from the AIDA project
 Name: aida-tracking-toolkit

@@ -3,7 +3,7 @@
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
-%global _boostp boost169
+%global _boostp boost173
 
 Summary: Conformal Tracking for all-silicon trackers at future electron-positron colliders
 Name: ilc-conformal-tracking

@@ -4,7 +4,7 @@
 %global _maindir %{_builddir}/%{name}-%{version}
 
 %global cmake_ddkalt_dir %{_libdir}/cmake/DDKalTest
-%global _boostp boost169
+%global _boostp boost173
 
 Summary: Interface between KalTest fitter and DD4hep based geometry
 Name: ilc-ddkaltest

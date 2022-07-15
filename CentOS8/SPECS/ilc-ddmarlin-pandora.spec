@@ -3,7 +3,7 @@
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
-%global _boostp boost169
+%global _boostp boost173
 
 Summary: Interface between Marlin and PandoraPFA
 Name: ilc-ddmarlin-pandora
