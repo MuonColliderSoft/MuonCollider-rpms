@@ -24,7 +24,6 @@ BuildRequires: ilc-marlin-devel
 BuildRequires: ilc-lcio-devel
 BuildRequires: ilc-gear-devel
 BuildRequires: aida-dd4hep-devel
-BuildRequires: ilc-marlin-dd4hep-devel
 BuildRequires: root
 BuildRequires: root-minuit2
 BuildRequires: root-unuran
@@ -46,13 +45,13 @@ mkdir -p %{buildroot}
 sed -i -e '/CMAKE_INSTALL_PREFIX/d' %{_maindir}/CMakeLists.txt
 mkdir %{_maindir}/build
 cd %{_maindir}/build
-# TODO missing definition of MARLIN_DDL
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
       -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
       -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
       -DINSTALL_DOC=OFF \
+      -DBUILD_TESTING=OFF \
       -Wno-dev \
       %{_maindir}
 make %{?_smp_mflags}
