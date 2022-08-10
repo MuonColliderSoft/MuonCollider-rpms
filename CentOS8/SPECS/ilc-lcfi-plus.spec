@@ -23,8 +23,10 @@ BuildRequires: ilc-utils-devel
 BuildRequires: ilc-marlin-devel
 BuildRequires: ilc-marlin-util-devel
 BuildRequires: ilc-lcfi-vertex-devel
+BuildRequires: ilc-lcfi-plus-headers
 BuildRequires: root
 BuildRequires: root-smatrix
+Requires: ilc-lcfi-plus-headers
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 
@@ -36,6 +38,7 @@ Flavor tagging code for ILC detectors.
 git clone https://github.com/lcfiplus/LCFIPlus %{_maindir}
 cd %{_maindir}
 git checkout %{_tagver}
+sed -i -e 's|${PROJECT_SOURCE_DIR}/include|/usr/include/lcfiplus|g' CMakeLists.txt
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
