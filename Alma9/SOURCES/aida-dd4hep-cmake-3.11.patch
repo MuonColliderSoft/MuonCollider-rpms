@@ -1,0 +1,96 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f54391d0..f365a564 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
++cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
+ PROJECT( DD4hep LANGUAGES NONE)
+ SET_PROPERTY(DIRECTORY . PROPERTY PACKAGE_NAME DD4hep)
+ 
+@@ -103,7 +103,11 @@ dd4hep_configure_output( OUTPUT "${PROJECT_BINARY_DIR}" INSTALL "${CMAKE_INSTALL
+ ########################
+ 
+ # Configure Python
+-find_package(Python COMPONENTS Development)
++find_package(PythonInterp)
++find_package(PythonLibs)
++set(Python_VERSION "${PYTHON_VERSION_STRING}")
++set(Python_VERSION_MAJOR "${PYTHON_VERSION_MAJOR}")
++set(Python_VERSION_MINOR "${PYTHON_VERSION_MINOR}")
+ set(DD4HEP_PYTHON_INSTALL_DIR lib/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages)
+ 
+ # Configure ROOT
+diff --git a/DDCore/CMakeLists.txt b/DDCore/CMakeLists.txt
+index 3285581c..eac9b6a8 100644
+--- a/DDCore/CMakeLists.txt
++++ b/DDCore/CMakeLists.txt
+@@ -104,10 +104,10 @@ ELSE()
+ ENDIF()
+     
+ #---------------------------  Specialized PYTHON plugin ----------------------------
+-IF(TARGET ROOT::PyROOT)
++IF(TARGET ROOT::PyROOT3)
+   dd4hep_add_plugin(DDPythonPlugins
+     SOURCES src/python/*.cpp
+-    USES DDCore ROOT::Core ROOT::PyROOT
++    USES DDCore ROOT::Core ROOT::PyROOT3
+     )
+   set_target_properties(DDPythonPlugins PROPERTIES VERSION ${DD4hep_VERSION} SOVERSION ${DD4hep_SOVERSION})
+   LIST(APPEND OPTIONAL_TARGETS DDPythonPlugins)
+diff --git a/DDG4/CMakeLists.txt b/DDG4/CMakeLists.txt
+index 3ee66b46..960c397d 100644
+--- a/DDG4/CMakeLists.txt
++++ b/DDG4/CMakeLists.txt
+@@ -49,8 +49,7 @@ dd4hep_add_plugin(DDG4Plugins
+   )
+ #---------------------------  Plugin library for the simulation framework  ---------
+ 
+-
+-if(TARGET Python::Python AND TARGET ROOT::PyROOT)
++if(TARGET ROOT::PyROOT3)
+   dd4hep_print("|++> Python found, creating DDG4Python Dictionary")
+   dd4hep_add_dictionary(G__DDG4Python
+     SOURCES src/python/DDG4Python.C
+@@ -58,13 +57,13 @@ if(TARGET Python::Python AND TARGET ROOT::PyROOT)
+     )
+   dd4hep_add_dictionary(G__DDPython
+     SOURCES  tpython/DDPython.C
+-    USES     Python::Python
++    INCLUDES ${PYTHON_INCLUDE_DIRS}
+     )
+   #---------------------------  Specialized python plugins  --------------------------
+   dd4hep_print("|++> ROOT Has Python, creating DDPython library and plugins")
+   add_library(DDPython G__DDPython.cxx tpython/DDPython.cpp)
+   add_library(DD4hep::DDPython ALIAS DDPython)
+-  target_link_libraries(DDPython DD4hep::DDG4 ROOT::Core Python::Python ROOT::PyROOT)
++  target_link_libraries(DDPython DD4hep::DDG4 ROOT::Core ${PYTHON_LIBRARIES} ROOT::PyROOT3)
+   IF(${CMAKE_CXX_STANDARD} GREATER 16)
+     # python header not cxx17 compatible, gives error in clang
+     target_compile_options(DDPython PUBLIC -Wno-register)
+@@ -76,7 +75,7 @@ if(TARGET Python::Python AND TARGET ROOT::PyROOT)
+     )
+   #---Helper to overcome deficiency of the python executable concerning multi-threading
+   add_executable(pyddg4 pyddg4.cpp)
+-  target_link_libraries(pyddg4 PUBLIC DD4hep::DDPython ROOT::Core ROOT::PyROOT)
++  target_link_libraries(pyddg4 PUBLIC DD4hep::DDPython ROOT::Core ROOT::PyROOT3)
+ 
+   # install these libraries
+   set_target_properties(DDPython DDG4Python PROPERTIES VERSION ${DD4hep_VERSION} SOVERSION ${DD4hep_SOVERSION})
+diff --git a/cmake/DD4hepConfig.cmake.in b/cmake/DD4hepConfig.cmake.in
+index ed777aa8..981fa704 100644
+--- a/cmake/DD4hepConfig.cmake.in
++++ b/cmake/DD4hepConfig.cmake.in
+@@ -59,7 +59,11 @@ if(DD4HEP_USE_GEANT4)
+   DD4HEP_SETUP_GEANT4_TARGETS()
+ endif()
+ 
+-FIND_DEPENDENCY(Python COMPONENTS Development)
++find_package(PythonInterp)
++find_package(PythonLibs)
++set(Python_VERSION "${PYTHON_VERSION_STRING}")
++set(Python_VERSION_MAJOR "${PYTHON_VERSION_MAJOR}")
++set(Python_VERSION_MINOR "${PYTHON_VERSION_MINOR}")
+ 
+ FIND_DEPENDENCY(ROOT REQUIRED)
+ DD4HEP_SETUP_ROOT_TARGETS()
