@@ -4,9 +4,6 @@
 %global _maindir %{_builddir}/%{name}-%{version}
 
 %global cmake_dd4hep_dir %{_datadir}/DD4hep/cmake
-%global _pypkg python3
-%global _pycmd python3
-%global _boostp boost
 
 Summary: Detector description and life cycle framework
 Name: aida-dd4hep
@@ -20,13 +17,13 @@ BuildArch: %{_arch}
 BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
-BuildRequires: %{_pypkg}
-BuildRequires: %{_pypkg}-rpm-macros
+BuildRequires: python3
+BuildRequires: python3-rpm-macros
 BuildRequires: python3-root
-BuildRequires: %{_pypkg}-devel
+BuildRequires: python3-devel
 BuildRequires: ilc-gear-devel
 BuildRequires: ilc-lcio-devel
-BuildRequires: %{_boostp}-devel
+BuildRequires: boost-devel
 BuildRequires: geant4-devel
 BuildRequires: root-genvector
 BuildRequires: root-tpython
@@ -65,8 +62,6 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DDD4HEP_USE_HEPMC3=ON \
       -DBUILD_TESTING=OFF \
       -DDD4HEP_SET_RPATH=OFF \
-      -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
-      -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
       -Wno-dev \
       %{_maindir}
 make %{?_smp_mflags}
@@ -92,10 +87,10 @@ mv %{buildroot}%{_prefix}/include %{buildroot}%{_prefix}/dd4hep
 mkdir -p %{buildroot}%{_includedir}
 mv %{buildroot}%{_prefix}/dd4hep %{buildroot}%{_includedir}
 
-sed -i -e 's|env python|env %{_pycmd}|g' %{buildroot}%{_bindir}/check* \
-                                         %{buildroot}%{_bindir}/ddsim \
-                                         %{buildroot}%{_bindir}/g4MaterialScan \
-                                         %{buildroot}%{_bindir}/g4GeometryScan
+sed -i -e 's|env python3.9|env python3|g' %{buildroot}%{_bindir}/ddsim
+sed -i -e 's|env python|env python3|g' %{buildroot}%{_bindir}/check* \
+                                       %{buildroot}%{_bindir}/g4MaterialScan \
+                                       %{buildroot}%{_bindir}/g4GeometryScan
 sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' %{buildroot}%{_bindir}/run_test.sh
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
@@ -152,7 +147,7 @@ Summary: Detector description and life cycle framework (development files)
 Requires: %{name}
 Requires: ilc-gear-devel
 Requires: ilc-lcio-devel
-Requires: %{_boostp}-devel
+Requires: boost-devel
 Requires: geant4-devel
 Requires: root-genvector
 Requires: root-tpython
@@ -230,7 +225,7 @@ Summary: Event data model and persistency for Linear Collider detector (python f
 BuildArch: noarch
 Requires: %{name}
 Requires: %{name}-devel
-Requires: %{_pypkg}
+Requires: python3
 Requires: python3-root
 
 %description -n python3-dd4hep
