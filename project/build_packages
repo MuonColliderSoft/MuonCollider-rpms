@@ -59,7 +59,7 @@ sudo yum -y localinstall RPMS/x86_64/ilc-marlin-util* \
                          RPMS/x86_64/ilc-kitrack* \
                          RPMS/x86_64/ilc-marlin-kinfit*
 
-rpmbuild -ba SPECS/ilc-ced-viewer.spec                         # TODO missing python2
+rpmbuild -ba SPECS/ilc-ced-viewer.spec
 rpmbuild -ba SPECS/ilc-kaldet.spec
 rpmbuild -ba SPECS/ilc-garlic.spec
 rpmbuild -ba SPECS/lcfi-vertex.spec

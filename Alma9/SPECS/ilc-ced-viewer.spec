@@ -3,9 +3,6 @@
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
-%global _pypkg python2
-
-%global _boostp boost
 %global _cedv_datadir %{_datadir}/ilc-ced-viewer
 
 Summary: CEDViewer processor for the CED event display
@@ -21,13 +18,13 @@ BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
-BuildRequires: %{_boostp}-devel
+BuildRequires: python3-devel
+BuildRequires: boost-devel
 BuildRequires: ilc-utils-devel
 BuildRequires: ilc-marlin-devel
 BuildRequires: ilc-marlin-util-devel
 BuildRequires: root
 BuildRequires: aida-dd4hep-devel
-Requires: %{_pypkg}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 
@@ -48,8 +45,6 @@ cd %{_maindir}/build
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
-      -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
-      -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
       -Wno-dev \
       %{_maindir}
 make %{?_smp_mflags}
@@ -58,9 +53,9 @@ make %{?_smp_mflags}
 cd %{_maindir}/build
 make install
 
-sed -i -e 's|bin/python|usr/bin/python2|g' \
-       -e 's|sys.path\[0\]|"%{_cedv_datadir}"|g' \
-       %{buildroot}%{_bindir}/ced2go
+2to3 -w -n %{buildroot}%{_bindir}/ced2go
+sed -i -e 's|/bin/env python|/usr/bin/python3|g' \
+       -e 's|sys.path\[0\]|"%{_cedv_datadir}"|g' %{buildroot}%{_bindir}/ced2go
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
