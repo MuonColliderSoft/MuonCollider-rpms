@@ -85,5 +85,8 @@ sudo yum -y localinstall RPMS/x86_64/ilc-kitrack-marlin*
 QA_SKIP_BUILD_ROOT=1 rpmbuild -ba SPECS/ilc-acts-tracking.spec
 rpmbuild -ba SPECS/ilc-forward-tracking.spec
 rpmbuild -ba SPECS/ilc-marlin-trk-processors.spec
+rpmbuild -ba SPECS/muonc-tracker-digitizer.spec
 rpmbuild -ba SPECS/muonc-detector-geometry.spec
+rpmbuild -ba SPECS/muonc-base-installation
+
 
