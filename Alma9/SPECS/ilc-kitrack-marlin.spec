@@ -1,5 +1,5 @@
-%global _pver 1.13.1
-%global _tagver v01-13-01
+%global _pver 1.13.2
+%global _tagver v01-13-02
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
@@ -107,6 +107,8 @@ and track classes) and Criteria (the criteria classes)
 %{_includedir}/Tools/*.h
 
 %changelog
+* Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.13.2-1
+- New version of KiTrack for Marlin
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.13.1-1
 - New version of KiTrack for Marlin
 * Tue Aug 25 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.10.0-1

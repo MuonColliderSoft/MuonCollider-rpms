@@ -2,7 +2,14 @@
 
 
 #
-# Apply patches as reported in the recipe
+# Apply patches as reported in the recipe:
+# sudo sed -i 's|include_next|include|g' /usr/include/c++/11/cstdlib
+# sudo sed -i 's|include_next|include|g' /usr/include/c++/11/bits/std_abs.h
+# sudo sed -i 's|include_next|include|g' /usr/include/c++/11/cmath
+#
+# #undef _GLIBCXX_ASSERTIONS in
+# /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h
+# /usr/include/c++/11/x86_64-redhat-linux/32/bits/c++config.h 
 #
 
 set -e
@@ -13,7 +20,7 @@ sudo yum -y localinstall RPMS/x86_64/ilc-utils*
 rpmbuild -ba SPECS/ilc-ced.spec
 rpmbuild -ba SPECS/ilc-gear.spec
 rpmbuild -ba SPECS/ilc-fastjet.spec
-rpmbuild -ba SPECS/ilc-lcio.spec                               # TODO merge and test
+rpmbuild -ba SPECS/ilc-lcio.spec
 rpmbuild -ba SPECS/gbl.spec
 rpmbuild -ba SPECS/root-aida.spec
 rpmbuild -ba SPECS/ilc-kaltest.spec
@@ -32,10 +39,10 @@ rpmbuild -ba SPECS/ilc-fastjet-contrib.spec
 sudo yum -y localinstall RPMS/x86_64/aida-dd4hep* \
                          RPMS/x86_64/ilc-fastjet-contrib*
 
-rpmbuild -ba SPECS/acts-toolkit.spec                           # TODO switch to official repo
+rpmbuild -ba SPECS/acts-toolkit.spec
 rpmbuild -ba SPECS/aida-tracking-toolkit.spec
 rpmbuild -ba SPECS/ilc-marlin.spec
-rpmbuild -ba SPECS/ilc-lcgeo.spec                              # TODO error with DD4Hep, merge from key4hep
+rpmbuild -ba SPECS/ilc-lcgeo.spec
 sudo yum -y localinstall RPMS/x86_64/aida-tracking-toolkit* \
                          RPMS/x86_64/acts-toolkit* \
                          RPMS/x86_64/ilc-marlin*
@@ -55,17 +62,17 @@ sudo yum -y localinstall RPMS/x86_64/ilc-marlin-util* \
 rpmbuild -ba SPECS/ilc-ced-viewer.spec                         # TODO missing python2
 rpmbuild -ba SPECS/ilc-kaldet.spec
 rpmbuild -ba SPECS/ilc-garlic.spec
-rpmbuild -ba SPECS/ilc-lcfi-vertex.spec                        # TODO rename package
+rpmbuild -ba SPECS/lcfi-vertex.spec
 rpmbuild -ba SPECS/ilc-marlin-kinfit-processors.spec
 rpmbuild -ba SPECS/ilc-overlay.spec
 rpmbuild -ba SPECS/pandora-analysis.spec
-rpmbuild -ba SPECS/ilc-lcfi-plus-headers.spec                  # TODO rename package
-sudo yum -y localinstall RPMS/x86_64/ilc-lcfi-vertex* \
-                         RPMS/x86_64/ilc-lcfi-plus-headers* \
+rpmbuild -ba SPECS/lcfi-plus-headers.spec
+sudo yum -y localinstall RPMS/x86_64/lcfi-vertex* \
+                         RPMS/x86_64/lcfi-plus-headers* \
                          RPMS/x86_64/ilc-kaldet-*
 
 rpmbuild -ba SPECS/ilc-marlin-trk.spec
-rpmbuild -ba SPECS/ilc-lcfi-plus.spec                          # TODO rename package
+rpmbuild -ba SPECS/lcfi-plus.spec
 sudo yum -y localinstall RPMS/x86_64/ilc-marlin-trk*
 
 rpmbuild -ba SPECS/ilc-conformal-tracking.spec
@@ -75,7 +82,7 @@ rpmbuild -ba SPECS/ilc-clic-performance.spec
 rpmbuild -ba SPECS/ilc-marlin-reco.spec
 sudo yum -y localinstall RPMS/x86_64/ilc-kitrack-marlin*
 
-QA_SKIP_BUILD_ROOT=1 rpmbuild -ba SPECS/ilc-acts-tracking.spec  # TODO investigate
+QA_SKIP_BUILD_ROOT=1 rpmbuild -ba SPECS/ilc-acts-tracking.spec
 rpmbuild -ba SPECS/ilc-forward-tracking.spec
 rpmbuild -ba SPECS/ilc-marlin-trk-processors.spec
 rpmbuild -ba SPECS/muonc-detector-geometry.spec

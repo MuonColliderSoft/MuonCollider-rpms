@@ -1,7 +1,7 @@
 # workaround QA_SKIP_BUILD_ROOT=1
 
-%global _pver 1.0.0
-%global _tagver v1.0.0
+%global _pver 1.1.0
+%global _tagver v1.1.0
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
@@ -71,6 +71,8 @@ rm -rf %{_maindir}
 %{_datadir}/ACTSTracking/example/*
 
 %changelog
+* Wed Jan 25 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.1.0-1
+- New release of ACTS Tracking processor
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.0.0-1
 - Repackaging for CentOS 8
 

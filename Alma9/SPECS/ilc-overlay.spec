@@ -1,5 +1,5 @@
-%global _pver 0.23.0
-%global _tagver v00-23-MC
+%global _pver 0.23.1
+%global _tagver mergeILC
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
@@ -73,6 +73,8 @@ rm -rf %{_maindir}
 %{_libdir}/*.so*
 
 %changelog
+* Tue Jan 31 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.23.1-1
+- New version of Overlay
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.23.0-1
 - New version of Overlay
 * Mon Sep 21 2020 Nazar Bartosik <nazar.bartosik@cern.ch> - 0.22.2-1

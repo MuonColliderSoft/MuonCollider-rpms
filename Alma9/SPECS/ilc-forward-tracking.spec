@@ -1,5 +1,5 @@
 %global _pver 1.14.1
-%global _tagver v01-14-mucoll-01
+%global _tagver v01-14-MC
 
 %global _maindir %{_builddir}/%{name}-%{version}
 

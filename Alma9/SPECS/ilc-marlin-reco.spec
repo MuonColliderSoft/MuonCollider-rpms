@@ -1,5 +1,5 @@
-%global _pver 1.33.0
-%global _tagver v01-33
+%global _pver 1.33.1
+%global _tagver v01-33-01
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
@@ -76,6 +76,8 @@ rm -rf %{_maindir}
 %{_libdir}/*.so*
 
 %changelog
+* Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.22.1-1
+- New version of MarlinReco
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.33.0-1
 - New version of MarlinReco
 * Fri Oct 02 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.28.0-1

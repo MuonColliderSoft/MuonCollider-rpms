@@ -1,5 +1,5 @@
-%global _pver 0.13.0
-%global _tagver v00-13-MC
+%global _pver 0.14.0
+%global _tagver mergeILC
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
@@ -93,6 +93,8 @@ Interface between Marlin and PandoraPFA.
 %{_includedir}/*.h
 
 %changelog
+* Mon Jan 30 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.14.0-1
+- New version of Marlin Pandora PFA
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.13.0-1
 - New version of Marlin Pandora PFA
 * Wed Dec 16 2020 Alessio Gianelle <gianelle@pd.infn.it> - 0.12.0-1

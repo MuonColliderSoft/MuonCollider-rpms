@@ -1,5 +1,5 @@
-%global _pver 1.14.0
-%global _tagver v01-14-MC
+%global _pver 1.14.1
+%global _tagver jetReco
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
@@ -65,6 +65,8 @@ rm -rf %{_maindir}
 %{_libdir}/*.so
 
 %changelog
+* Mon Jan 30 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.14.1-1
+- New version of LCtuple
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.14.0-1
 - New version of LCtuple
 * Fri Dec 04 2020 Alessio Gianelle <gianelle@pd.infn.it> - 1.13.0-1

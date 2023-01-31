@@ -26,9 +26,9 @@ BuildRequires: ilc-lcio-devel
 BuildRequires: ilc-gear-devel
 BuildRequires: ilc-marlin-devel
 BuildRequires: ilc-marlin-util-devel
-BuildRequires: ilc-kaltest-devel
-BuildRequires: ilc-kaldet-devel
-BuildRequires: ilc-ddkaltest-devel
+#BuildRequires: ilc-kaltest-devel
+#BuildRequires: ilc-kaldet-devel
+#BuildRequires: ilc-ddkaltest-devel
 BuildRequires: aida-dd4hep-devel
 BuildRequires: aida-tracking-toolkit-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)

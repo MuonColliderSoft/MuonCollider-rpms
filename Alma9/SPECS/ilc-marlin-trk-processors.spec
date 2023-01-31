@@ -1,5 +1,5 @@
-%global _pver 2.13.0
-%global _tagver v02-13-MC
+%global _pver 2.14.0
+%global _tagver mergeILC
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
@@ -73,7 +73,9 @@ rm -rf %{_maindir}
 %{_libdir}/*.so
 
 %changelog
-* Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.13.0-1
+* Tue Jan 31 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.14.0-1
+- New version of MarlinTrk processor
+* Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.13.0-1
 - New version of MarlinTrk processor
 * Fri Nov 27 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.12.0-1
 - Fork for MuonColliderSoft

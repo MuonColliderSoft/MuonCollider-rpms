@@ -1,5 +1,5 @@
 %global _pver 13.0.0
-%global _tagver v13.0.0-MCC
+%global _tagver v13.0.0
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
@@ -12,7 +12,7 @@ Version: %{_pver}
 Release: 1%{?dist}
 License: MPL v.2
 Vendor: INFN
-URL: https://gitlab.cern.ch/berkeleylab/MuonCollider/acts
+URL: https://github.com/acts-project/acts
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: git
@@ -30,7 +30,7 @@ Toolkit for charged particle track reconstruction.
 
 %prep
 [ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://gitlab.cern.ch/berkeleylab/MuonCollider/acts %{_maindir}
+git clone https://github.com/acts-project/acts %{_maindir}
 cd %{_maindir}
 git checkout %{_tagver}
 rm -rf %{buildroot}
@@ -58,6 +58,8 @@ make install
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_acts_dir}/*.cmake
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{_bindir}/this_acts.sh
+
+sed -i -e 's|find_dependency.Boost 1.75.0 CONFIG EXACT|find_package(Boost REQUIRED|g' %{buildroot}%{cmake_acts_dir}/ActsConfig.cmake
 
 %clean
 rm -rf %{buildroot}
@@ -90,6 +92,8 @@ Toolkit for charged particle track reconstruction.
 %{_includedir}/Acts/Clusterization/*.ipp
 %dir %{_includedir}/Acts/Definitions
 %{_includedir}/Acts/Definitions/*.hpp
+#%dir %{_includedir}/Acts/Digitization
+#%{_includedir}/Acts/Digitization/*.hpp
 %dir %{_includedir}/Acts/EventData
 %{_includedir}/Acts/EventData/*.hpp
 %{_includedir}/Acts/EventData/*.ipp
@@ -116,6 +120,10 @@ Toolkit for charged particle track reconstruction.
 %dir %{_includedir}/Acts/Seeding
 %{_includedir}/Acts/Seeding/*.hpp
 %{_includedir}/Acts/Seeding/*.ipp
+#%dir %{_includedir}/Acts/SpacePointFormation
+#%dir %{_includedir}/Acts/SpacePointFormation/detail
+#%{_includedir}/Acts/SpacePointFormation/*.hpp
+#%{_includedir}/Acts/SpacePointFormation/detail/*.ipp
 %dir %{_includedir}/Acts/Surfaces
 %{_includedir}/Acts/Surfaces/*.hpp
 %{_includedir}/Acts/Surfaces/*.ipp

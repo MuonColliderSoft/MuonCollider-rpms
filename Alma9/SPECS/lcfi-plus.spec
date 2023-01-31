@@ -6,7 +6,7 @@
 %global _boostp boost
 
 Summary: Flavor tagging code for ILC detectors
-Name: ilc-lcfi-plus
+Name: lcfi-plus
 Version: %{_pver}
 Release: 1%{?dist}
 License: GPL v.3
@@ -22,12 +22,12 @@ BuildRequires: %{_boostp}-devel
 BuildRequires: ilc-utils-devel
 BuildRequires: ilc-marlin-devel
 BuildRequires: ilc-marlin-util-devel
-BuildRequires: ilc-lcfi-vertex-devel
-BuildRequires: ilc-lcfi-plus-headers
+BuildRequires: lcfi-vertex-devel
+BuildRequires: lcfi-plus-headers
 BuildRequires: root
 BuildRequires: root-smatrix
 BuildRequires: root-minuit2
-Requires: ilc-lcfi-plus-headers
+Requires: lcfi-plus-headers
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 
@@ -64,8 +64,8 @@ mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.0.*
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libLCFIPlus.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-lcfi-plus.sh
-printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libLCFIPlus.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-lcfi-plus.csh
+printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libLCFIPlus.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/lcfi-plus.sh
+printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libLCFIPlus.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/lcfi-plus.csh
 
 %clean
 rm -rf %{buildroot}

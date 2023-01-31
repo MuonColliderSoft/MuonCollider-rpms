@@ -1,5 +1,5 @@
-%global _pver 1.6.2
-%global _tagver v01-06-02
+%global _pver 1.7.0
+%global _tagver v01-07
 
 %global _maindir %{_builddir}/%{name}-%{version}
 %global cmake_ilcutil_dir %{_libdir}/cmake/ilcutil
@@ -100,6 +100,8 @@ It is intended to be a "meta-package" which packages together a set of independe
 utility packages living in separate sub-directories.
 
 %changelog
+* Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.7.0-1
+- New version of iLC utils
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.6.2-1
 - New version of iLC utils
 * Fri Oct 02 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.6.1-1

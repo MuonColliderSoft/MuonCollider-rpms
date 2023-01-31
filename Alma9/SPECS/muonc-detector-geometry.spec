@@ -1,5 +1,5 @@
-%global _pver 1.2.0
-%global _taglabel 01-02-MC
+%global _pver 1.3.0
+%global _taglabel 01-03-MC
 %global _tagver v%{_taglabel}
 
 Summary: The Muon Collider detector geometry
@@ -45,6 +45,8 @@ rm -rf %{_maindir}
 %{_datadir}/%{name}/MuColl_v1/*.xml
 
 %changelog
+* Tue Jan 31 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.3.0-1
+- New version of the geometry
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.2.0-1
 - New version of the geometry
 * Wed Dec 09 2020 Nazar Bartosik <nazar.bartosik@cern.ch> - 1.1.0-1

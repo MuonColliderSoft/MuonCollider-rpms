@@ -1,6 +1,6 @@
 %undefine _disable_source_fetch
 
-%global _pver 3.2.1
+%global _pver 3.4.0
 
 %global _maindir %{_builddir}/fastjet-%{_pver}
 
@@ -94,6 +94,8 @@ jet-algorithm, and the inclusive anti-kt algorithm.
 %{_libdir}/*.la
 
 %changelog
+* Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 3.4.0-1
+- New release of FastJet
 * Fri Mar 06 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 3.2.1-1
 - Repackaging for CentOS 8
 

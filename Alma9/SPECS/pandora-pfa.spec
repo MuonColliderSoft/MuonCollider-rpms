@@ -1,8 +1,8 @@
 # workaround: QA_SKIP_BUILD_ROOT=1 rpmbuild -ba pandora-pfa.spec
 %global debug_package %{nil}
 
-%global _pver 3.25.3
-%global _tagver v03-25-03
+%global _pver 4.2.0
+%global _tagver v04-02-00
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
@@ -179,6 +179,8 @@ Suite for particle flow analysis.
 %{_includedir}/TTreeWrapper.h
 
 %changelog
+* Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 4.2.0-1
+- New version of PandoraPFA
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 3.25.3-1
 - New version of Pandora PFA
 * Thu Jul 09 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 3.14.0-1

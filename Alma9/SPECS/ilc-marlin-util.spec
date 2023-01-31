@@ -1,5 +1,5 @@
-%global _pver 1.16.2
-%global _tagver v01-16-02
+%global _pver 1.17.0
+%global _tagver v01-17
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
@@ -48,6 +48,7 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_CXX_STANDARD=17 \
       -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
       -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
+      -DUSE_EXTERNAL_CATCH2=OFF \
       -Wno-dev \
       %{_maindir}
 make %{?_smp_mflags}
@@ -91,10 +92,13 @@ more than one processor.
 %dir %{_includedir}/marlinutil/ANN
 %dir %{_includedir}/marlinutil/mille
 %{_includedir}/marlinutil/*.h
+%{_includedir}/marlinutil/*.ipp
 %{_includedir}/marlinutil/ANN/*.h
 %{_includedir}/marlinutil/mille/*.h
 
 %changelog
+* Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.17.0-1
+- New version of Marlin utils
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.16.2-1
 - New version of Marlin utils
 * Mon Jun 15 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.15.1-1

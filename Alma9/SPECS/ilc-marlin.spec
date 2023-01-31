@@ -1,5 +1,5 @@
-%global _pver 1.17.1
-%global _tagver v01-17-01
+%global _pver 1.19.0
+%global _tagver v01-19
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
@@ -24,7 +24,6 @@ BuildRequires: ilc-utils-devel
 BuildRequires: ilc-lcio-devel
 BuildRequires: ilc-gear-devel
 BuildRequires: clhep-devel
-BuildRequires: ilc-lccd-devel
 BuildRequires: root-aida-devel
 Requires: %{_pypkg}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -47,6 +46,8 @@ cd %{_maindir}/build
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
+      -DMARLIN_LCCD=OFF \
+      -DMARLIN_GUI=OFF \
       -Wno-dev \
       %{_maindir}
 make %{?_smp_mflags}
@@ -80,7 +81,6 @@ Requires: ilc-utils-devel
 Requires: ilc-lcio-devel
 Requires: ilc-gear-devel
 Requires: clhep-devel
-Requires: ilc-lccd-devel
 Requires: root-aida-devel
 
 %description devel
@@ -95,6 +95,8 @@ Modular Analysis and Reconstruction for the LINear Collider.
 %{_includedir}/marlin/*.h
 
 %changelog
+* Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.19.0-1
+- New version of Marlin
 * Fri Oct 02 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.17.1-1
 - New version of Marlin
 * Thu Jun 11 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.17.0-1

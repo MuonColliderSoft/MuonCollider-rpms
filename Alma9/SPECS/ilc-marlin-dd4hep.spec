@@ -1,5 +1,5 @@
-%global _pver 0.6.1
-%global _tagver v00-06-01
+%global _pver 0.6.2
+%global _tagver v00-06-02
 
 %global _maindir %{_builddir}/%{name}-%{version}
 

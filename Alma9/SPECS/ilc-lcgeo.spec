@@ -1,5 +1,5 @@
-%global _pver 0.16.8
-%global _tagver v00-16-08-MC
+%global _pver 0.16.9
+%global _tagver paolo_dev
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
@@ -62,6 +62,8 @@ rm -rf %{_maindir}
 %{_libdir}/*.components
 
 %changelog
+* Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.16.9-1
+- Imported changes from Key4HEP
 * Mon Dec 21 2020 Nazar Bartosik <nazar.bartosik@cern.ch> - 0.16.8-1
 - Fixed a bug with reflected slices in TrackerEndcapSupport_o1_v02
 - Recovered the double thickness bug in TrackerEndcapSupport_o1_v01

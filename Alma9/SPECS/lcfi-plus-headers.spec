@@ -6,7 +6,7 @@
 %global _boostp boost
 
 Summary: Flavor tagging code for ILC detectors (header files)
-Name: ilc-lcfi-plus-headers
+Name: lcfi-plus-headers
 Version: %{_pver}
 Release: 1%{?dist}
 License: GPL v.3

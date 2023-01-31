@@ -1,5 +1,5 @@
-%global _pver 1.20.2
-%global _tagver v01-20-02
+%global _pver 1.23.0
+%global _tagver v01-23
 
 %global _maindir %{_builddir}/%{name}-%{version}
 
@@ -259,6 +259,8 @@ cycle (detector concept development, detector optimization, construction, operat
 %{python3_sitelib}/DDSim/Helper/__pycache__/*.pyc
 
 %changelog
+* Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.23.0-1
+- New version of DD4Hep
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.20.2-1
 - New version of DD4Hep
 * Wed Sep 23 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.13.1-1
