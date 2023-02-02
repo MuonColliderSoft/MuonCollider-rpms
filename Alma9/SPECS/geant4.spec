@@ -1,8 +1,7 @@
 # Conditional parameters
-# see https://rpm.org/user_doc/conditional_builds.html
 %bcond_with g4mt
 %bcond_with OpenGL
-%bcond_with Qt5
+#bcond_with Qt5
 
 %if %{with g4mt}
 %global _g4mtopt ON
@@ -16,15 +15,25 @@
 %global _glopt OFF
 %endif
 
-%if %{with Qt5}
-%global _qtopt ON
-%else
-%global _qtopt OFF
-%endif
+#if #{with Qt5}
+#global _qtopt ON
+#else
+#global _qtopt OFF
+#endif
+
+%global _pver 10.6.3
+%global _pname geant4.10.06.p03
+
+#global _pver 11.1.0
+#global _pname geant4-v11.1.0
+
+%global _sbuilddir %{_builddir}/geant4/%{_pname}
+%global _cbuilddir %{_builddir}/geant4/build
+
 
 Summary: GEometry ANd Tracking framework
 Name: geant4
-Version: 10.6.3
+Version: %{_pver}
 Release: 1.muonc%{?dist}
 License: Geant4 Software License
 Vendor: INFN
@@ -37,9 +46,9 @@ BuildRequires: zlib-devel
 BuildRequires: expat-devel
 BuildRequires: xerces-c-devel
 BuildRequires: clhep-devel
-%if %{with Qt5}
-BuildRequires: qt5-devel
-%endif
+##if #{with Qt5}
+#BuildRequires: qt5-devel
+#endif
 %if %{with OpenGL}
 BuildRequires: libX11-devel
 BuildRequires: libXmu-devel
@@ -48,7 +57,7 @@ Requires: python3
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 %undefine _disable_source_fetch
-Source0: https://nexus.pd.infn.it/artifacts/repository/geant-sources/%{name}-%{version}.tar.gz
+Source0: http://cern.ch/geant4-data/releases/%{_pname}.tar.gz
 Source1: geant4-dataset-download.in
 Source2: geant4-setup.sh.in
 Source3: geant4-setup.csh.in
@@ -63,13 +72,13 @@ Nuclear Instruments and Methods in Physics Research A 506 (2003)
 270-278.
 
 %prep
-%setup -c
+%setup -c -n %{name}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_builddir}/%{name}-%{version}/build
-cd %{_builddir}/%{name}-%{version}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
@@ -81,12 +90,14 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DGEANT4_USE_SYSTEM_EXPAT=ON \
       -DGEANT4_USE_SYSTEM_CLHEP=ON \
       -DGEANT4_USE_OPENGL_X11=%{_glopt} \
-      -DGEANT4_USE_QT=%{_qtopt} \
-      %{_builddir}/%{name}-%{version}
+      %{_sbuilddir}
+#      -DGEANT4_USE_QT=%{_qtopt} \
+#      #{_sbuilddir}
+
 make %{?_smp_mflags}
 
 %install
-cd %{_builddir}/%{name}-%{version}/build
+cd %{_cbuilddir}
 make install
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' \
        -e 's|Geant4_INCLUDE_DIR .* ABSOLUTE|Geant4_INCLUDE_DIR "%{_includedir}/Geant4" ABSOLUTE|g' \
@@ -96,7 +107,7 @@ sed -i 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{_bindir}/*-config \
                                          %{buildroot}%{_bindir}/*.csh
 mkdir -p %{buildroot}%{_sbindir}
 cp %{SOURCE1} %{buildroot}%{_sbindir}/geant4-dataset-download
-sed -i -e 's|@PYTHON@|python3|g' -e 's|@VERSION@|%{version}|g' %{buildroot}%{_sbindir}/geant4-dataset-download
+sed -i -e 's|@VERSION@|%{version}|g' %{buildroot}%{_sbindir}/geant4-dataset-download
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 cp %{SOURCE2} %{buildroot}%{_sysconfdir}/profile.d/geant4-setup.sh
 sed -i -e 's|@VERSION@|%{version}|g' %{buildroot}%{_sysconfdir}/profile.d/geant4-setup.sh
