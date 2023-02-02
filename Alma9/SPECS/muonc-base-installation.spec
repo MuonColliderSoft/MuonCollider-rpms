@@ -24,7 +24,7 @@ Requires: ilc-conformal-tracking
 Requires: ilc-marlin-reco
 Requires: ilc-forward-tracking
 Requires: ilc-marlin-trk-processors
-#Requires: ilc-ced-viewer
+Requires: ilc-ced-viewer
 Requires: ilc-ddmarlin-pandora
 Requires: ilc-lctuple
 Requires: ilc-clic-performance

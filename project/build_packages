@@ -87,6 +87,6 @@ rpmbuild -ba SPECS/ilc-forward-tracking.spec
 rpmbuild -ba SPECS/ilc-marlin-trk-processors.spec
 rpmbuild -ba SPECS/muonc-tracker-digitizer.spec
 rpmbuild -ba SPECS/muonc-detector-geometry.spec
-rpmbuild -ba SPECS/muonc-base-installation
+rpmbuild -ba SPECS/muonc-base-installation.spec
 
 
