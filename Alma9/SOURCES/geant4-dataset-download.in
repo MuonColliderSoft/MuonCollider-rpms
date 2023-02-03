@@ -43,8 +43,8 @@ def main():
         ("G4TENDL.1.4", "G4TENDL1.4")
     ]
 
-    datadir = "/usr/share/Geant4-%s/data" % version
-    tmpdir = "/tmp/Geant4-%s-datasets" % version
+    datadir = "/usr/share/Geant4/data"
+    tmpdir = "/tmp/Geant4-datasets"
     dataurl = "http://geant4-data.web.cern.ch/geant4-data/datasets"
 
     try:

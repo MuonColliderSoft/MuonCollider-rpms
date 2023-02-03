@@ -3,3 +3,8 @@ export G4VERSION=@VERSION@
 if [ "x${G4VERSION}" == "x10.6.3" ] ; then
     source /usr/bin/geant4.sh
 fi
+
+if [ "x${G4VERSION}" == "x11.1.0" ] ; then
+    export GEANT4_DATA_DIR="/usr/share/Geant4/data"
+fi
+
