@@ -23,7 +23,7 @@ BuildRequires: ilc-utils-devel
 BuildRequires: ilc-lcio-devel
 BuildRequires: ilc-marlin-devel
 BuildRequires: ilc-marlin-util-devel
-BuildRequires: root-aida-devel
+BuildRequires: ilc-root-aida-devel
 BuildRequires: clhep-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes

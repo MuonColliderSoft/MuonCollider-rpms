@@ -1,12 +1,16 @@
-%global _pver 2.2.1
-%global _tagver V02-02-01
+%undefine _disable_source_fetch
+%global debug_package %{nil}
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _pver 2.2.1
+%global _tagver 02-02-01
+
+%global _sbuilddir %{_builddir}/%{name}-%{version}/GeneralBrokenLines-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 %global cmake_gbl_dir %{_libdir}/cmake/GBL
 
 Summary: General broken lines suite
-Name: gbl
+Name: gbl-toolkit
 Version: %{_pver}
 Release: 1%{?dist}
 License: GPLv3 License
@@ -14,40 +18,37 @@ Vendor: INFN
 URL: https://github.com/GeneralBrokenLines/GeneralBrokenLines
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
 BuildRequires: eigen3-devel
 BuildRequires: root
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/GeneralBrokenLines/GeneralBrokenLines/archive/refs/tags/V%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
 Track refitting with broken lines in 3D.
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/GeneralBrokenLines/GeneralBrokenLines %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
-sed -i -e 's|Eigen3 REQUIRED|Eigen3 CONFIG REQUIRED|g' %{_maindir}/CMakeLists.txt
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
+sed -i -e 's|Eigen3 REQUIRED|Eigen3 CONFIG REQUIRED|g' %{_sbuilddir}/CMakeLists.txt
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
       -DSUPPORT_ROOT=ON \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 mv %{buildroot}%{_prefix}/lib %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{cmake_gbl_dir}
@@ -60,7 +61,7 @@ chrpath --replace %{_libdir} %{buildroot}%{_bindir}/GBLpp
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)

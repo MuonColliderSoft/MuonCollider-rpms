@@ -1,7 +1,11 @@
-%global _pver 1.13.2
-%global _tagver v01-13-02
+%undefine _disable_source_fetch
+%global debug_package %{nil}
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _pver 1.13.2
+%global _tagver 01-13-02
+
+%global _sbuilddir %{_builddir}/%{name}-%{version}/KiTrackMarlin-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 %global _boostp boost
 
@@ -16,7 +20,6 @@ Vendor: INFN
 URL: https://github.com/iLCSoft/KiTrackMarlin
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
@@ -31,34 +34,32 @@ BuildRequires: gsl-devel
 BuildRequires: clhep-devel
 BuildRequires: root
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/iLCSoft/KiTrackMarlin/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
 KiTrack implementation classes for Marlin
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/iLCSoft/KiTrackMarlin %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-sed -i -e '/ILCTEST_INCLUDE_DIRS/d' %{_maindir}/CMakeLists.txt
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+sed -i -e '/ILCTEST_INCLUDE_DIRS/d' %{_sbuilddir}/CMakeLists.txt
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
       -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
       -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
@@ -73,7 +74,7 @@ chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)

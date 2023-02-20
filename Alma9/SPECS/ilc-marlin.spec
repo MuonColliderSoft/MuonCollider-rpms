@@ -1,7 +1,11 @@
-%global _pver 1.19.0
-%global _tagver v01-19
+%undefine _disable_source_fetch
+%global debug_package %{nil}
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _pver 1.19.0
+%global _tagver 01-19
+
+%global _sbuilddir %{_builddir}/%{name}-%{version}/Marlin-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 %global _pypkg python
 
@@ -16,7 +20,6 @@ Vendor: INFN
 URL: https://github.com/iLCSoft/Marlin
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
@@ -24,36 +27,34 @@ BuildRequires: ilc-utils-devel
 BuildRequires: ilc-lcio-devel
 BuildRequires: ilc-gear-devel
 BuildRequires: clhep-devel
-BuildRequires: root-aida-devel
+BuildRequires: ilc-root-aida-devel
 Requires: %{_pypkg}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/iLCSoft/Marlin/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
 Modular Analysis and Reconstruction for the LINear Collider.
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/iLCSoft/Marlin %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
       -DMARLIN_LCCD=OFF \
       -DMARLIN_GUI=OFF \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
@@ -67,7 +68,7 @@ chrpath --replace %{_libdir} %{buildroot}%{_bindir}/Marlin
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)
@@ -81,7 +82,7 @@ Requires: ilc-utils-devel
 Requires: ilc-lcio-devel
 Requires: ilc-gear-devel
 Requires: clhep-devel
-Requires: root-aida-devel
+Requires: ilc-root-aida-devel
 
 %description devel
 Modular Analysis and Reconstruction for the LINear Collider.

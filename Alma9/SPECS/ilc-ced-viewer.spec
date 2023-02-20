@@ -1,7 +1,11 @@
-%global _pver 1.19.1
-%global _tagver v01-19-01
+%undefine _disable_source_fetch
+%global debug_package %{nil}
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _pver 1.19.1
+%global _tagver 01-19-01
+
+%global _sbuilddir %{_builddir}/%{name}-%{version}/CEDViewer-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 %global _cedv_datadir %{_datadir}/ilc-ced-viewer
 
@@ -14,7 +18,6 @@ Vendor: INFN
 URL: https://github.com/iLCSoft/CEDViewer
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
@@ -26,31 +29,29 @@ BuildRequires: ilc-marlin-util-devel
 BuildRequires: root
 BuildRequires: aida-dd4hep-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/iLCSoft/CEDViewer/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
 CEDViewer processor for the CED event display.
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/iLCSoft/CEDViewer %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 
 2to3 -w -n %{buildroot}%{_bindir}/ced2go
@@ -69,7 +70,7 @@ printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libCEDViewer.so\n" | tee %{bui
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)

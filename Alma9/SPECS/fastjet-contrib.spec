@@ -1,4 +1,4 @@
-# %global debug_package %{nil}
+%global debug_package %{nil}
 # see https://docs.fedoraproject.org/en-US/packaging-guidelines/#_packaging_static_libraries
 %undefine _disable_source_fetch
 
@@ -8,7 +8,7 @@
 %global _maindir %{_builddir}/fjcontrib-%{_tagver}
 
 Summary: 3rd-party add-ons for FastJet
-Name: ilc-fastjet-contrib
+Name: fastjet-contrib
 Version: %{_pver}
 Release: 1%{?dist}
 License: GPLv2 License
@@ -16,7 +16,7 @@ URL: http://fastjet.hepforge.org/contrib/
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: make
-BuildRequires: ilc-fastjet-devel
+BuildRequires: fastjet-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 Source: http://fastjet.hepforge.org/contrib/downloads/fjcontrib-%{_tagver}.tar.gz
@@ -53,7 +53,7 @@ rm -rf %{buildroot}
 %package devel
 Summary: 3rd-party add-ons for FastJet (development files)
 Requires: %{name}
-Requires: ilc-fastjet-devel
+Requires: fastjet-devel
 Provides: libfastjetcontribfragile.so()(64bit)
 
 %description devel

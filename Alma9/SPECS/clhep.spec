@@ -1,4 +1,5 @@
 %global debug_package %{nil}
+%undefine _disable_source_fetch
 
 %global _pver 2.4.6
 #global _pver 2.4.1
@@ -19,7 +20,6 @@ BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
-%undefine _disable_source_fetch
 Source: https://proj-clhep.web.cern.ch/proj-clhep/dist1/%{name}-%{version}.%{_prel}.tgz
 
 %description

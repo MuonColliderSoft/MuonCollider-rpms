@@ -1,7 +1,11 @@
-%global _pver 0.5.0
-%global _tagver v00-05
+%undefine _disable_source_fetch
+%global debug_package %{nil}
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _pver 0.5.0
+%global _tagver 00-05
+
+%global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinKinfitProcessors-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 Summary: Marlin Processors based on MarlinKinfit
 Name: ilc-marlin-kinfit-processors
@@ -12,43 +16,40 @@ Vendor: INFN
 URL: https://github.com/iLCSoft/MarlinKinfitProcessors
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
 BuildRequires: ilc-utils-devel
 BuildRequires: ilc-marlin-devel
 BuildRequires: ilc-marlin-kinfit-devel
-BuildRequires: root-aida-devel
+BuildRequires: ilc-root-aida-devel
 BuildRequires: clhep-devel
 BuildRequires: gsl-devel
 BuildRequires: root
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/iLCSoft/MarlinKinfitProcessors/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
 Marlin Processors based on MarlinKinfit.
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/iLCSoft/MarlinKinfitProcessors %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 
 # development files are not required
@@ -63,7 +64,7 @@ printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libMarlinKinfitProcessors.so\n
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)

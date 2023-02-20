@@ -24,7 +24,7 @@ BuildRequires: ilc-marlin-devel
 BuildRequires: ilc-marlin-util-devel
 BuildRequires: gsl-devel
 BuildRequires: aida-dd4hep-devel
-BuildRequires: root-aida-devel
+BuildRequires: ilc-root-aida-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 

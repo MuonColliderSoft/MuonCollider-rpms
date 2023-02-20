@@ -1,3 +1,6 @@
+%undefine _disable_source_fetch
+%global debug_package %{nil}
+
 %global _pver 2.16.2
 %global _tagver next_release
 

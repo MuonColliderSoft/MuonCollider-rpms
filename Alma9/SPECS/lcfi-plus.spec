@@ -1,7 +1,11 @@
-%global _pver 0.10.1
-%global _tagver v00-10-01
+%undefine _disable_source_fetch
+%global debug_package %{nil}
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _pver 0.10.1
+%global _tagver 00-10-01
+
+%global _sbuilddir %{_builddir}/%{name}-%{version}/LCFIPlus-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 %global _boostp boost
 
@@ -14,7 +18,6 @@ Vendor: INFN
 URL: https://github.com/lcfiplus/LCFIPlus
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
@@ -29,23 +32,21 @@ BuildRequires: root-smatrix
 BuildRequires: root-minuit2
 Requires: lcfi-plus-headers
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/lcfiplus/LCFIPlus/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
 Flavor tagging code for ILC detectors.
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/lcfiplus/LCFIPlus %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
-sed -i -e 's|${PROJECT_SOURCE_DIR}/include|/usr/include/lcfiplus|g' CMakeLists.txt
+%setup -c
+sed -i -e 's|${PROJECT_SOURCE_DIR}/include|/usr/include/lcfiplus|g' %{_sbuilddir}/CMakeLists.txt
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
@@ -53,11 +54,11 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
       -DINSTALL_DOC=OFF \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
@@ -69,6 +70,7 @@ printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libLCFIPlus.so\n" | tee %{buil
 
 %clean
 rm -rf %{buildroot}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)

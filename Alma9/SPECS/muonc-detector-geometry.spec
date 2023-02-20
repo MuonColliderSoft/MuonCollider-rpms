@@ -1,6 +1,10 @@
+%undefine _disable_source_fetch
+%global debug_package %{nil}
+
 %global _pver 1.3.0
-%global _taglabel 01-03-MC
-%global _tagver v%{_taglabel}
+%global _tagver 01-03-MC
+
+%global _sbuilddir %{_builddir}/%{name}-%{version}/detector-simulation-%{_tagver}
 
 Summary: The Muon Collider detector geometry
 Name: muonc-detector-geometry
@@ -13,16 +17,13 @@ Group: Development/Libraries
 BuildArch: noarch
 BuildRequires: wget
 Requires: ilc-lcgeo
+Source0: https://github.com/MuonColliderSoft/detector-simulation/archive/refs/tags/v%{_tagver}.tar.gz
 
 %description
 The Muon Collider detector geometry.
 
 %prep
-cd %{_builddir}
-wget -O %{_tagver}.tar.gz https://github.com/MuonColliderSoft/detector-simulation/archive/refs/tags/%{_tagver}.tar.gz
-tar zxf %{_tagver}.tar.gz
-rm -f %{_tagver}.tar.gz
-mv detector-simulation-%{_taglabel} %{name}-%{version}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
@@ -31,12 +32,12 @@ echo "Nothing to compile"
 
 %install
 mkdir -p %{buildroot}%{_datadir}/%{name}
-cp -R  %{_builddir}/%{name}-%{version}/geometries/MuColl_v1 %{buildroot}%{_datadir}/%{name}
+cp -R %{_sbuilddir}/geometries/MuColl_v1 %{buildroot}%{_datadir}/%{name}
 rm %{buildroot}%{_datadir}/%{name}/MuColl_v1/*.md %{buildroot}%{_datadir}/%{name}/MuColl_v1/.DS_Store
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)

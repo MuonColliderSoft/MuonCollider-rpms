@@ -1,11 +1,12 @@
 %undefine _disable_source_fetch
+%global debug_package %{nil}
 
 %global _pver 3.4.0
 
 %global _maindir %{_builddir}/fastjet-%{_pver}
 
 Summary: Sequential recombination jet algorithms
-Name: ilc-fastjet
+Name: fastjet
 Version: %{_pver}
 Release: 1%{?dist}
 License: GPLv2 License
