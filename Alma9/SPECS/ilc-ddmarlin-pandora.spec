@@ -1,9 +1,11 @@
+%undefine _disable_source_fetch
+%global debug_package %{nil}
+
 %global _pver 0.14.0
-%global _tagver mergeILC
+%global _tagver 00-14-MC
 
-%global _maindir %{_builddir}/%{name}-%{version}
-
-%global _boostp boost
+%global _sbuilddir %{_builddir}/%{name}-%{version}/DDMarlinPandora-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 Summary: Interface between Marlin and PandoraPFA
 Name: ilc-ddmarlin-pandora
@@ -14,11 +16,10 @@ Vendor: INFN
 URL: https://github.com/MuonColliderSoft/DDMarlinPandora
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
-BuildRequires: %{_boostp}-devel
+BuildRequires: boost-devel
 BuildRequires: aida-dd4hep-devel
 BuildRequires: ilc-utils-devel
 BuildRequires: ilc-marlin-devel
@@ -26,33 +27,31 @@ BuildRequires: ilc-marlin-trk-devel
 BuildRequires: ilc-marlin-util-devel
 BuildRequires: pandora-pfa-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/MuonColliderSoft/DDMarlinPandora/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
 Interface between Marlin and PandoraPFA.
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/MuonColliderSoft/DDMarlinPandora %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
-      -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
-      -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
+      -DBOOST_INCLUDEDIR=%{_includedir}/boost \
+      -DBOOST_LIBRARYDIR=%{_libdir}/boost  \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
@@ -64,7 +63,7 @@ printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libDDMarlinPandora.so\n" | tee
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -rf %{SOURCE0}
 
 %files
 %defattr(-,root,root)
@@ -76,7 +75,7 @@ rm -rf %{_maindir}
 Summary: Interface between Marlin and PandoraPFA files)
 Requires: %{name}
 Requires: root
-Requires: %{_boostp}-devel
+Requires: boost-devel
 Requires: aida-dd4hep-devel
 Requires: ilc-utils-devel
 Requires: ilc-marlin-devel
@@ -93,7 +92,7 @@ Interface between Marlin and PandoraPFA.
 %{_includedir}/*.h
 
 %changelog
-* Mon Jan 30 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.14.0-1
+* Tue Feb 28 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.14.0-1
 - New version of Marlin Pandora PFA
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.13.0-1
 - New version of Marlin Pandora PFA
