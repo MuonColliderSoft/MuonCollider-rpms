@@ -1,13 +1,13 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 2.16.2
-%global _tagver next_release
+%global _pver 2.17.0
+%global _tagver 02-17-MC
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _sbuilddir %{_builddir}/%{name}-%{version}/LCIO-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 %global cmake_lcio_dir %{_libdir}/cmake/lcio
-%global _pypkg python3
 
 Summary: Event data model and persistency for Linear Collider detector
 Name: ilc-lcio
@@ -18,15 +18,15 @@ Vendor: INFN
 URL: https://github.com/MuonColliderSoft/LCIO
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
-BuildRequires: %{_pypkg}
-BuildRequires: %{_pypkg}-rpm-macros
+BuildRequires: python3
+BuildRequires: python3-rpm-macros
 BuildRequires: zlib-devel
 BuildRequires: chrpath
 BuildRequires: root
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/MuonColliderSoft/LCIO/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
@@ -34,26 +34,23 @@ LCIO (Linear Collider I/O) provides the event data model (EDM)
 and persistency solution for Linear Collider detector R&D studies.
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/MuonColliderSoft/LCIO %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
       -DBUILD_ROOTDICT=ON  \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 #mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 mv %{buildroot}%{_includedir} %{buildroot}/lcio-includedir
@@ -65,7 +62,15 @@ sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' %{buildroot}%{cmake_lcio_dir}/
 sed -i -e 's|lib64/cmake|lib64/cmake/lcio|g' %{buildroot}%{cmake_lcio_dir}/*.cmake
 sed -i -e 's|PATHS|PATHS %{_includedir}/lcio|g' %{buildroot}%{cmake_lcio_dir}/LCIOConfig.cmake
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.*
-chrpath --replace %{_libdir} %{buildroot}%{_bindir}/*
+chrpath --replace %{_libdir} \
+                  %{buildroot}%{_bindir}/addRandomAccess \
+                  %{buildroot}%{_bindir}/c* \
+                  %{buildroot}%{_bindir}/d* \
+                  %{buildroot}%{_bindir}/l* \
+                  %{buildroot}%{_bindir}/p* \
+                  %{buildroot}%{_bindir}/r* \
+                  %{buildroot}%{_bindir}/s*
+sed -i -e 's|env python|env python3|g' %{buildroot}%{_bindir}/anajob
 
 mkdir -p %{buildroot}%{python3_sitelib}
 mv %{buildroot}/usr/python/*.py  %{buildroot}/usr/python/pyLCIO %{buildroot}%{python3_sitelib}
@@ -73,7 +78,7 @@ rm -rf %{buildroot}/usr/python
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -rf %{SOURCE0}
 
 %files
 %defattr(-,root,root)
@@ -130,7 +135,7 @@ and persistency solution for Linear Collider detector R&D studies.
 Summary: Event data model and persistency for Linear Collider detector (python files)
 BuildArch: noarch
 Requires: %{name}
-Requires: %{_pypkg}
+Requires: python3
 Requires: python3-root
 
 %description -n python3-lcio
@@ -163,7 +168,7 @@ and persistency solution for Linear Collider detector R&D studies.
 %{python3_sitelib}/pyLCIO/io/__pycache__/*.pyc
 
 %changelog
-* Tue Jan 31 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.16.2-1
+* Tue Feb 28 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.17.0-1
 - New version of LCIO
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.16.1-1
 - New version of LCIO
