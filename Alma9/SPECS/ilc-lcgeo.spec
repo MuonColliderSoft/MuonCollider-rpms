@@ -1,11 +1,13 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.17.0
-%global _tagver 00-17-MC
+%global _pver 0.18.1
+%global _tagver 00-18-01-MC
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/lcgeo-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
+
+%global _pgeoname muonc-detector-geometry
 
 Summary: Implementation of Linear Collider detector models in DD4hep.
 Name: ilc-lcgeo
@@ -27,7 +29,6 @@ Implementation of Linear Collider detector models in DD4hep.
 
 %prep
 %setup -c
-sed -i -e 's|VERSION 3.12|VERSION 3.11|g' %{_sbuilddir}/CMakeLists.txt
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
@@ -38,8 +39,8 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
       -DBUILD_TESTING=OFF \
-      -DBOOST_INCLUDEDIR=%{_includedir}/boost \
-      -DBOOST_LIBRARYDIR=%{_libdir}/boost  \
+      -DINSTALL_MUONC_FILES=ON \
+      -DMUONC_GEO_DIR=%{buildroot}%{_datadir}/%{_pgeoname} \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}
@@ -60,8 +61,44 @@ rm -rf %{SOURCE0}
 %{_libdir}/*.so
 %{_libdir}/*.components
 
+%package -n %{_pgeoname}
+Summary: The Muon Collider detector geometry
+BuildArch: noarch
+Requires: ilc-lcgeo
+
+%description -n %{_pgeoname}
+The Muon Collider detector geometry.
+
+%files -n %{_pgeoname}
+%defattr(-,root,root)
+%dir %{_datadir}/%{_pgeoname}
+%dir %{_datadir}/%{_pgeoname}/MuColl_v0
+%{_datadir}/%{_pgeoname}/MuColl_v0/*.xml
+%dir %{_datadir}/%{_pgeoname}/MuColl_v1
+%{_datadir}/%{_pgeoname}/MuColl_v1/*.xml
+%dir %{_datadir}/%{_pgeoname}/MuColl_v1.0.1
+%{_datadir}/%{_pgeoname}/MuColl_v1.0.1/*.xml
+%dir %{_datadir}/%{_pgeoname}/MuColl_v1.0.2
+%{_datadir}/%{_pgeoname}/MuColl_v1.0.2/*.xml
+%dir %{_datadir}/%{_pgeoname}/MuColl_v1.1
+%dir %{_datadir}/%{_pgeoname}/MuColl_v1.1/include
+%{_datadir}/%{_pgeoname}/MuColl_v1.1/*.xml
+%{_datadir}/%{_pgeoname}/MuColl_v1.1/include/*.xml
+%dir %{_datadir}/%{_pgeoname}/MuColl_v1.1.1
+%dir %{_datadir}/%{_pgeoname}/MuColl_v1.1.1/include
+%{_datadir}/%{_pgeoname}/MuColl_v1.1.1/*.xml
+%{_datadir}/%{_pgeoname}/MuColl_v1.1.1/include/*.xml
+%dir %{_datadir}/%{_pgeoname}/MuColl_v1.1.2
+%dir %{_datadir}/%{_pgeoname}/MuColl_v1.1.2/include
+%{_datadir}/%{_pgeoname}/MuColl_v1.1.2/*.xml
+%{_datadir}/%{_pgeoname}/MuColl_v1.1.2/include/*.xml
+%dir %{_datadir}/%{_pgeoname}/MuColl_v1.1.3
+%dir %{_datadir}/%{_pgeoname}/MuColl_v1.1.3/include
+%{_datadir}/%{_pgeoname}/MuColl_v1.1.3/*.xml
+%{_datadir}/%{_pgeoname}/MuColl_v1.1.3/include/*.xml
+
 %changelog
-* Tue Feb 28 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.17.0-1
+* Wed Apr 26 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.18.1-1
 - Imported changes from Key4HEP
 * Mon Dec 21 2020 Nazar Bartosik <nazar.bartosik@cern.ch> - 0.16.8-1
 - Fixed a bug with reflected slices in TrackerEndcapSupport_o1_v02

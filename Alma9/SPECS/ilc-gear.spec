@@ -75,6 +75,8 @@ Requires: ilc-utils-devel
 Requires: clhep-devel
 Requires: root
 Requires: root-geom
+Requires: root-geom-builder
+Requires: root-geom-painter
 Requires: root-gdml
 
 %description devel

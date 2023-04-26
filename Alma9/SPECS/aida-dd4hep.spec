@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.23.0
-%global _tagver 01-23
+%global _pver 1.25.1
+%global _tagver 01-25-01
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/DD4hep-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -173,6 +173,7 @@ cycle (detector concept development, detector optimization, construction, operat
 %dir %{_includedir}/dd4hep/DDCond
 %dir %{_includedir}/dd4hep/DDCond/Type1
 %dir %{_includedir}/dd4hep/DDDigi
+%dir %{_includedir}/dd4hep/DDDigi/noise
 %dir %{_includedir}/dd4hep/DDDigi/segmentations
 %dir %{_includedir}/dd4hep/DDEve
 %dir %{_includedir}/dd4hep/DDG4
@@ -194,6 +195,7 @@ cycle (detector concept development, detector optimization, construction, operat
 %{_includedir}/dd4hep/DDCond/*.h
 %{_includedir}/dd4hep/DDCond/Type1/*.h
 %{_includedir}/dd4hep/DDDigi/*.h
+%{_includedir}/dd4hep/DDDigi/noise/*.h
 %{_includedir}/dd4hep/DDDigi/segmentations/*.h
 %{_includedir}/dd4hep/DDEve/*.h
 %{_includedir}/dd4hep/DDG4/*.h
@@ -255,7 +257,7 @@ cycle (detector concept development, detector optimization, construction, operat
 %{python3_sitelib}/DDSim/Helper/__pycache__/*.pyc
 
 %changelog
-* Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.23.0-1
+* Mon Apr 17 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.25.1-1
 - New version of DD4Hep
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.20.2-1
 - New version of DD4Hep

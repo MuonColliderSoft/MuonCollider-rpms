@@ -1,9 +1,11 @@
-%global _pver 2.14.0
-%global _tagver mergeILC
+%undefine _disable_source_fetch
+%global debug_package %{nil}
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _pver 2.15.0
+%global _tagver 02-15-MC
 
-%global _boostp boost
+%global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinTrkProcessors-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 Summary: A collection of tracking related processors based on MarlinTrk
 Name: ilc-marlin-trk-processors
@@ -14,11 +16,10 @@ Vendor: INFN
 URL: https://github.com/MuonColliderSoft/MarlinTrkProcessors
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
-BuildRequires: %{_boostp}-devel
+BuildRequires: boost-devel
 BuildRequires: ilc-utils-devel
 BuildRequires: ilc-marlin-devel
 BuildRequires: ilc-marlin-util-devel
@@ -26,33 +27,31 @@ BuildRequires: ilc-marlin-trk-devel
 BuildRequires: ilc-kitrack-devel
 BuildRequires: ilc-kitrack-marlin-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/MuonColliderSoft/MarlinTrkProcessors/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
 A collection of tracking related processors based on MarlinTrk.
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/MuonColliderSoft/MarlinTrkProcessors %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
-      -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
-      -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
+      -DBOOST_INCLUDEDIR=%{_includedir}/boost \
+      -DBOOST_LIBRARYDIR=%{_libdir}/boost  \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
@@ -64,7 +63,7 @@ printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libMarlinTrkProcessors.so\n" |
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -rf %{SOURCE0}
 
 %files
 %defattr(-,root,root)
@@ -73,7 +72,7 @@ rm -rf %{_maindir}
 %{_libdir}/*.so
 
 %changelog
-* Tue Jan 31 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.14.0-1
+* Wed Apr 26 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.15.0-1
 - New version of MarlinTrk processor
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.13.0-1
 - New version of MarlinTrk processor
