@@ -1,7 +1,11 @@
-%global _pver 13.0.0
-%global _tagver v13.0.0
+%undefine _disable_source_fetch
+%global debug_package %{nil}
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _pver 13.0.0
+%global _tagver 13.0.0
+
+%global _sbuilddir %{_builddir}/%{name}-%{version}/acts-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 %global cmake_acts_dir %{_libdir}/cmake/Acts
 %global _boostp boost
@@ -15,7 +19,6 @@ Vendor: INFN
 URL: https://github.com/acts-project/acts
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
@@ -23,22 +26,20 @@ BuildRequires: %{_boostp}-devel
 BuildRequires: eigen3-devel
 BuildRequires: json-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/acts-project/acts/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
 Toolkit for charged particle track reconstruction.
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/acts-project/acts %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
@@ -48,22 +49,22 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DACTS_BUILD_PLUGIN_DD4HEP=ON \
       -DACTS_BUILD_PLUGIN_JSON=ON \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_acts_dir}/*.cmake
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{_bindir}/this_acts.sh
 
-sed -i -e 's|find_dependency.Boost 1.75.0 CONFIG EXACT|find_package(Boost REQUIRED|g' %{buildroot}%{cmake_acts_dir}/ActsConfig.cmake
+sed -i -e 's|Boost 1.75.0 CONFIG|Boost 1.75.0|g' %{buildroot}%{cmake_acts_dir}/ActsConfig.cmake
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)
@@ -92,8 +93,8 @@ Toolkit for charged particle track reconstruction.
 %{_includedir}/Acts/Clusterization/*.ipp
 %dir %{_includedir}/Acts/Definitions
 %{_includedir}/Acts/Definitions/*.hpp
-#%dir %{_includedir}/Acts/Digitization
-#%{_includedir}/Acts/Digitization/*.hpp
+#dir %{_includedir}/Acts/Digitization
+#{_includedir}/Acts/Digitization/*.hpp
 %dir %{_includedir}/Acts/EventData
 %{_includedir}/Acts/EventData/*.hpp
 %{_includedir}/Acts/EventData/*.ipp
@@ -120,10 +121,10 @@ Toolkit for charged particle track reconstruction.
 %dir %{_includedir}/Acts/Seeding
 %{_includedir}/Acts/Seeding/*.hpp
 %{_includedir}/Acts/Seeding/*.ipp
-#%dir %{_includedir}/Acts/SpacePointFormation
-#%dir %{_includedir}/Acts/SpacePointFormation/detail
-#%{_includedir}/Acts/SpacePointFormation/*.hpp
-#%{_includedir}/Acts/SpacePointFormation/detail/*.ipp
+#dir %{_includedir}/Acts/SpacePointFormation
+#dir %{_includedir}/Acts/SpacePointFormation/detail
+#{_includedir}/Acts/SpacePointFormation/*.hpp
+#{_includedir}/Acts/SpacePointFormation/detail/*.ipp
 %dir %{_includedir}/Acts/Surfaces
 %{_includedir}/Acts/Surfaces/*.hpp
 %{_includedir}/Acts/Surfaces/*.ipp

@@ -1,9 +1,12 @@
 %undefine _disable_source_fetch
+%global debug_package %{nil}
 
 %global _pver 1.9.4
-%global _tagver v01-09-04
+%global _tagver 01-09-04
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _sbuilddir %{_builddir}/%{name}-%{version}/CED-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
+
 %global cmake_ced_dir %{_libdir}/cmake/CED
 
 Summary: Application for OpenGL drawing
@@ -15,38 +18,35 @@ Vendor: CERN
 URL: https://github.com/iLCSoft/CED
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
 BuildRequires: freeglut-devel
 BuildRequires: ilc-utils-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/iLCSoft/CED/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
 CED is a server client application for OpenGL drawing
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/iLCSoft/CED %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}/usr \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{cmake_ced_dir}
@@ -59,7 +59,7 @@ chrpath --replace %{_libdir} %{buildroot}%{_bindir}/*
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)

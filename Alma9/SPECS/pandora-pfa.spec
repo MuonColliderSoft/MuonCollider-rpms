@@ -1,10 +1,12 @@
 # workaround: QA_SKIP_BUILD_ROOT=1 rpmbuild -ba pandora-pfa.spec
+%undefine _disable_source_fetch
 %global debug_package %{nil}
 
 %global _pver 4.2.0
-%global _tagver v04-02-00
+%global _tagver 04-02-00
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _sbuilddir %{_builddir}/%{name}-%{version}/PandoraPFA-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 %global cmake_panutil_dir %{_libdir}/cmake/PandoraUtil
 %global cmake_panmon_dir %{_libdir}/cmake/PandoraMonitoring
@@ -20,28 +22,25 @@ Vendor: INFN
 URL: https://github.com/PandoraPFA/PandoraPFA
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
 BuildRequires: root
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/PandoraPFA/PandoraPFA/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
 Suite for particle flow analysis.
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/PandoraPFA/PandoraPFA %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
@@ -50,19 +49,19 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DEXAMPLE_PANDORA_CONTENT=OFF \
       -DCMAKE_CXX_FLAGS="-std=c++17" \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 rm -rf %{buildroot}/usr/doc
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 
 mkdir -p %{buildroot}%{cmake_panutil_dir}
-cp %{_builddir}/%{name}-%{version}/cmakemodules/MacroCheckPackageLibs.cmake \
-   %{_builddir}/%{name}-%{version}/cmakemodules/MacroCheckPackageVersion.cmake \
+cp %{_sbuilddir}/cmakemodules/MacroCheckPackageLibs.cmake \
+   %{_sbuilddir}/cmakemodules/MacroCheckPackageVersion.cmake \
    %{buildroot}%{cmake_panutil_dir}
 
 mkdir -p %{buildroot}%{cmake_pansdk_dir}
@@ -70,7 +69,7 @@ mv %{buildroot}/usr/PandoraSDKConfig* \
    %{buildroot}%{_libdir}/cmake/PandoraSDKLibDeps.cmake \
    %{buildroot}%{cmake_pansdk_dir}
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' \
-       -e 's|%{_builddir}/%{name}-%{version}/cmakemodules|%{cmake_panutil_dir}|g' \
+       -e 's|%{_sbuilddir}/cmakemodules|%{cmake_panutil_dir}|g' \
        -e 's|lib/cmake|lib64/cmake/PandoraSDK|g'\
     %{buildroot}%{cmake_pansdk_dir}/*.cmake
 
@@ -79,7 +78,7 @@ mv %{buildroot}/usr/PandoraMonitoringConfig* \
    %{buildroot}%{_libdir}/cmake/PandoraMonitoringLibDeps.cmake \
    %{buildroot}%{cmake_panmon_dir}
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' \
-       -e 's|%{_builddir}/%{name}-%{version}/cmakemodules|%{cmake_panutil_dir}|g' \
+       -e 's|%{_sbuilddir}/cmakemodules|%{cmake_panutil_dir}|g' \
        -e 's|lib/cmake|lib64/cmake/PandoraMonitoring|g'\
        -e 's|usr/lib/lib|usr/lib64/lib|g' \
     %{buildroot}%{cmake_panmon_dir}/*.cmake
@@ -89,7 +88,7 @@ mv %{buildroot}/usr/LCContentConfig* \
    %{buildroot}%{_libdir}/cmake/LCContentLibDeps.cmake \
    %{buildroot}%{cmake_panlcc_dir}
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' \
-       -e 's|%{_builddir}/%{name}-%{version}/cmakemodules|%{cmake_panutil_dir}|g' \
+       -e 's|%{_sbuilddir}/cmakemodules|%{cmake_panutil_dir}|g' \
        -e 's|lib/cmake|lib64/cmake/LCContent|g'\
        -e 's|usr/lib/lib|usr/lib64/lib|g' \
     %{buildroot}%{cmake_panlcc_dir}/*.cmake
@@ -100,7 +99,7 @@ chrpath --replace %{_libdir} %{buildroot}%{_libdir}/libPandoraSDK.so.*
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)

@@ -1,8 +1,9 @@
+%global debug_package %{nil}
+
 # Conditional parameters
-# see https://rpm.org/user_doc/conditional_builds.html
 %bcond_with g4mt
 %bcond_with OpenGL
-%bcond_with Qt5
+#bcond_with Qt5
 
 %if %{with g4mt}
 %global _g4mtopt ON
@@ -16,15 +17,25 @@
 %global _glopt OFF
 %endif
 
-%if %{with Qt5}
-%global _qtopt ON
-%else
-%global _qtopt OFF
-%endif
+#if #{with Qt5}
+#global _qtopt ON
+#else
+#global _qtopt OFF
+#endif
+
+#global _pver 10.6.3
+#global _pname geant4.10.06.p03
+
+%global _pver 11.1.0
+%global _pname geant4-v11.1.0
+
+%global _sbuilddir %{_builddir}/geant4/%{_pname}
+%global _cbuilddir %{_builddir}/geant4/build
+
 
 Summary: GEometry ANd Tracking framework
 Name: geant4
-Version: 10.6.3
+Version: %{_pver}
 Release: 1.muonc%{?dist}
 License: Geant4 Software License
 Vendor: INFN
@@ -33,13 +44,14 @@ Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRequires: make
+BuildRequires: pkgconf-pkg-config
 BuildRequires: zlib-devel
 BuildRequires: expat-devel
 BuildRequires: xerces-c-devel
 BuildRequires: clhep-devel
-%if %{with Qt5}
-BuildRequires: qt5-devel
-%endif
+##if #{with Qt5}
+#BuildRequires: qt5-devel
+#endif
 %if %{with OpenGL}
 BuildRequires: libX11-devel
 BuildRequires: libXmu-devel
@@ -48,7 +60,7 @@ Requires: python3
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 %undefine _disable_source_fetch
-Source0: https://nexus.pd.infn.it/artifacts/repository/geant-sources/%{name}-%{version}.tar.gz
+Source0: http://cern.ch/geant4-data/releases/%{_pname}.tar.gz
 Source1: geant4-dataset-download.in
 Source2: geant4-setup.sh.in
 Source3: geant4-setup.csh.in
@@ -63,13 +75,13 @@ Nuclear Instruments and Methods in Physics Research A 506 (2003)
 270-278.
 
 %prep
-%setup -c
+%setup -c -n %{name}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_builddir}/%{name}-%{version}/build
-cd %{_builddir}/%{name}-%{version}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
@@ -81,27 +93,36 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DGEANT4_USE_SYSTEM_EXPAT=ON \
       -DGEANT4_USE_SYSTEM_CLHEP=ON \
       -DGEANT4_USE_OPENGL_X11=%{_glopt} \
-      -DGEANT4_USE_QT=%{_qtopt} \
-      %{_builddir}/%{name}-%{version}
+      %{_sbuilddir}
+#      -DGEANT4_USE_QT=%{_qtopt} \
+#      #{_sbuilddir}
+
 make %{?_smp_mflags}
 
 %install
-cd %{_builddir}/%{name}-%{version}/build
+cd %{_cbuilddir}
 make install
+
+rm -f %{buildroot}%{_bindir}/*.sh %{buildroot}%{_bindir}/*.csh
+
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' \
        -e 's|Geant4_INCLUDE_DIR .* ABSOLUTE|Geant4_INCLUDE_DIR "%{_includedir}/Geant4" ABSOLUTE|g' \
-       %{buildroot}%{_libdir}/Geant4-%{version}/Geant4Config.cmake
-sed -i 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{_bindir}/*-config \
-                                         %{buildroot}%{_bindir}/*.sh \
-                                         %{buildroot}%{_bindir}/*.csh
+       %{buildroot}%{_libdir}/cmake/Geant4/Geant4Config.cmake
+
+sed -i 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{_bindir}/geant4-config
+
+sed -i 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{_libdir}/pkgconfig/*.pc
+
 mkdir -p %{buildroot}%{_sbindir}
 cp %{SOURCE1} %{buildroot}%{_sbindir}/geant4-dataset-download
-sed -i -e 's|@PYTHON@|python3|g' -e 's|@VERSION@|%{version}|g' %{buildroot}%{_sbindir}/geant4-dataset-download
+sed -i -e 's|@VERSION@|%{version}|g' %{buildroot}%{_sbindir}/geant4-dataset-download
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 cp %{SOURCE2} %{buildroot}%{_sysconfdir}/profile.d/geant4-setup.sh
 sed -i -e 's|@VERSION@|%{version}|g' %{buildroot}%{_sysconfdir}/profile.d/geant4-setup.sh
 cp %{SOURCE3} %{buildroot}%{_sysconfdir}/profile.d/geant4-setup.csh
 sed -i -e 's|@VERSION@|%{version}|g' %{buildroot}%{_sysconfdir}/profile.d/geant4-setup.csh
+
+mkdir -p %{buildroot}%{_datadir}/Geant4/data
 
 %clean
 rm -rf %{buildroot}
@@ -109,9 +130,9 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %{_sysconfdir}/profile.d/geant4-setup.*
-%{_bindir}/*
+%{_bindir}/geant4-config
 %attr(0740,root,root) %{_sbindir}/geant4-dataset-download
-%{_libdir}/*.so
+%{_libdir}/*.so*
 
 %package devel
 Summary: GEometry ANd Tracking framework, development files
@@ -120,10 +141,10 @@ Requires: expat-devel
 Requires: zlib-devel
 Requires: xerces-c-devel
 Requires: clhep-devel
-%if %{with Qt5}
-Requires: qt5-devel
-%endif
-%if %{with X11}
+#if #{with Qt5}
+#Requires: qt5-devel
+#endif
+%if %{with OpenGL}
 Requires: libX11-devel
 Requires: libXmu-devel
 %endif
@@ -140,18 +161,24 @@ Nuclear Instruments and Methods in Physics Research A 506 (2003)
 %files devel
 %defattr(-,root,root)
 %dir %{_libdir}/Geant4-%{version}
-%dir %{_libdir}/Geant4-%{version}/Modules
-%{_libdir}/Geant4-%{version}/*.cmake
 %{_libdir}/Geant4-%{version}/Linux-g++
-%{_libdir}/Geant4-%{version}/Modules/*.cmake
+%dir %{_libdir}/cmake/Geant4
+%dir %{_libdir}/cmake/Geant4/Modules
+%dir %{_libdir}/cmake/Geant4/PTL
+%dir %{_libdir}/cmake/Geant4/PTL/Modules
+%{_libdir}/cmake/Geant4/*.cmake
+%{_libdir}/cmake/Geant4/Modules/*.cmake
+%{_libdir}/cmake/Geant4/PTL/*.cmake
+%{_libdir}/cmake/Geant4/PTL/Modules/*.cmake
+%{_libdir}/pkgconfig/*.pc
 %dir %{_includedir}/Geant4
 %dir %{_includedir}/Geant4/tools
+%dir %{_includedir}/Geant4/tools/font
 %dir %{_includedir}/Geant4/tools/glutess
-%dir %{_includedir}/Geant4/tools/hdf5
 %dir %{_includedir}/Geant4/tools/histo
 %dir %{_includedir}/Geant4/tools/io
 %dir %{_includedir}/Geant4/tools/lina
-%dir %{_includedir}/Geant4/tools/mpi
+%dir %{_includedir}/Geant4/tools/offscreen
 %dir %{_includedir}/Geant4/tools/rroot
 %dir %{_includedir}/Geant4/tools/sg
 %dir %{_includedir}/Geant4/tools/store
@@ -159,17 +186,29 @@ Nuclear Instruments and Methods in Physics Research A 506 (2003)
 %dir %{_includedir}/Geant4/tools/wroot
 %dir %{_includedir}/Geant4/tools/xml
 %dir %{_includedir}/Geant4/tools/zb
+%dir %{_includedir}/Geant4/toolx
+%dir %{_includedir}/Geant4/toolx
+%dir %{_includedir}/Geant4/toolx/Qt
+%dir %{_includedir}/Geant4/toolx/Windows
+%dir %{_includedir}/Geant4/toolx/X11
+%dir %{_includedir}/Geant4/toolx/Xt
+%dir %{_includedir}/Geant4/toolx/hdf5
+%dir %{_includedir}/Geant4/toolx/mpi
+%dir %{_includedir}/Geant4/toolx/sg
+%dir %{_includedir}/Geant4/toolx/xml
+%dir %{_includedir}/Geant4/PTL
 %{_includedir}/Geant4/*.h
 %{_includedir}/Geant4/*.hh
 %{_includedir}/Geant4/*.hpp
 %{_includedir}/Geant4/*.icc
+%{_includedir}/Geant4/*.in
 %{_includedir}/Geant4/tools/*
+%{_includedir}/Geant4/tools/font/*
 %{_includedir}/Geant4/tools/glutess/*
-%{_includedir}/Geant4/tools/hdf5/*
 %{_includedir}/Geant4/tools/histo/*
 %{_includedir}/Geant4/tools/io/*
 %{_includedir}/Geant4/tools/lina/*
-%{_includedir}/Geant4/tools/mpi/*
+%{_includedir}/Geant4/tools/offscreen/*
 %{_includedir}/Geant4/tools/rroot/*
 %{_includedir}/Geant4/tools/sg/*
 %{_includedir}/Geant4/tools/store/*
@@ -177,17 +216,32 @@ Nuclear Instruments and Methods in Physics Research A 506 (2003)
 %{_includedir}/Geant4/tools/wroot/*
 %{_includedir}/Geant4/tools/xml/*
 %{_includedir}/Geant4/tools/zb/*
-%dir %{_datadir}/Geant4-%{version}
-%dir %{_datadir}/Geant4-%{version}/geant4make
-%dir %{_datadir}/Geant4-%{version}/geant4make/config
-%dir %{_datadir}/Geant4-%{version}/geant4make/config/sys
-%{_datadir}/Geant4-%{version}/tools.license
-%{_datadir}/Geant4-%{version}/geant4make/*
-%{_datadir}/Geant4-%{version}/geant4make/config/*
-%{_datadir}/Geant4-%{version}/geant4make/config/sys/*
-
+%{_includedir}/Geant4/toolx/*
+%{_includedir}/Geant4/toolx/Qt/*
+%{_includedir}/Geant4/toolx/Windows/*
+%{_includedir}/Geant4/toolx/X11/*
+%{_includedir}/Geant4/toolx/Xt/*
+%{_includedir}/Geant4/toolx/hdf5/*
+%{_includedir}/Geant4/toolx/mpi/*
+%{_includedir}/Geant4/toolx/sg/*
+%{_includedir}/Geant4/toolx/xml/*
+%{_includedir}/Geant4/PTL/*
+%dir %{_datadir}/Geant4
+%dir %{_datadir}/Geant4/data
+%dir %{_datadir}/Geant4/fonts
+%dir %{_datadir}/Geant4/geant4make
+%dir %{_datadir}/Geant4/geant4make/config
+%dir %{_datadir}/Geant4/geant4make/config/sys
+%{_datadir}/Geant4/tools.license
+%{_datadir}/Geant4/fonts/*
+%{_datadir}/Geant4/geant4make/*
+%{_datadir}/Geant4/geant4make/config/*
+%{_datadir}/Geant4/geant4make/config/sys/*
 
 %changelog
+* Thu Feb 02 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 11.1.0-3
+- Repackaging for Alma Linux 9
+
 * Wed Nov 25 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 10.6.3-1
 - Packaged patch 3
 

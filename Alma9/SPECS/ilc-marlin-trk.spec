@@ -1,7 +1,11 @@
-%global _pver 2.9.0
-%global _tagver v02-09-01
+%undefine _disable_source_fetch
+%global debug_package %{nil}
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _pver 2.9.0
+%global _tagver 02-09-01
+
+%global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinTrk-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 %global _boostp boost
 %global cmake_martrk_dir %{_libdir}/cmake/MarlinTrk
@@ -15,7 +19,6 @@ Vendor: INFN
 URL: https://github.com/iLCSoft/MarlinTrk
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
@@ -26,12 +29,10 @@ BuildRequires: ilc-lcio-devel
 BuildRequires: ilc-gear-devel
 BuildRequires: ilc-marlin-devel
 BuildRequires: ilc-marlin-util-devel
-#BuildRequires: ilc-kaltest-devel
-#BuildRequires: ilc-kaldet-devel
-#BuildRequires: ilc-ddkaltest-devel
 BuildRequires: aida-dd4hep-devel
 BuildRequires: aida-tracking-toolkit-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/iLCSoft/MarlinTrk/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
@@ -39,27 +40,24 @@ Tracking Package based on LCIO and GEAR, primarily aimed at providing
 track fitting in Marlin.
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/iLCSoft/MarlinTrk %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
       -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
       -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
@@ -70,7 +68,7 @@ chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.*
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)
@@ -85,8 +83,6 @@ Requires: ilc-lcio-devel
 Requires: ilc-gear-devel
 Requires: ilc-marlin-devel
 Requires: ilc-marlin-util-devel
-Requires: ilc-kaltest-devel
-Requires: ilc-kaldet-devel
 Requires: aida-dd4hep-devel
 Requires: aida-tracking-toolkit-devel
 

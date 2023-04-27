@@ -1,7 +1,12 @@
-%global _pver 1.9.1
-%global _tagver v01-09-01
+%undefine _disable_source_fetch
+%global debug_package %{nil}
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _pver 1.9.1
+%global _tagver 01-09-01
+
+%global _sbuilddir %{_builddir}/%{name}-%{version}/GEAR-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
+
 %global cmake_gear_dir %{_libdir}/cmake/gear
 
 Summary: GEometry Api for Reconstruction
@@ -13,7 +18,6 @@ Vendor: DESY/SLAC
 URL: https://github.com/iLCSoft/GEAR
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: ilc-utils-devel
@@ -22,33 +26,31 @@ BuildRequires: root-geom
 BuildRequires: root-gdml
 BuildRequires: clhep-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/iLCSoft/GEAR/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
 GEometry Api for Reconstruction.
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/iLCSoft/GEAR %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
       -DGEAR_TGEO=ON \
       -DINSTALL_DOC=OFF \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 mv %{buildroot}%{_prefix}/lib %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{cmake_gear_dir}
@@ -59,7 +61,7 @@ chrpath --replace %{_libdir} %{buildroot}%{_bindir}/*
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)
@@ -73,6 +75,8 @@ Requires: ilc-utils-devel
 Requires: clhep-devel
 Requires: root
 Requires: root-geom
+Requires: root-geom-builder
+Requires: root-geom-painter
 Requires: root-gdml
 
 %description devel

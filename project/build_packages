@@ -3,9 +3,6 @@
 
 #
 # Apply patches as reported in the recipe:
-# sudo sed -i 's|include_next|include|g' /usr/include/c++/11/cstdlib
-# sudo sed -i 's|include_next|include|g' /usr/include/c++/11/bits/std_abs.h
-# sudo sed -i 's|include_next|include|g' /usr/include/c++/11/cmath
 #
 # #undef _GLIBCXX_ASSERTIONS in
 # /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h
@@ -19,25 +16,25 @@ sudo yum -y localinstall RPMS/x86_64/ilc-utils*
 
 rpmbuild -ba SPECS/ilc-ced.spec
 rpmbuild -ba SPECS/ilc-gear.spec
-rpmbuild -ba SPECS/ilc-fastjet.spec
+rpmbuild -ba SPECS/fastjet.spec
 rpmbuild -ba SPECS/ilc-lcio.spec
-rpmbuild -ba SPECS/gbl.spec
-rpmbuild -ba SPECS/root-aida.spec
+rpmbuild -ba SPECS/gbl-toolkit.spec
+rpmbuild -ba SPECS/ilc-root-aida.spec
 rpmbuild -ba SPECS/ilc-kaltest.spec
 QA_SKIP_BUILD_ROOT=1 rpmbuild -ba SPECS/pandora-pfa.spec
 sudo yum -y localinstall RPMS/x86_64/ilc-ced* \
                          RPMS/x86_64/ilc-gear* \
-                         RPMS/x86_64/ilc-fastjet* \
+                         RPMS/x86_64/fastjet* \
                          RPMS/x86_64/ilc-lcio* \
-                         RPMS/x86_64/gbl* \
-                         RPMS/x86_64/root-aida* \
+                         RPMS/x86_64/gbl-toolkit* \
+                         RPMS/x86_64/ilc-root-aida* \
                          RPMS/x86_64/ilc-kaltest* \
                          RPMS/x86_64/pandora-pfa*
 
 rpmbuild -ba SPECS/aida-dd4hep.spec
-rpmbuild -ba SPECS/ilc-fastjet-contrib.spec
+rpmbuild -ba SPECS/fastjet-contrib.spec
 sudo yum -y localinstall RPMS/x86_64/aida-dd4hep* \
-                         RPMS/x86_64/ilc-fastjet-contrib*
+                         RPMS/x86_64/fastjet-contrib*
 
 rpmbuild -ba SPECS/acts-toolkit.spec
 rpmbuild -ba SPECS/aida-tracking-toolkit.spec
@@ -86,7 +83,7 @@ QA_SKIP_BUILD_ROOT=1 rpmbuild -ba SPECS/ilc-acts-tracking.spec
 rpmbuild -ba SPECS/ilc-forward-tracking.spec
 rpmbuild -ba SPECS/ilc-marlin-trk-processors.spec
 rpmbuild -ba SPECS/muonc-tracker-digitizer.spec
-rpmbuild -ba SPECS/muonc-detector-geometry.spec
-rpmbuild -ba SPECS/muonc-base-installation
+rpmbuild -ba SPECS/muonc-base-installation.spec
 
+# See https://access.redhat.com/articles/3359321
 

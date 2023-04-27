@@ -1,4 +1,4 @@
-#!/usr/bin/@PYTHON@
+#!/usr/bin/python3
 
 import sys
 import os
@@ -14,21 +14,6 @@ def main():
     version = '@VERSION@'
 
     datasets = dict()
-    datasets['10.5.1'] = [
-        ("G4ABLA.3.1", "G4ABLA3.1"),
-        ("G4ENSDFSTATE.2.2", "G4ENSDFSTATE2.2"),
-        ("G4NDL.4.5", "G4NDL4.5"),
-        ("G4PhotonEvaporation.5.3", "PhotonEvaporation5.3"),
-        ("G4RadioactiveDecay.5.3", "RadioactiveDecay5.3"),
-        ("G4SAIDDATA.2.0", "G4SAIDDATA2.0"),
-        ("G4EMLOW.7.7", "G4EMLOW7.7"),
-        ("G4INCL.1.0", "G4INCL1.0"),
-        ("G4PARTICLEXS.1.1", "G4PARTICLEXS1.1"),
-        ("G4PII.1.3", "G4PII1.3"),
-        ("G4RealSurface.2.1.1", "RealSurface2.1.1"),
-        ("G4TENDL.1.3.2", "G4TENDL1.3.2")
-    ]
-
     datasets['10.6.3'] = [
         ("G4ABLA.3.1", "G4ABLA3.1"),
         ("G4ENSDFSTATE.2.2", "G4ENSDFSTATE2.2"),
@@ -43,9 +28,23 @@ def main():
         ("G4RealSurface.2.1.1", "RealSurface2.1.1"),
         ("G4TENDL.1.3.2", "G4TENDL1.3.2")
     ]
+    datasets['11.1.0'] = [
+        ("G4ABLA.3.1", "G4ABLA3.1"),
+        ("G4ENSDFSTATE.2.3", "G4ENSDFSTATE2.3"),
+        ("G4NDL.4.7", "G4NDL4.7"),
+        ("G4PhotonEvaporation.5.7", "PhotonEvaporation5.7"),
+        ("G4RadioactiveDecay.5.6", "RadioactiveDecay5.6"),
+        ("G4SAIDDATA.2.0", "G4SAIDDATA2.0"),
+        ("G4EMLOW.8.2", "G4EMLOW8.2"),
+        ("G4INCL.1.0", "G4INCL1.0"),
+        ("G4PARTICLEXS.4.0", "G4PARTICLEXS4.0"),
+        ("G4PII.1.3", "G4PII1.3"),
+        ("G4RealSurface.2.2", "RealSurface2.2"),
+        ("G4TENDL.1.4", "G4TENDL1.4")
+    ]
 
-    datadir = "/usr/share/Geant4-%s/data" % version
-    tmpdir = "/tmp/Geant4-%s-datasets" % version
+    datadir = "/usr/share/Geant4/data"
+    tmpdir = "/tmp/Geant4-datasets"
     dataurl = "http://geant4-data.web.cern.ch/geant4-data/datasets"
 
     try:

@@ -1,7 +1,11 @@
-%global _pver 1.0.0
-%global _tagver master
+%undefine _disable_source_fetch
+%global debug_package %{nil}
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _pver 0.1.0
+%global _tagver 00-01
+
+%global _sbuilddir %{_builddir}/%{name}-%{version}/MuonCVXDDigitiser-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 Summary: Marlin processors for tracker digitization
 Name: muonc-tracker-digitizer
@@ -12,7 +16,6 @@ Vendor: INFN
 URL: https://github.com/MuonColliderSoft/MuonCVXDDigitiser
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
@@ -24,8 +27,9 @@ BuildRequires: ilc-marlin-devel
 BuildRequires: ilc-marlin-util-devel
 BuildRequires: gsl-devel
 BuildRequires: aida-dd4hep-devel
-BuildRequires: root-aida-devel
+BuildRequires: ilc-root-aida-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/MuonColliderSoft/MuonCVXDDigitiser/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
@@ -33,25 +37,22 @@ A collection of processors for the digitization of hits
 in the Muon Collider tracker.
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/MuonColliderSoft/MuonCVXDDigitiser %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
@@ -63,7 +64,7 @@ printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libMuonCVXDDigitiser.so:%{_lib
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -rf %{SOURCE0}
 
 %files
 %defattr(-,root,root)
@@ -71,7 +72,7 @@ rm -rf %{_maindir}
 %{_libdir}/*.so*
 
 %changelog
-* Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.0.0-1
+* Wed Apr 26 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.1.0-1
 - First version of Muon Collider Tracker Digitizer
 
 

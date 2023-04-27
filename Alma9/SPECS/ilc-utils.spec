@@ -1,7 +1,12 @@
-%global _pver 1.7.0
-%global _tagver v01-07
+%undefine _disable_source_fetch
+%global debug_package %{nil}
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _pver 1.7.0
+%global _tagver 01-07
+
+%global _sbuilddir %{_builddir}/%{name}-%{version}/iLCUtil-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
+
 %global cmake_ilcutil_dir %{_libdir}/cmake/ilcutil
 
 Summary: Utilities for the iLCSoft software framework
@@ -13,13 +18,13 @@ Vendor: CERN
 URL: https://github.com/iLCSoft/iLCUtil
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: doxygen
 BuildRequires: chrpath
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
+Source0: https://github.com/iLCSoft/iLCUtil/archive/refs/tags/v%{_tagver}.tar.gz
 
 %description
 ILCUTIL is a utility package for the iLCSoft software framework.
@@ -27,24 +32,22 @@ It is intended to be a "meta-package" which packages together a set of independe
 utility packages living in separate sub-directories.
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/iLCSoft/iLCUtil %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
       -DINSTALL_DOC=OFF \
-      -Wno-dev %{_maindir}
+      -Wno-dev \
+      %{_sbuilddir}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make %{?_smp_mflags}
 make install
 rm -rf %{buildroot}/usr/doc
@@ -60,7 +63,7 @@ chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.0.4.0
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)

@@ -1,0 +1,17 @@
+diff -Nrup -U 4 yad-7.3/src/main.c yad-7.3-OK/src/main.c
+--- yad-7.3/src/main.c	2020-11-01 01:11:21.039606281 +0300
++++ yad-7.3-OK/src/main.c	2020-11-01 01:08:25.420968575 +0300
+@@ -536,8 +536,13 @@ create_dialog (void)
+ 
+   /* parse geometry or move window, if given. must be after showing widget */
+   if (!options.data.maximized && !options.data.fullscreen)
+     {
++      gint mw, nw;
++
++      gtk_widget_get_preferred_width (dlg, &mw, &nw);
++      gtk_widget_set_size_request (dlg, nw, -1);
++
+       parse_geometry ();
+       g_signal_connect (G_OBJECT (dlg), "realize", G_CALLBACK (realize_cb), NULL);
+       gtk_widget_show_all (dlg);
+     }

@@ -1,7 +1,11 @@
-%global _pver 1.23.0
-%global _tagver v01-23
+%undefine _disable_source_fetch
+%global debug_package %{nil}
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _pver 1.25.1
+%global _tagver 01-25-01
+
+%global _sbuilddir %{_builddir}/%{name}-%{version}/DD4hep-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 %global cmake_dd4hep_dir %{_datadir}/DD4hep/cmake
 
@@ -14,7 +18,6 @@ Vendor: CERN
 URL: https://github.com/AIDASoft/DD4hep
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: python3
@@ -32,8 +35,9 @@ BuildRequires: root-gui-browserv7
 BuildRequires: HepMC3-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
-Source0: aida-setup.sh
-Source1: aida-setup.csh
+Source0: https://github.com/AIDASoft/DD4hep/archive/refs/tags/v%{_tagver}.tar.gz
+Source1: aida-setup.sh
+Source2: aida-setup.csh
 
 %description
 DD4hep is a software framework for providing a complete solution
@@ -42,16 +46,13 @@ readout, alignment, calibration, etc.) for the full experiment life
 cycle (detector concept development, detector optimization, construction, operation).
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/AIDASoft/DD4hep %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
@@ -63,11 +64,11 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DBUILD_TESTING=OFF \
       -DDD4HEP_SET_RPATH=OFF \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 
 rm -rf %{buildroot}%{python3_sitelib}/DDSim/bin
@@ -94,8 +95,8 @@ sed -i -e 's|env python|env python3|g' %{buildroot}%{_bindir}/check* \
 sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' %{buildroot}%{_bindir}/run_test.sh
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-cp %{SOURCE0} %{buildroot}%{_sysconfdir}/profile.d
 cp %{SOURCE1} %{buildroot}%{_sysconfdir}/profile.d
+cp %{SOURCE2} %{buildroot}%{_sysconfdir}/profile.d
 
 #workaround for cmake
 ln -sf %{_bindir}     %{buildroot}%{_datadir}/DD4hep/bin
@@ -104,7 +105,7 @@ ln -sf %{_includedir} %{buildroot}%{_datadir}/DD4hep/include
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)
@@ -172,6 +173,7 @@ cycle (detector concept development, detector optimization, construction, operat
 %dir %{_includedir}/dd4hep/DDCond
 %dir %{_includedir}/dd4hep/DDCond/Type1
 %dir %{_includedir}/dd4hep/DDDigi
+%dir %{_includedir}/dd4hep/DDDigi/noise
 %dir %{_includedir}/dd4hep/DDDigi/segmentations
 %dir %{_includedir}/dd4hep/DDEve
 %dir %{_includedir}/dd4hep/DDG4
@@ -193,6 +195,7 @@ cycle (detector concept development, detector optimization, construction, operat
 %{_includedir}/dd4hep/DDCond/*.h
 %{_includedir}/dd4hep/DDCond/Type1/*.h
 %{_includedir}/dd4hep/DDDigi/*.h
+%{_includedir}/dd4hep/DDDigi/noise/*.h
 %{_includedir}/dd4hep/DDDigi/segmentations/*.h
 %{_includedir}/dd4hep/DDEve/*.h
 %{_includedir}/dd4hep/DDG4/*.h
@@ -254,7 +257,7 @@ cycle (detector concept development, detector optimization, construction, operat
 %{python3_sitelib}/DDSim/Helper/__pycache__/*.pyc
 
 %changelog
-* Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.23.0-1
+* Mon Apr 17 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.25.1-1
 - New version of DD4Hep
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.20.2-1
 - New version of DD4Hep

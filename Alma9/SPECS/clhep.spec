@@ -1,7 +1,17 @@
+%global debug_package %{nil}
+%undefine _disable_source_fetch
+
+%global _pver 2.4.6
+#global _pver 2.4.1
+%global _prel 3
+
+%global _sbuilddir %{_builddir}/clhep/%{_pver}.%{_prel}/CLHEP
+%global _cbuilddir %{_builddir}/clhep/build
+
 Summary: HEP-specific foundation and utility classes
 Name: clhep
-Version: 2.4.1
-Release: 3.muonc%{?dist}
+Version: %{_pver}
+Release: %{_prel}.muonc%{?dist}
 License: GPL v.3
 Vendor: CERN
 URL: http://proj-clhep.web.cern.ch/proj-clhep/
@@ -10,30 +20,29 @@ BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
-%undefine _disable_source_fetch
-Source: https://nexus.pd.infn.it/artifacts/repository/geant-sources/%{name}-%{version}.tar.gz
+Source: https://proj-clhep.web.cern.ch/proj-clhep/dist1/%{name}-%{version}.%{_prel}.tgz
 
 %description
 CLHEP is a set of HEP-specific foundation and utility classes such as
 random generators, physics vectors, geometry and linear algebra.
 
 %prep
-%setup -c
+%setup -c -n %{name}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_builddir}/%{name}-%{version}/build
-cd %{_builddir}/%{name}-%{version}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
       -DLIB_SUFFIX=64 \
-      %{_builddir}/%{name}-%{version}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_builddir}/%{name}-%{version}/build
+cd %{_cbuilddir}
 make install
 sed -i 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}/usr/bin/*-config
 
@@ -61,6 +70,7 @@ random generators, physics vectors, geometry and linear algebra.
 %{_libdir}/CLHEP-%{version}.3/*.cmake
 %dir %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*.pc
+%{_includedir}/clhep.modulemap
 %dir %{_includedir}/CLHEP
 %{_includedir}/CLHEP/*.h
 %dir %{_includedir}/CLHEP/Cast
@@ -83,7 +93,6 @@ random generators, physics vectors, geometry and linear algebra.
 %{_includedir}/CLHEP/Matrix/*.icc
 %dir %{_includedir}/CLHEP/Random
 %{_includedir}/CLHEP/Random/*.h
-%{_includedir}/CLHEP/Random/*.hh
 %{_includedir}/CLHEP/Random/*.icc
 %dir %{_includedir}/CLHEP/RandomObjects
 %{_includedir}/CLHEP/RandomObjects/*.h
@@ -101,6 +110,8 @@ random generators, physics vectors, geometry and linear algebra.
 
 
 %changelog
+* Thu Feb 02 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.4.6-3
+- Repackaging for Alma Linux 9
 * Thu Jan 30 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.4.1-3
 - Repackaging for CentOS 7
 

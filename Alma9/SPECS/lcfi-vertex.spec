@@ -1,7 +1,11 @@
-%global _pver 0.8.0
-%global _tagver v00-08
+%undefine _disable_source_fetch
+%global debug_package %{nil}
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _pver 0.8.0
+%global _tagver 00-08
+
+%global _sbuilddir %{_builddir}/%{name}-%{version}/LCFIVertex-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 %global _boostp boost
 
@@ -16,7 +20,6 @@ Vendor: INFN
 URL: https://github.com/iLCSoft/LCFIVertex
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
@@ -25,35 +28,33 @@ BuildRequires: ilc-utils-devel
 BuildRequires: ilc-marlin-devel
 BuildRequires: ilc-marlin-util-devel
 BuildRequires: ilc-lcio-devel
-BuildRequires: root-aida-devel
+BuildRequires: ilc-root-aida-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/iLCSoft/LCFIVertex/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
 Package for vertex finding as well as vertex charge determination in b- and c-jets.
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/iLCSoft/LCFIVertex %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
       -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
       -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 rm -rf %{_builddir}/%{_prefix}/include/src \
        %{_builddir}/%{_prefix}/include/algo/src \
@@ -75,7 +76,7 @@ printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libLCFIVertexProcessors.so\n" 
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)
@@ -92,7 +93,7 @@ Requires: ilc-utils-devel
 Requires: ilc-marlin-devel
 Requires: ilc-marlin-util-devel
 Requires: ilc-lcio-devel
-Requires: root-aida-devel
+Requires: ilc-root-aida-devel
 
 %description devel
 Package for vertex finding as well as vertex charge determination in b- and c-jets.

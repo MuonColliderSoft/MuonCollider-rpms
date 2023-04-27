@@ -1,7 +1,11 @@
-%global _pver 1.7.0
-%global _tagver v01-07
+%undefine _disable_source_fetch
+%global debug_package %{nil}
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _pver 1.7.0
+%global _tagver 01-07
+
+%global _sbuilddir %{_builddir}/%{name}-%{version}/DDKalTest-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 %global cmake_ddkalt_dir %{_libdir}/cmake/DDKalTest
 %global _boostp boost
@@ -15,7 +19,6 @@ Vendor: INFN
 URL: https://github.com/iLCSoft/DDKalTest
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
@@ -25,6 +28,7 @@ BuildRequires: ilc-kaltest-devel
 BuildRequires: aida-tracking-toolkit-devel
 BuildRequires: gsl-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/iLCSoft/DDKalTest/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
@@ -34,17 +38,14 @@ surfaces needed in KalTest. Intersection calculation is currently done in
 aidaTT. Material effects use averaged material from the DDRec:Surface.
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/iLCSoft/DDKalTest %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-sed -i -e 's|ILD/include|include/DDKalTest|g' %{_maindir}/CMakeLists.txt
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+sed -i -e 's|ILD/include|include/DDKalTest|g' %{_sbuilddir}/CMakeLists.txt
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
@@ -52,11 +53,11 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
       -Dstreamlog_DIR=%{_libdir}/cmake/ilcutil/ \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
@@ -69,7 +70,7 @@ chrpath --replace %{_libdir} %{buildroot}%{_bindir}/printSurfaces
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_maindir}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)

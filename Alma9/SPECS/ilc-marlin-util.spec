@@ -1,7 +1,11 @@
-%global _pver 1.17.0
-%global _tagver v01-17
+%undefine _disable_source_fetch
+%global debug_package %{nil}
 
-%global _maindir %{_builddir}/%{name}-%{version}
+%global _pver 1.17.0
+%global _tagver 01-17
+
+%global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinUtil-%{_tagver}
+%global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 %global _boostp boost
 
@@ -16,7 +20,6 @@ Vendor: INFN
 URL: https://github.com/iLCSoft/MarlinUtil
 Group: Development/Libraries
 BuildArch: %{_arch}
-BuildRequires: git
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
@@ -26,6 +29,7 @@ BuildRequires: gsl-devel
 BuildRequires: aida-dd4hep-devel
 BuildRequires: %{_boostp}-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0: https://github.com/iLCSoft/MarlinUtil/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
@@ -33,16 +37,13 @@ This library that containes classes and functions that are used by
 more than one processor.
 
 %prep
-[ -e %{_maindir} ] && rm -rf %{_maindir}
-git clone https://github.com/iLCSoft/MarlinUtil %{_maindir}
-cd %{_maindir}
-git checkout %{_tagver}
+%setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
 %build
-mkdir %{_maindir}/build
-cd %{_maindir}/build
+mkdir %{_cbuilddir}
+cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
@@ -50,11 +51,11 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
       -DUSE_EXTERNAL_CATCH2=OFF \
       -Wno-dev \
-      %{_maindir}
+      %{_sbuilddir}
 make %{?_smp_mflags}
 
 %install
-cd %{_maindir}/build
+cd %{_cbuilddir}
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
@@ -65,6 +66,7 @@ chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.*
 
 %clean
 rm -rf %{buildroot}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)

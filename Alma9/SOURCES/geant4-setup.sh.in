@@ -1,19 +1,10 @@
 export G4VERSION=@VERSION@
 
-if [ "x${G4VERSION}" == "x10.5.1" ] ; then
-    export G4NEUTRONHPDATA=/usr/share/Geant4-10.5.1/data/G4NDL4.5
-    export G4LEDATA=/usr/share/Geant4-10.5.1/data/G4EMLOW7.7
-    export G4LEVELGAMMADATA=/usr/share/Geant4-10.5.1/data/PhotonEvaporation5.3
-    export G4RADIOACTIVEDATA=/usr/share/Geant4-10.5.1/data/RadioactiveDecay5.3
-    export G4PARTICLEXSDATA=/usr/share/Geant4-10.5.1/data/G4PARTICLEXS1.1
-    export G4PIIDATA=/usr/share/Geant4-10.5.1/data/G4PII1.3
-    export G4REALSURFACEDATA=/usr/share/Geant4-10.5.1/data/RealSurface2.1.1
-    export G4SAIDXSDATA=/usr/share/Geant4-10.5.1/data/G4SAIDDATA2.0
-    export G4ABLADATA=/usr/share/Geant4-10.5.1/data/G4ABLA3.1
-    export G4INCLDATA=/usr/share/Geant4-10.5.1/data/G4INCL1.0
-    export G4ENSDFSTATEDATA=/usr/share/Geant4-10.5.1/data/G4ENSDFSTATE2.2
-fi
-
 if [ "x${G4VERSION}" == "x10.6.3" ] ; then
     source /usr/bin/geant4.sh
 fi
+
+if [ "x${G4VERSION}" == "x11.1.0" ] ; then
+    export GEANT4_DATA_DIR="/usr/share/Geant4/data"
+fi
+
