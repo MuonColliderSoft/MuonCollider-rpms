@@ -45,8 +45,14 @@ Base installation for the Muon Collider framework.
 echo "Nothing to compile"
 
 %install
-mkdir -p %{buildroot}%{_datadir}/%{name}/tests
-cp -R %{_sbuilddir}/SoftCheck %{buildroot}%{_datadir}/%{name}/tests
+mkdir -p %{buildroot}%{_datadir}/%{name}
+cp -R %{_sbuilddir}/SoftCheck %{buildroot}%{_datadir}/%{name}
+sed -i -e 's|opt/ilcsoft/muonc/detector-simulation/geometries|usr/share/muonc-detector-geometry|g' \
+       %{buildroot}%{_datadir}/%{name}/SoftCheck/ced2go_steering.xml \
+       %{buildroot}%{_datadir}/%{name}/SoftCheck/confile/InitDD4hep.xml \
+       %{buildroot}%{_datadir}/%{name}/SoftCheck/sim_steer.py
+sed -i -e 's|opt/ilcsoft/muonc/ACTSTracking/v1.1.0|usr/share/ACTSTracking|g' \
+       %{buildroot}%{_datadir}/%{name}/SoftCheck/confile/Tracking.xml
 
 %clean
 rm -rf %{buildroot}
@@ -55,17 +61,16 @@ rm -rf %{SOURCE0}
 %files
 %defattr(-,root,root)
 %dir %{_datadir}/%{name}
-%dir %{_datadir}/%{name}/tests
-%dir %{_datadir}/%{name}/tests/SoftCheck
-%dir %{_datadir}/%{name}/tests/SoftCheck/confile
-%dir %{_datadir}/%{name}/tests/SoftCheck/PandoraSettings
-%{_datadir}/%{name}/tests/SoftCheck/*.xml
-%{_datadir}/%{name}/tests/SoftCheck/*.py
-%{_datadir}/%{name}/tests/SoftCheck/confile/*.xml
-%{_datadir}/%{name}/tests/SoftCheck/PandoraSettings/*.xml
+%dir %{_datadir}/%{name}/SoftCheck
+%dir %{_datadir}/%{name}/SoftCheck/confile
+%dir %{_datadir}/%{name}/SoftCheck/confile/PandoraSettings
+%{_datadir}/%{name}/SoftCheck/*.xml
+%{_datadir}/%{name}/SoftCheck/*.py
+%{_datadir}/%{name}/SoftCheck/confile/*.xml
+%{_datadir}/%{name}/SoftCheck/confile/PandoraSettings/*.xml
 
 %changelog
-* Fri Feb 03 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.8.0-1
+* Thu Apr 27 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.8.0-1
 - First release of the base installation
 
 
