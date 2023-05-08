@@ -20,13 +20,16 @@ Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRequires: make
+BuildRequires: patch
 BuildRequires: python3
 BuildRequires: python3-rpm-macros
 BuildRequires: zlib-devel
 BuildRequires: chrpath
 BuildRequires: root
+BuildRequires: ilc-lcio-headers
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/MuonColliderSoft/LCIO/archive/refs/tags/v%{_tagver}.tar.gz
+Patch0: ilc-lcio-new-headers.patch
 AutoReqProv: yes
 
 %description
@@ -35,6 +38,7 @@ and persistency solution for Linear Collider detector R&D studies.
 
 %prep
 %setup -c
+patch %{_sbuilddir}/CMakeLists.txt %{PATCH0}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
@@ -52,10 +56,7 @@ make %{?_smp_mflags}
 %install
 cd %{_cbuilddir}
 make install
-#mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
-mv %{buildroot}%{_includedir} %{buildroot}/lcio-includedir
-mkdir -p %{buildroot}%{_includedir}
-mv %{buildroot}/lcio-includedir %{buildroot}%{_includedir}/lcio
+rm -rf %{buildroot}%{_includedir}/*
 mkdir -p %{buildroot}%{cmake_lcio_dir}
 mv %{buildroot}/usr/*.cmake %{buildroot}%{_libdir}/cmake/*.cmake %{buildroot}%{cmake_lcio_dir}
 sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' %{buildroot}%{cmake_lcio_dir}/*.cmake
@@ -82,14 +83,14 @@ rm -rf %{SOURCE0}
 
 %files
 %defattr(-,root,root)
-%{_bindir}/*
-%{_libdir}/*.so.*
+%{_libdir}/*.so*
 %{_libdir}/*.pcm
 %{_libdir}/*.a
 
 %package devel
 Summary: Event data model and persistency for Linear Collider detector (development files)
 Requires: %{name}
+Requires: ilc-lcio-headers
 Requires: root
 Requires: zlib-devel
 
@@ -99,42 +100,14 @@ and persistency solution for Linear Collider detector R&D studies.
 
 %files devel
 %defattr(-,root,root)
-%{_libdir}/*.so
-%{_libdir}/*.a
-%dir %{_includedir}/lcio
-%dir %{_includedir}/lcio/DATA
-%dir %{_includedir}/lcio/EVENT
-%dir %{_includedir}/lcio/IMPL
-%dir %{_includedir}/lcio/IO
-%dir %{_includedir}/lcio/IOIMPL
-%dir %{_includedir}/lcio/MT
-%dir %{_includedir}/lcio/UTIL
-%dir %{_includedir}/lcio/rootDict
-%dir %{_includedir}/lcio/sio
-%dir %{_includedir}/lcio/SIO
-%dir %{_includedir}/lcio/pre-generated
-%dir %{_includedir}/lcio/pre-generated/EVENT
-%dir %{_includedir}/lcio/pre-generated/IO
-%{_includedir}/lcio/*.h
-%{_includedir}/lcio/DATA/*
-%{_includedir}/lcio/EVENT/*
-%{_includedir}/lcio/IMPL/*
-%{_includedir}/lcio/IO/*
-%{_includedir}/lcio/IOIMPL/*
-%{_includedir}/lcio/MT/*
-%{_includedir}/lcio/UTIL/*
-%{_includedir}/lcio/rootDict/*
-%{_includedir}/lcio/*
-%{_includedir}/lcio/SIO/*
-%{_includedir}/lcio/pre-generated/EVENT/*
-%{_includedir}/lcio/pre-generated/IO/*
-%{cmake_lcio_dir}
+%dir %{cmake_lcio_dir}
 %{cmake_lcio_dir}/*.cmake
 
 %package -n python3-lcio
 Summary: Event data model and persistency for Linear Collider detector (python files)
 BuildArch: noarch
 Requires: %{name}
+Requires: ilc-lcio-headers
 Requires: python3
 Requires: python3-root
 
@@ -166,6 +139,18 @@ and persistency solution for Linear Collider detector R&D studies.
 %{python3_sitelib}/pyLCIO/drivers/__pycache__/*.pyc
 %{python3_sitelib}/pyLCIO/exceptions/__pycache__/*.pyc
 %{python3_sitelib}/pyLCIO/io/__pycache__/*.pyc
+
+%package tools
+Summary: Event data model and persistency for Linear Collider detector (tools)
+Requires: python3-lcio
+
+%description tools
+LCIO (Linear Collider I/O) provides the event data model (EDM)
+and persistency solution for Linear Collider detector R&D studies.
+
+%files tools
+%defattr(-,root,root)
+%{_bindir}/*
 
 %changelog
 * Tue Feb 28 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.17.0-1
