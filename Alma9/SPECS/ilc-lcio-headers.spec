@@ -45,6 +45,9 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
 mkdir -p %{buildroot}%{_includedir}/lcio
 cp -r %{_sbuilddir}/src/cpp/include/* %{buildroot}%{_includedir}/lcio
 cp -r %{_sbuilddir}/sio/include/sio %{buildroot}%{_includedir}
+rm %{buildroot}%{_includedir}/lcio/DATA/README
+ln -s %{_includedir}/lcio/pre-generated/EVENT %{buildroot}%{_includedir}/lcio/EVENT
+ln -s %{_includedir}/lcio/pre-generated/IO %{buildroot}%{_includedir}/lcio/IO
 
 %clean
 rm -rf %{buildroot}
@@ -53,6 +56,7 @@ rm -rf %{SOURCE0}
 %files
 %defattr(-,root,root)
 %dir %{_includedir}/lcio
+%dir %{_includedir}/lcio/CPPFORT
 %dir %{_includedir}/lcio/DATA
 %dir %{_includedir}/lcio/IMPL
 %dir %{_includedir}/lcio/IOIMPL
@@ -66,19 +70,22 @@ rm -rf %{SOURCE0}
 %dir %{_includedir}/sio
 %dir %{_includedir}/sio/compression
 %{_includedir}/lcio/*.h
+%{_includedir}/lcio/CPPFORT/*.h
 %{_includedir}/lcio/DATA/*.h
 %{_includedir}/lcio/IMPL/*.h
 %{_includedir}/lcio/IOIMPL/*.h
 %{_includedir}/lcio/MT/*.h
 %{_includedir}/lcio/UTIL/*.h
+%{_includedir}/lcio/UTIL/*.icc
+%{_includedir}/lcio/UTIL/*.hh
 %{_includedir}/lcio/rootDict/*.h
-%{_includedir}/lcio/*.h
 %{_includedir}/lcio/SIO/*.h
 %{_includedir}/lcio/pre-generated/EVENT/*.h
 %{_includedir}/lcio/pre-generated/IO/*.h
 %{_includedir}/sio/*.h
 %{_includedir}/sio/compression/*.h
-
+%{_includedir}/lcio/EVENT
+%{_includedir}/lcio/IO
 
 %changelog
 * Tue Feb 28 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.17.0-1
