@@ -91,8 +91,6 @@ rm -rf %{SOURCE0}
 Summary: Event data model and persistency for Linear Collider detector (development files)
 Requires: %{name}
 Requires: ilc-lcio-headers
-Requires: root
-Requires: zlib-devel
 
 %description devel
 LCIO (Linear Collider I/O) provides the event data model (EDM)

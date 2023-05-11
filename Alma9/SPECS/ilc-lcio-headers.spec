@@ -18,6 +18,9 @@ Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRequires: make
+BuildRequires: root
+Requires: root
+Requires: zlib-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/MuonColliderSoft/LCIO/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes

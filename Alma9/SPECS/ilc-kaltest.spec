@@ -21,11 +21,12 @@ BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
+BuildRequires: patch
 BuildRequires: ilc-utils-devel
-BuildRequires: root
-BuildRequires: root-graf3d-eve
+BuildRequires: ilc-kaltest-headers
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/iLCSoft/KalTest/archive/refs/tags/v%{_tagver}.tar.gz
+Patch0: ilc-kaltest-cmake-headers.patch
 AutoReqProv: yes
 
 %description
@@ -33,6 +34,9 @@ Classes and utilities for Kalman filter algorithms.
 
 %prep
 %setup -c
+
+patch %{_sbuilddir}/src/CMakeLists.txt %{PATCH0}
+
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
@@ -58,6 +62,7 @@ sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' \
        -e 's|lib/cmake|lib64/cmake/KalTest|g' \
     %{buildroot}%{cmake_kaltest_dir}/*.cmake
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.*
+rm -rf %{buildroot}/usr/include
 
 %clean
 rm -rf %{buildroot}
@@ -65,15 +70,14 @@ rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)
-%{_libdir}/*.so.*
+%{_libdir}/*.so*
 %{_libdir}/*.pcm
 
 %package devel
 Summary: Classes and utilities for Kalman filter algorithms (development files)
 Requires: %{name}
 Requires: ilc-utils-devel
-Requires: root
-Requires: root-graf3d-eve
+Requires: ilc-kaltest-headers
 
 %description devel
 Classes and utilities for Kalman filter algorithms.
@@ -82,9 +86,6 @@ Classes and utilities for Kalman filter algorithms.
 %defattr(-,root,root)
 %dir %{cmake_kaltest_dir}
 %{cmake_kaltest_dir}/*.cmake
-%{_libdir}/*.so
-%dir %{_includedir}/kaltest
-%{_includedir}/kaltest/*.h
 
 %changelog
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.5.1-1
