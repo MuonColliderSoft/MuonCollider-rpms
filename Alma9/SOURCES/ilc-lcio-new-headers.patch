@@ -1,0 +1,22 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index aa18eeec..214588e5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -184,7 +184,7 @@ FIND_PACKAGE( Threads REQUIRED )
+ 
+ ### GENERATE HEADERS ( USING ANT ) ##########################################
+ 
+-SET( LCIO_CXX_HEADERS_DIR "${LCIO_SOURCE_DIR}/src/cpp/include" )
++SET( LCIO_CXX_HEADERS_DIR "/usr/include/lcio" )
+ 
+ # directories where ant generates c++ and java headers
+ if( INSTALL_JAR )
+@@ -194,7 +194,7 @@ endif()
+ if( LCIO_GENERATE_HEADERS )
+   SET( LCIO_AID_HEADERS_OUTPUT_DIR "${LCIO_BINARY_DIR}/include" )
+ else()
+-  SET( LCIO_AID_HEADERS_OUTPUT_DIR "${LCIO_SOURCE_DIR}/src/cpp/include/pre-generated" )
++  SET( LCIO_AID_HEADERS_OUTPUT_DIR "/usr/include/lcio/pre-generated" )
+ endif()
+ 
+ 

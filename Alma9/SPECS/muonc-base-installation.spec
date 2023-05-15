@@ -31,6 +31,7 @@ Requires: ilc-ddmarlin-pandora
 Requires: ilc-lctuple
 Requires: ilc-clic-performance
 Requires: ilc-acts-tracking
+Requires: ilc-lcio-tools
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/MuonColliderSoft/MuonCutil/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes

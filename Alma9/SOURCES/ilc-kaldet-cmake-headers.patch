@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c72fd9d..ba67e30 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -64,7 +64,7 @@ INCLUDE( "${ILCUTIL_ROOT}/cmakemodules/MacroRootDict.cmake" )
+ SET( lib_input_dirs gen kern lctpc/gearTPC )
+ 
+ FOREACH( lib_input_dir ${lib_input_dirs} )
+-    LIST( APPEND ROOT_DICT_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/${lib_input_dir} )
++    LIST( APPEND ROOT_DICT_INCLUDE_DIRS /usr/include/kaldet/${lib_input_dir} )
+ ENDFOREACH()
+ 
+ LIST( APPEND ROOT_DICT_INCLUDE_DIRS ${KalTest_INCLUDE_DIRS} )

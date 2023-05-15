@@ -12,7 +12,11 @@
 set -e
 
 rpmbuild -ba SPECS/ilc-utils.spec
-sudo yum -y localinstall RPMS/x86_64/ilc-utils*
+rpmbuild -ba SPECS/ilc-lcio-headers.spec
+rpmbuild -ba SPECS/ilc-kaltest-headers.spec
+sudo yum -y localinstall RPMS/x86_64/ilc-utils* \
+                         RPMS/x86_64/ilc-lcio-headers* \
+                         RPMS/x86_64/ilc-kaltest-headers*
 
 rpmbuild -ba SPECS/ilc-ced.spec
 rpmbuild -ba SPECS/ilc-gear.spec
@@ -25,10 +29,12 @@ QA_SKIP_BUILD_ROOT=1 rpmbuild -ba SPECS/pandora-pfa.spec
 sudo yum -y localinstall RPMS/x86_64/ilc-ced* \
                          RPMS/x86_64/ilc-gear* \
                          RPMS/x86_64/fastjet* \
-                         RPMS/x86_64/ilc-lcio* \
+                         RPMS/x86_64/ilc-lcio-2* \
+                         RPMS/x86_64/ilc-lcio-dev* \
                          RPMS/x86_64/gbl-toolkit* \
                          RPMS/x86_64/ilc-root-aida* \
-                         RPMS/x86_64/ilc-kaltest* \
+                         RPMS/x86_64/ilc-kaltest-2* \
+                         RPMS/x86_64/ilc-kaltest-dev* \
                          RPMS/x86_64/pandora-pfa*
 
 rpmbuild -ba SPECS/aida-dd4hep.spec
@@ -51,10 +57,12 @@ rpmbuild -ba SPECS/ilc-lctuple.spec
 rpmbuild -ba SPECS/ilc-marlin-dd4hep.spec
 rpmbuild -ba SPECS/ilc-marlin-fastjet.spec
 rpmbuild -ba SPECS/ilc-marlin-kinfit.spec
+rpmbuild -ba SPECS/ilc-kaldet-headers.spec
 sudo yum -y localinstall RPMS/x86_64/ilc-marlin-util* \
                          RPMS/x86_64/ilc-ddkaltest* \
                          RPMS/x86_64/ilc-kitrack* \
-                         RPMS/x86_64/ilc-marlin-kinfit*
+                         RPMS/x86_64/ilc-marlin-kinfit* \
+                         RPMS/x86_64/ilc-kaldet-headers*
 
 rpmbuild -ba SPECS/ilc-ced-viewer.spec
 rpmbuild -ba SPECS/ilc-kaldet.spec
@@ -66,7 +74,8 @@ rpmbuild -ba SPECS/pandora-analysis.spec
 rpmbuild -ba SPECS/lcfi-plus-headers.spec
 sudo yum -y localinstall RPMS/x86_64/lcfi-vertex* \
                          RPMS/x86_64/lcfi-plus-headers* \
-                         RPMS/x86_64/ilc-kaldet-*
+                         RPMS/x86_64/ilc-kaldet-1* \
+                         RPMS/x86_64/ilc-kaldet-devel*
 
 rpmbuild -ba SPECS/ilc-marlin-trk.spec
 rpmbuild -ba SPECS/lcfi-plus.spec
@@ -86,4 +95,27 @@ rpmbuild -ba SPECS/muonc-tracker-digitizer.spec
 rpmbuild -ba SPECS/muonc-base-installation.spec
 
 # See https://access.redhat.com/articles/3359321
+
+sudo yum -y localinstall RPMS/x86_64/ilc-acts-tracking-* \
+                         RPMS/x86_64/ilc-ced-viewer-* \
+                         RPMS/x86_64/ilc-clic-performance-* \
+                         RPMS/x86_64/ilc-conformal-tracking-* \
+                         RPMS/x86_64/ilc-ddmarlin-pandora-* \
+                         RPMS/x86_64/ilc-forward-tracking-* \
+                         RPMS/x86_64/ilc-lctuple-* \
+                         RPMS/x86_64/ilc-marlin-dd4hep-* \
+                         RPMS/x86_64/ilc-marlin-kinfit-processors-* \
+                         RPMS/x86_64/ilc-marlin-reco-* \
+                         RPMS/x86_64/ilc-marlin-trk-processors-* \
+                         RPMS/x86_64/ilc-overlay-* \
+                         RPMS/x86_64/lcfi-plus-* \
+                         RPMS/x86_64/ilc-lcgeo-* \
+                         RPMS/x86_64/ilc-marlin-fastjet-* \
+                         RPMS/x86_64/ilc-lcio-tools-* \
+                         RPMS/x86_64/muonc-tracker-digitizer-* \
+                         RPMS/noarch/muonc-detector-geometry-* \
+                         RPMS/noarch/python3-* \
+                         RPMS/noarch/muonc-base-installation-*
+
+
 

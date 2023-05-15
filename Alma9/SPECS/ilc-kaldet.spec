@@ -21,14 +21,10 @@ BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
-BuildRequires: ilc-utils-devel
-BuildRequires: ilc-kaltest-devel
-BuildRequires: ilc-marlin-devel
-BuildRequires: ilc-marlin-util-devel
-BuildRequires: ilc-gear-devel
-BuildRequires: root
+BuildRequires: ilc-kaldet-headers
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/iLCSoft/KalDet/archive/refs/tags/v%{_tagver}.tar.gz
+Patch0: ilc-kaldet-cmake-headers.patch
 AutoReqProv: yes
 
 %description
@@ -36,6 +32,9 @@ Kalman filter algorithms applied to detectors.
 
 %prep
 %setup -c
+
+patch %{_sbuilddir}/CMakeLists.txt %{PATCH0}
+
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
@@ -61,6 +60,7 @@ sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' \
        -e 's|lib/cmake|lib64/cmake/KalDet|g' \
     %{buildroot}%{cmake_kaldet_dir}/*.cmake
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
+rm -rf %{buildroot}/usr/include
 
 %clean
 rm -rf %{buildroot}
@@ -68,18 +68,13 @@ rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)
-%{_libdir}/*.so.*
+%{_libdir}/*.so*
 %{_libdir}/*.pcm
 
 %package devel
 Summary: Kalman filter algorithms applied to detectors (development files)
 Requires: %{name}
-Requires: ilc-utils-devel
-Requires: ilc-kaltest-devel
-Requires: ilc-marlin-devel
-Requires: ilc-marlin-util-devel
-Requires: ilc-gear-devel
-Requires: root
+Requires: ilc-kaldet-headers
 
 %description devel
 Kalman filter algorithms applied to detectors.
@@ -88,9 +83,6 @@ Kalman filter algorithms applied to detectors.
 %defattr(-,root,root)
 %dir %{cmake_kaldet_dir}
 %{cmake_kaldet_dir}/*.cmake
-%{_libdir}/*.so
-%dir %{_includedir}/kaldet
-%{_includedir}/kaldet/*.h
 
 %changelog
 * Mon Jul 13 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.14.1-1
