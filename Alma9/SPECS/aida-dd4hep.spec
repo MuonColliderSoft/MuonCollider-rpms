@@ -38,6 +38,7 @@ AutoReqProv: yes
 Source0: https://github.com/AIDASoft/DD4hep/archive/refs/tags/v%{_tagver}.tar.gz
 Source1: aida-setup.sh
 Source2: aida-setup.csh
+Patch0: aida-dd4hep-python_dep.patch
 
 %description
 DD4hep is a software framework for providing a complete solution
@@ -47,6 +48,9 @@ cycle (detector concept development, detector optimization, construction, operat
 
 %prep
 %setup -c
+
+patch %{_sbuilddir}/cmake/DD4hepBuild.cmake %{PATCH0}
+
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
