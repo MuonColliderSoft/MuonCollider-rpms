@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.36.12
-%global _tagver v36r12
+%global _pver 0.36.16
+%global _tagver v36r16
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/Gaudi-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -37,6 +37,8 @@ BuildRequires: fmt-devel
 BuildRequires: xerces-c-devel
 BuildRequires: jemalloc-devel
 BuildRequires: libunwind-devel
+BuildRequires: ilc-root-aida-devel
+BuildRequires: clhep-devel
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://gitlab.cern.ch/gaudi/Gaudi/-/archive/%{_tagver}/Gaudi-%{_tagver}.tar.gz
@@ -65,9 +67,9 @@ cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
-      -DGAUDI_USE_AIDA=OFF \
+      -DGAUDI_USE_AIDA=ON \
       -DGAUDI_USE_HEPPDT=OFF \
-      -DGAUDI_USE_CLHEP=OFF \
+      -DGAUDI_USE_CLHEP=ON \
       -DGAUDI_USE_GPERFTOOLS=OFF \
       -DGAUDI_USE_CPPUNIT=OFF \
       -DGAUDI_USE_UNWIND=ON \
@@ -129,6 +131,8 @@ Requires: fmt-devel
 Requires: xerces-c-devel
 Requires: jemalloc-devel
 Requires: libunwind-devel
+Requires: ilc-root-aida-devel
+Requires: clhep-devel
 
 %description devel
 The Gaudi project is an open project for providing the necessary interfaces
@@ -157,13 +161,14 @@ processing applications.
 %dir %{_includedir}/Gaudi/Parsers
 %dir %{_includedir}/Gaudi/Timers
 %dir %{_includedir}/GaudiAlg
+%dir %{_includedir}/GaudiCommonSvc
 %dir %{_includedir}/GaudiKernel
 %dir %{_includedir}/GaudiMP
 %dir %{_includedir}/GaudiPython
 %dir %{_includedir}/GaudiUtils
 %dir %{_includedir}/RootCnv
 %{_includedir}/GAUDI_VERSION.h
- %{_includedir}/Gaudi/*.h
+%{_includedir}/Gaudi/*.h
 %{_includedir}/Gaudi/Accumulators/*.h
 %{_includedir}/Gaudi/Allocator/*.h
 %{_includedir}/Gaudi/Arena/*.h
@@ -175,6 +180,7 @@ processing applications.
 %{_includedir}/Gaudi/Timers/*.h
 %{_includedir}/GaudiAlg/*.h
 %{_includedir}/GaudiAlg/*.icpp
+%{_includedir}/GaudiCommonSvc/*.h
 %{_includedir}/GaudiKernel/*.h
 %{_includedir}/GaudiKernel/*.icpp
 %{_includedir}/GaudiMP/*.h
@@ -195,6 +201,7 @@ processing applications.
 %defattr(-,root,root)
 %dir %{python3_sitelib}/GaudiPluginService
 %dir %{python3_sitelib}/GaudiTesting
+%dir %{python3_sitelib}/GaudiTesting/pytest
 %dir %{python3_sitelib}/GaudiConfig
 %dir %{python3_sitelib}/GaudiKernel
 %dir %{python3_sitelib}/GaudiConfig2
@@ -212,9 +219,11 @@ processing applications.
 %dir %{python3_sitelib}/GaudiPython
 %dir %{python3_sitelib}/GaudiSvc
 %dir %{python3_sitelib}/RootCnv
+%dir %{python3_sitelib}/RootHistCnv
 %{python3_sitelib}/*.py
 %{python3_sitelib}/GaudiPluginService/*.py
 %{python3_sitelib}/GaudiTesting/*.py
+%{python3_sitelib}/GaudiTesting/pytest/*.py
 %{python3_sitelib}/GaudiConfig/*.py
 %{python3_sitelib}/GaudiKernel/*.py
 %{python3_sitelib}/GaudiConfig2/*.py
@@ -233,8 +242,10 @@ processing applications.
 %{python3_sitelib}/GaudiPython/*.py
 %{python3_sitelib}/GaudiSvc/*.py
 %{python3_sitelib}/RootCnv/*.py
+%{python3_sitelib}/RootHistCnv/*.py
 %dir %{python3_sitelib}/GaudiPluginService/__pycache__
 %dir %{python3_sitelib}/GaudiTesting/__pycache__
+%dir %{python3_sitelib}/GaudiTesting/pytest/__pycache__
 %dir %{python3_sitelib}/GaudiConfig/__pycache__
 %dir %{python3_sitelib}/GaudiKernel/__pycache__
 %dir %{python3_sitelib}/GaudiConfig2/__pycache__
@@ -252,9 +263,11 @@ processing applications.
 %dir %{python3_sitelib}/GaudiPython/__pycache__
 %dir %{python3_sitelib}/GaudiSvc/__pycache__
 %dir %{python3_sitelib}/RootCnv/__pycache__
+%dir %{python3_sitelib}/RootHistCnv/__pycache__
 %{python3_sitelib}/__pycache__/*.pyc
 %{python3_sitelib}/GaudiPluginService/__pycache__/*.pyc
 %{python3_sitelib}/GaudiTesting/__pycache__/*.pyc
+%{python3_sitelib}/GaudiTesting/pytest/__pycache__/*.pyc
 %{python3_sitelib}/GaudiConfig/__pycache__/*.pyc
 %{python3_sitelib}/GaudiKernel/__pycache__/*.pyc
 %{python3_sitelib}/GaudiConfig2/__pycache__/*.pyc
@@ -272,7 +285,7 @@ processing applications.
 %{python3_sitelib}/GaudiPython/__pycache__/*.pyc
 %{python3_sitelib}/GaudiSvc/__pycache__/*.pyc
 %{python3_sitelib}/RootCnv/__pycache__/*.pyc
-
+%{python3_sitelib}/RootHistCnv/__pycache__/*.pyc
 
 
 %package tools
