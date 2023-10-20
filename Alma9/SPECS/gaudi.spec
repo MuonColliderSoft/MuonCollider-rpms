@@ -31,6 +31,7 @@ BuildRequires: boost-devel
 BuildRequires: boost-python3
 BuildRequires: tbb-devel
 BuildRequires: xz-devel
+BuildRequires: zlib-devel
 BuildRequires: libuuid-devel
 BuildRequires: range-v3-devel
 BuildRequires: fmt-devel
@@ -39,6 +40,7 @@ BuildRequires: jemalloc-devel
 BuildRequires: libunwind-devel
 BuildRequires: ilc-root-aida-devel
 BuildRequires: clhep-devel
+BuildRequires: cpp-gsl-devel
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://gitlab.cern.ch/gaudi/Gaudi/-/archive/%{_tagver}/Gaudi-%{_tagver}.tar.gz
@@ -125,6 +127,7 @@ Requires: boost-devel
 Requires: boost-python3
 Requires: tbb-devel
 Requires: xz-devel
+Requires: zlib-devel
 Requires: libuuid-devel
 Requires: range-v3-devel
 Requires: fmt-devel
@@ -133,6 +136,7 @@ Requires: jemalloc-devel
 Requires: libunwind-devel
 Requires: ilc-root-aida-devel
 Requires: clhep-devel
+Requires: cpp-gsl-devel
 
 %description devel
 The Gaudi project is an open project for providing the necessary interfaces
