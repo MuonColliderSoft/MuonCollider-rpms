@@ -20,7 +20,7 @@ BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: podio-devel
-BuildRequires: python3-utils
+BuildRequires: python3-podio-utils
 
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)

@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.17.1
-%global _tagver 00-17-01
+%global _pver 0.16.6
+%global _tagver 00-16-06
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/podio-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -42,6 +42,7 @@ cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
+      -DBUILD_TESTING=OFF \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}
@@ -75,9 +76,7 @@ rm -f %{SOURCE0}
 %{_libdir}/*.so
 %{_libdir}/*.pcm
 %{_libdir}/*.rootmap
-%{_bindir}/podio-dump
-%{_bindir}/podio-vis
-%{_bindir}/podio_test_hashes
+%{_bindir}/*
 %dir %{_datadir}/doc/podio
 %{_datadir}/doc/podio/NOTICE
 
@@ -117,16 +116,16 @@ PODIO is a C++ library to support the creation and handling of data models in pa
 %{python3_sitelib}/podio/*.py
 %{python3_sitelib}/podio/__pycache__/*
 
-%package -n python3-utils
+%package -n python3-podio-utils
 Summary: Library handling data models in particle physics (tools and models).
 BuildArch: noarch
 Requires: %{name}
 Requires: python3-podio
 
-%description -n python3-utils
+%description -n python3-podio-utils
 PODIO is a C++ library to support the creation and handling of data models in particle physics.
 
-%files -n python3-utils
+%files -n python3-podio-utils
 %defattr(-,root,root)
 %{python3_sitelib}/podio_class_generator.py
 %{python3_sitelib}/podio_schema_evolution.py
@@ -142,7 +141,7 @@ PODIO is a C++ library to support the creation and handling of data models in pa
 %{_datadir}/podio/templates/schemaevolution/*.jinja2
 
 %changelog
-* Fri Oct 20 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.17.1-1
+* Fri Oct 20 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.16.6-1
 - Porting to AlmaLinux 9
 
 
