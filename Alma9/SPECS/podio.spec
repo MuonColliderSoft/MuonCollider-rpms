@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.16.6
-%global _tagver 00-16-06
+%global _pver 0.16.5
+%global _tagver 00-16-05
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/podio-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -141,7 +141,7 @@ PODIO is a C++ library to support the creation and handling of data models in pa
 %{_datadir}/podio/templates/schemaevolution/*.jinja2
 
 %changelog
-* Fri Oct 20 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.16.6-1
+* Fri Oct 20 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.16.5-1
 - Porting to AlmaLinux 9
 
 

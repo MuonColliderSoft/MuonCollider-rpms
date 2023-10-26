@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.10.0
-%global _tagver 00-10
+%global _pver 0.9.0
+%global _tagver 00-09
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/EDM4hep-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -50,10 +50,6 @@ make %{?_smp_mflags}
 cd %{_cbuilddir}
 make install
 
-mkdir -p %{buildroot}/%{python3_sitelib}
-mv %{buildroot}/%{_prefix}/python/edm4hep %{buildroot}/%{python3_sitelib}/
-rm -rf %{buildroot}/%{_prefix}/python
-
 %clean
 rm -rf %{buildroot}
 rm -f %{SOURCE0}
@@ -86,23 +82,8 @@ A generic event data model for future HEP collider experiments.
 %{_includedir}/edm4hep/*.h
 %{_includedir}/edm4hep/utils/*.h
 
-%package -n python3-edm4hep
-Summary: A generic event data model for future HEP collider experiments (python modules).
-BuildArch: noarch
-Requires: %{name}
-
-%description -n python3-edm4hep
-A generic event data model for future HEP collider experiments.
-
-%files -n python3-edm4hep
-%defattr(-,root,root)
-%dir %{python3_sitelib}/edm4hep
-%dir %{python3_sitelib}/edm4hep/__pycache__
-%{python3_sitelib}/edm4hep/*.py
-%{python3_sitelib}/edm4hep/__pycache__/*
-
 %changelog
-* Fri Oct 20 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.10.0-1
+* Fri Oct 20 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.9.0-1
 - Porting to AlmaLinux 9
 
 

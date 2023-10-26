@@ -23,6 +23,7 @@ BuildRequires: podio-devel
 BuildRequires: python3-podio-utils
 BuildRequires: gaudi-devel
 BuildRequires: gaudi-tools
+BuildRequires: python3-rpm-macros
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/key4hep/k4FWCore/archive/refs/tags/v%{_tagver}.tar.gz
@@ -45,6 +46,7 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_CXX_STANDARD=17 \
       -DBUILD_TESTING=OFF \
       -DCPPGSL_INCLUDE_DIR=/opt/GSL/include \
+      -DCMAKE_INSTALL_LIBDIR=%{buildroot}%{_libdir} \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}
@@ -52,13 +54,15 @@ make %{?_smp_mflags}
 %install
 cd %{_cbuilddir}
 make install
-mv %{buildroot}%{_prefix}/lib %{buildroot}%{_libdir}
+mv %{buildroot}%{_prefix}/lib/cmake/k4FWCore/* %{buildroot}%{cmake_k4fwcore_dir}
+rm -rf %{buildroot}%{_prefix}/lib
 
 mkdir -p %{buildroot}/%{python3_sitelib}
 mv %{buildroot}/%{_prefix}/python/k4FWCore %{buildroot}/%{python3_sitelib}/
 rm -rf %{buildroot}/%{_prefix}/python
 
-sed -i 's|env python|env python3|g' %{buildroot}/%{_bindir}/*
+sed -i -e 's|env python|env python3|g' %{buildroot}/%{_bindir}/*
+sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' %{buildroot}%{cmake_k4fwcore_dir}/*.cmake
 
 %clean
 rm -rf %{buildroot}
@@ -96,6 +100,7 @@ which allows to use podio-based event data models like EDM4hep in Gaudi workflow
 Summary: A generic event data model for future HEP collider experiments (python modules).
 BuildArch: noarch
 Requires: %{name}
+Requires: python3-gaudi
 
 %description -n python3-k4fwcore
 A generic event data model for future HEP collider experiments.
