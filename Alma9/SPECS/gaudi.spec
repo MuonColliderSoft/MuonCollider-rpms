@@ -103,13 +103,6 @@ rm -rf %{buildroot}%{python3_sitelib}/GaudiConfig/__pycache__ \
        %{buildroot}%{python3_sitelib}/GaudiKernel/__pycache__ \
        %{buildroot}%{python3_sitelib}/Gaudi/__pycache__
 
-# workaround for loading algorithms
-mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-printf "export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH:+\${LD_LIBRARY_PATH}:}%{_libdir}\n" \
-       | tee %{buildroot}%{_sysconfdir}/profile.d/gaudi_workaround.sh
-printf "setenv LD_LIBRARY_PATH \${LD_LIBRARY_PATH} %{_libdir}\n" \
-       | tee %{buildroot}%{_sysconfdir}/profile.d/gaudi_workaround.csh
-
 %clean
 rm -rf %{buildroot}
 rm -f %{SOURCE0}
@@ -121,7 +114,6 @@ rm -f %{SOURCE0}
 %{_libdir}/*.rootmap
 %{_libdir}/Gaudi.confdb*
 %{_libdir}/Gaudi.components
-%{_sysconfdir}/profile.d/*
 
 %package devel
 Summary: Interfaces and services for building HEP experiment frameworks (development files)
