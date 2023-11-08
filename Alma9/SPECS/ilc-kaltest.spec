@@ -24,6 +24,7 @@ BuildRequires: chrpath
 BuildRequires: patch
 BuildRequires: ilc-utils-devel
 BuildRequires: ilc-kaltest-headers
+BuildRequires: root-genvector
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/iLCSoft/KalTest/archive/refs/tags/v%{_tagver}.tar.gz
 Patch0: ilc-kaltest-cmake-headers.patch
@@ -78,6 +79,7 @@ Summary: Classes and utilities for Kalman filter algorithms (development files)
 Requires: %{name}
 Requires: ilc-utils-devel
 Requires: ilc-kaltest-headers
+Requires: root-genvector
 
 %description devel
 Classes and utilities for Kalman filter algorithms.

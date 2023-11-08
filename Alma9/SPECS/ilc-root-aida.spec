@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.9.0
-%global _tagver 01-09
+%global _pver 1.11.0
+%global _tagver 01-11
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/RAIDA-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -104,6 +104,8 @@ be created.
 %{_includedir}/RAIDA/*.h
 
 %changelog
+* Mon Jun 08 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.11.0-1
+- New version
 * Mon Jun 08 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.9.0-1
 - Repackaging for CentOS 8
 

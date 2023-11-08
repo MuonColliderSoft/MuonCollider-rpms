@@ -41,6 +41,7 @@ BuildRequires: libunwind-devel
 BuildRequires: ilc-root-aida-devel
 BuildRequires: clhep-devel
 BuildRequires: cpp-gsl-devel
+BuildRequires: python3-devel
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://gitlab.cern.ch/gaudi/Gaudi/-/archive/%{_tagver}/Gaudi-%{_tagver}.tar.gz
@@ -102,6 +103,13 @@ rm -rf %{buildroot}%{python3_sitelib}/GaudiConfig/__pycache__ \
        %{buildroot}%{python3_sitelib}/GaudiKernel/__pycache__ \
        %{buildroot}%{python3_sitelib}/Gaudi/__pycache__
 
+# workaround for loading algorithms
+mkdir -p %{buildroot}%{_sysconfdir}/profile.d
+printf "export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH:+\${LD_LIBRARY_PATH}:}%{_libdir}\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/gaudi_workaround.sh
+print "setenv LD_LIBRARY_PATH \${LD_LIBRARY_PATH} %{_libdir}\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/gaudi_workaround.csh
+
 %clean
 rm -rf %{buildroot}
 rm -f %{SOURCE0}
@@ -113,6 +121,7 @@ rm -f %{SOURCE0}
 %{_libdir}/*.rootmap
 %{_libdir}/Gaudi.confdb*
 %{_libdir}/Gaudi.components
+%{_sysconfdir}/profile.d/*
 
 %package devel
 Summary: Interfaces and services for building HEP experiment frameworks (development files)
@@ -137,6 +146,7 @@ Requires: libunwind-devel
 Requires: ilc-root-aida-devel
 Requires: clhep-devel
 Requires: cpp-gsl-devel
+Requires: python3-devel
 
 %description devel
 The Gaudi project is an open project for providing the necessary interfaces
