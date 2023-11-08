@@ -59,8 +59,10 @@ mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libMarlinDD4hep.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-marlin-dd4hep.sh
-printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libMarlinDD4hep.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-marlin-dd4hep.csh
+printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libMarlinDD4hep.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-marlin-dd4hep.sh
+printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libMarlinDD4hep.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-marlin-dd4hep.csh
 
 %clean
 rm -rf %{buildroot}

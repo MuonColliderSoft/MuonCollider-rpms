@@ -59,8 +59,10 @@ mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libMarlinKinfitProcessors.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-marlin-kinfit-processors.sh
-printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libMarlinKinfitProcessors.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-marlin-kinfit-processors.csh
+printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libMarlinKinfitProcessors.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-marlin-kinfit-processors.sh
+printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libMarlinKinfitProcessors.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-marlin-kinfit-processors.csh
 
 %clean
 rm -rf %{buildroot}

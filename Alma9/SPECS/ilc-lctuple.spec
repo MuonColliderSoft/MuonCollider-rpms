@@ -52,8 +52,10 @@ mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.*
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libLCTuple.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-lctuple.sh
-printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libLCTuple.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-lctuple.csh
+printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libLCTuple.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-lctuple.sh
+printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libLCTuple.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-lctuple.csh
 
 %clean
 rm -rf %{buildroot}

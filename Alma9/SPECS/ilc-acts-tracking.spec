@@ -53,8 +53,10 @@ make install
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libACTSTracking.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-acts-tracking.sh
-printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libACTSTracking.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-acts-tracking.csh
+printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libACTSTracking.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-acts-tracking.sh
+printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libACTSTracking.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-acts-tracking.csh
 
 %clean
 rm -rf %{buildroot}

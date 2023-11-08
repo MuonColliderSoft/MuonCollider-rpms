@@ -71,8 +71,10 @@ sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_lcfivtx_dir}/*.c
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libLCFIVertexProcessors.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/lcfi-vertex.sh
-printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libLCFIVertexProcessors.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/lcfi-vertex.csh
+printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libLCFIVertexProcessors.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/lcfi-vertex.sh
+printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libLCFIVertexProcessors.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/lcfi-vertex.csh
 
 %clean
 rm -rf %{buildroot}

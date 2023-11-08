@@ -107,7 +107,7 @@ rm -rf %{buildroot}%{python3_sitelib}/GaudiConfig/__pycache__ \
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 printf "export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH:+\${LD_LIBRARY_PATH}:}%{_libdir}\n" \
        | tee %{buildroot}%{_sysconfdir}/profile.d/gaudi_workaround.sh
-print "setenv LD_LIBRARY_PATH \${LD_LIBRARY_PATH} %{_libdir}\n" \
+printf "setenv LD_LIBRARY_PATH \${LD_LIBRARY_PATH} %{_libdir}\n" \
        | tee %{buildroot}%{_sysconfdir}/profile.d/gaudi_workaround.csh
 
 %clean

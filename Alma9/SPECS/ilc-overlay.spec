@@ -59,8 +59,10 @@ mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.0.*
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libOverlay.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-overlay.sh
-printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libOverlay.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-overlay.csh
+printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libOverlay.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-overlay.sh
+printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libOverlay.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-overlay.csh
 
 %clean
 rm -rf %{buildroot}

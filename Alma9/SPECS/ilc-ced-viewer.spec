@@ -65,8 +65,10 @@ mkdir -p %{buildroot}%{_cedv_datadir}
 mv %{buildroot}/usr/bin/*.xml %{buildroot}%{_cedv_datadir}
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libCEDViewer.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-ced-viewer.sh
-printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libCEDViewer.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-ced-viewer.csh
+printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libCEDViewer.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-ced-viewer.sh
+printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libCEDViewer.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-ced-viewer.csh
 
 %clean
 rm -rf %{buildroot}

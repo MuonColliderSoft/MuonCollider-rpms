@@ -59,8 +59,10 @@ mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.*
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libMuonCVXDDigitiser.so:%{_libdir}/libMuonCVXDRealDigitiser.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/muonc-tracker-digitizer.sh
-printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libMuonCVXDDigitiser.so:%{_libdir}/libMuonCVXDRealDigitiser.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/muonc-tracker-digitizer.csh
+printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libMuonCVXDDigitiser.so:%{_libdir}/libMuonCVXDRealDigitiser.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/muonc-tracker-digitizer.sh
+printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libMuonCVXDDigitiser.so:%{_libdir}/libMuonCVXDRealDigitiser.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/muonc-tracker-digitizer.csh
 
 %clean
 rm -rf %{buildroot}

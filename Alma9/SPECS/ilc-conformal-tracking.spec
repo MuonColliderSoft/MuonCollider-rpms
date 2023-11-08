@@ -61,8 +61,10 @@ mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.1.*
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libConformalTracking.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-conformal-tracking.sh
-printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libConformalTracking.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-conformal-tracking.csh
+printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libConformalTracking.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-conformal-tracking.sh
+printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libConformalTracking.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-conformal-tracking.csh
 
 %clean
 rm -rf %{buildroot}

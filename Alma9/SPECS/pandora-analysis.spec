@@ -62,8 +62,10 @@ chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so
 chrpath --replace %{_libdir} %{buildroot}%{_bindir}/*
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-printf "export MARLIN_DLL=\$MARLIN_DLL:%{_libdir}/libPandoraAnalysis.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/pandora-analysis.sh
-printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libPandoraAnalysis.so\n" | tee %{buildroot}%{_sysconfdir}/profile.d/pandora-analysis.csh
+printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libPandoraAnalysis.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/pandora-analysis.sh
+printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libPandoraAnalysis.so\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/pandora-analysis.csh
 
 %clean
 rm -rf %{buildroot}
