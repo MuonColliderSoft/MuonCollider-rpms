@@ -22,6 +22,7 @@ BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
 BuildRequires: ilc-kaldet-headers
+Requires: ilc-kaldet-headers
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/iLCSoft/KalDet/archive/refs/tags/v%{_tagver}.tar.gz
 Patch0: ilc-kaldet-cmake-headers.patch
@@ -74,7 +75,6 @@ rm -f %{SOURCE0}
 %package devel
 Summary: Kalman filter algorithms applied to detectors (development files)
 Requires: %{name}
-Requires: ilc-kaldet-headers
 
 %description devel
 Kalman filter algorithms applied to detectors.
