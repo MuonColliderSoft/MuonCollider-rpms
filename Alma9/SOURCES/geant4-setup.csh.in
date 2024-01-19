@@ -4,6 +4,6 @@ if ("x$G4VERSION" == "x10.6.3") then
     source /usr/bin/geant4.csh
 endif
 
-if ("x${G4VERSION}" == "x11.1.0") then
+if ("x${G4VERSION}" == "x11.2.0") then
     setenv GEANT4_DATA_DIR "/usr/share/Geant4/data"
 endif

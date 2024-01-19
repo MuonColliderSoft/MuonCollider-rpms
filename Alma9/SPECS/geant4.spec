@@ -23,11 +23,8 @@
 #global _qtopt OFF
 #endif
 
-#global _pver 10.6.3
-#global _pname geant4.10.06.p03
-
-%global _pver 11.1.0
-%global _pname geant4-v11.1.0
+%global _pver 11.2.0
+%global _pname geant4-v11.2.0
 
 %global _sbuilddir %{_builddir}/geant4/%{_pname}
 %global _cbuilddir %{_builddir}/geant4/build
@@ -239,6 +236,9 @@ Nuclear Instruments and Methods in Physics Research A 506 (2003)
 %{_datadir}/Geant4/geant4make/config/sys/*
 
 %changelog
+* Fri Jan 19 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 11.2.0-1
+- New version
+
 * Thu Feb 02 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 11.1.0-3
 - Repackaging for Alma Linux 9
 

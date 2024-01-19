@@ -1,9 +1,8 @@
 %global debug_package %{nil}
 %undefine _disable_source_fetch
 
-%global _pver 2.4.6
-#global _pver 2.4.1
-%global _prel 3
+%global _pver 2.4.7
+%global _prel 1
 
 %global _sbuilddir %{_builddir}/clhep/%{_pver}.%{_prel}/CLHEP
 %global _cbuilddir %{_builddir}/clhep/build
@@ -66,8 +65,8 @@ random generators, physics vectors, geometry and linear algebra.
 %defattr(-,root,root)
 /usr/bin/*
 %{_libdir}/*.a
-%dir %{_libdir}/CLHEP-%{version}.3
-%{_libdir}/CLHEP-%{version}.3/*.cmake
+%dir %{_libdir}/CLHEP-%{_pver}.%{_prel}
+%{_libdir}/CLHEP-%{_pver}.%{_prel}/*.cmake
 %dir %{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/*.pc
 %{_includedir}/clhep.modulemap
@@ -110,6 +109,8 @@ random generators, physics vectors, geometry and linear algebra.
 
 
 %changelog
+* Fri Jan 19 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.4.7-1
+- New version
 * Thu Feb 02 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.4.6-3
 - Repackaging for Alma Linux 9
 * Thu Jan 30 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.4.1-3
