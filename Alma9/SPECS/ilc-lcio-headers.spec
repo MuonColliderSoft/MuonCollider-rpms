@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 2.17.0
-%global _tagver 02-17-MC
+%global _pver 2.20.2
+%global _tagver 02-20-02-MC
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/LCIO-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -22,7 +22,8 @@ BuildRequires: root
 Requires: root
 Requires: zlib-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://github.com/MuonColliderSoft/LCIO/archive/refs/tags/v%{_tagver}.tar.gz
+#Source0: https://github.com/MuonColliderSoft/LCIO/archive/refs/tags/v%{_tagver}.tar.gz
+Source0: v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
@@ -59,7 +60,6 @@ rm -rf %{SOURCE0}
 %files
 %defattr(-,root,root)
 %dir %{_includedir}/lcio
-%dir %{_includedir}/lcio/CPPFORT
 %dir %{_includedir}/lcio/DATA
 %dir %{_includedir}/lcio/IMPL
 %dir %{_includedir}/lcio/IOIMPL
@@ -73,7 +73,6 @@ rm -rf %{SOURCE0}
 %dir %{_includedir}/sio
 %dir %{_includedir}/sio/compression
 %{_includedir}/lcio/*.h
-%{_includedir}/lcio/CPPFORT/*.h
 %{_includedir}/lcio/DATA/*.h
 %{_includedir}/lcio/IMPL/*.h
 %{_includedir}/lcio/IOIMPL/*.h

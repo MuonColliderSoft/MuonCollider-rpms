@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.8.0
-%global _tagver 00-08
+%global _pver 0.9.0
+%global _tagver 00-09
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/LCFIVertex-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -121,6 +121,8 @@ Package for vertex finding as well as vertex charge determination in b- and c-je
 %{_includedir}/vertex_lcfi/zvtop/include/*.h
 
 %changelog
+* Mon Jan 29 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.9.0-1
+- New version of LCFIVertex
 * Thu Aug 27 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.8.0-1
 - Repackaging for CentOS 8
 

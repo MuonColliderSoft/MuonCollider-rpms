@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 13.0.0
-%global _tagver 13.0.0
+%global _pver 32.0.0
+%global _tagver 32.0.0
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/acts-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -88,13 +88,22 @@ Toolkit for charged particle track reconstruction.
 %{cmake_acts_dir}/Modules/*.cmake
 %dir %{_includedir}/Acts
 %{_includedir}/Acts/*.hpp
+%dir %{_includedir}/Acts/AmbiguityResolution
+%{_includedir}/Acts/AmbiguityResolution/*.hpp
+%{_includedir}/Acts/AmbiguityResolution/*.ipp
 %dir %{_includedir}/Acts/Clusterization
 %{_includedir}/Acts/Clusterization/*.hpp
 %{_includedir}/Acts/Clusterization/*.ipp
 %dir %{_includedir}/Acts/Definitions
 %{_includedir}/Acts/Definitions/*.hpp
-#dir %{_includedir}/Acts/Digitization
-#{_includedir}/Acts/Digitization/*.hpp
+%dir %{_includedir}/Acts/Detector
+%{_includedir}/Acts/Detector/*.hpp
+%dir %{_includedir}/Acts/Detector/detail
+%{_includedir}/Acts/Detector/detail/*.hpp
+%dir %{_includedir}/Acts/Detector/interface
+%{_includedir}/Acts/Detector/interface/*.hpp
+%dir %{_includedir}/Acts/Digitization
+%{_includedir}/Acts/Digitization/*.hpp
 %dir %{_includedir}/Acts/EventData
 %{_includedir}/Acts/EventData/*.hpp
 %{_includedir}/Acts/EventData/*.ipp
@@ -103,16 +112,15 @@ Toolkit for charged particle track reconstruction.
 %dir %{_includedir}/Acts/Geometry
 %{_includedir}/Acts/Geometry/*.hpp
 %dir %{_includedir}/Acts/Geometry/detail
-%{_includedir}/Acts/Geometry/detail/*.hpp
 %{_includedir}/Acts/Geometry/detail/*.ipp
 %dir %{_includedir}/Acts/MagneticField
 %{_includedir}/Acts/MagneticField/*.hpp
-%dir %{_includedir}/Acts/MagneticField/detail
-%{_includedir}/Acts/MagneticField/detail/*.hpp
 %dir %{_includedir}/Acts/Material
 %{_includedir}/Acts/Material/*.hpp
 %dir %{_includedir}/Acts/Material/detail
 %{_includedir}/Acts/Material/detail/*.hpp
+%dir %{_includedir}/Acts/Navigation
+%{_includedir}/Acts/Navigation/*.hpp
 %dir %{_includedir}/Acts/Propagator
 %{_includedir}/Acts/Propagator/*.hpp
 %{_includedir}/Acts/Propagator/*.ipp
@@ -121,10 +129,13 @@ Toolkit for charged particle track reconstruction.
 %dir %{_includedir}/Acts/Seeding
 %{_includedir}/Acts/Seeding/*.hpp
 %{_includedir}/Acts/Seeding/*.ipp
-#dir %{_includedir}/Acts/SpacePointFormation
-#dir %{_includedir}/Acts/SpacePointFormation/detail
-#{_includedir}/Acts/SpacePointFormation/*.hpp
-#{_includedir}/Acts/SpacePointFormation/detail/*.ipp
+%dir %{_includedir}/Acts/Seeding/detail
+%{_includedir}/Acts/Seeding/detail/*.hpp
+%{_includedir}/Acts/Seeding/detail/*.ipp
+%dir %{_includedir}/Acts/SpacePointFormation
+%{_includedir}/Acts/SpacePointFormation/*.hpp
+%dir %{_includedir}/Acts/SpacePointFormation/detail
+%{_includedir}/Acts/SpacePointFormation/detail/*.ipp
 %dir %{_includedir}/Acts/Surfaces
 %{_includedir}/Acts/Surfaces/*.hpp
 %{_includedir}/Acts/Surfaces/*.ipp
@@ -165,6 +176,8 @@ Toolkit for charged particle track reconstruction.
 
 
 %changelog
+* Mon Jan 29 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 32.0.0-1
+- New major version for ACTS
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 13.0.0-1
 - Repackaging for CentOS 8
 

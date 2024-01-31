@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.7.0
-%global _tagver 01-07
+%global _pver 1.7.1
+%global _tagver 01-07-01
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/iLCUtil-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -103,6 +103,8 @@ It is intended to be a "meta-package" which packages together a set of independe
 utility packages living in separate sub-directories.
 
 %changelog
+* Fri Jan 19 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.7.1-1
+- New version
 * Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.7.0-1
 - New version of iLC utils
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.6.2-1

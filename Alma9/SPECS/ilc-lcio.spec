@@ -1,13 +1,13 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 2.17.0
-%global _tagver 02-17-MC
+%global _pver 2.20.2
+%global _tagver 02-20-02-MC
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/LCIO-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
-%global cmake_lcio_dir %{_libdir}/cmake/lcio
+%global cmake_lcio_dir %{_libdir}/cmake/LCIO
 
 Summary: Event data model and persistency for Linear Collider detector
 Name: ilc-lcio
@@ -28,7 +28,8 @@ BuildRequires: chrpath
 BuildRequires: root
 BuildRequires: ilc-lcio-headers
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://github.com/MuonColliderSoft/LCIO/archive/refs/tags/v%{_tagver}.tar.gz
+#Source0: https://github.com/MuonColliderSoft/LCIO/archive/refs/tags/v%{_tagver}.tar.gz
+Source0: v%{_tagver}.tar.gz
 Patch0: ilc-lcio-new-headers.patch
 AutoReqProv: yes
 
@@ -57,10 +58,13 @@ make %{?_smp_mflags}
 cd %{_cbuilddir}
 make install
 rm -rf %{buildroot}%{_includedir}/*
-mkdir -p %{buildroot}%{cmake_lcio_dir}
-mv %{buildroot}/usr/*.cmake %{buildroot}%{_libdir}/cmake/*.cmake %{buildroot}%{cmake_lcio_dir}
-sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' %{buildroot}%{cmake_lcio_dir}/*.cmake
-sed -i -e 's|lib64/cmake|lib64/cmake/lcio|g' %{buildroot}%{cmake_lcio_dir}/*.cmake
+mv %{buildroot}%{_libdir}/cmake/*.cmake %{buildroot}%{cmake_lcio_dir}
+ln -s %{buildroot}%{_libdir}/cmake/SIO/SIOTargets-relwithdebinfo.cmake \
+      %{buildroot}%{cmake_lcio_dir}/SIOTargets-relwithdebinfo.cmake
+ln -s %{buildroot}%{_libdir}/cmake/SIO/SIOTargets.cmake \
+      %{buildroot}%{cmake_lcio_dir}/SIOTargets.cmake
+sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' \
+       -e 's|lib64/cmake|lib64/cmake/LCIO|g' %{buildroot}%{cmake_lcio_dir}/*.cmake
 sed -i -e 's|PATHS|PATHS %{_includedir}/lcio|g' %{buildroot}%{cmake_lcio_dir}/LCIOConfig.cmake
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.*
 chrpath --replace %{_libdir} \
@@ -85,7 +89,6 @@ rm -rf %{SOURCE0}
 %defattr(-,root,root)
 %{_libdir}/*.so*
 %{_libdir}/*.pcm
-%{_libdir}/*.a
 
 %package devel
 Summary: Event data model and persistency for Linear Collider detector (development files)
@@ -100,6 +103,8 @@ and persistency solution for Linear Collider detector R&D studies.
 %defattr(-,root,root)
 %dir %{cmake_lcio_dir}
 %{cmake_lcio_dir}/*.cmake
+%dir %{_libdir}/cmake/SIO
+%{_libdir}/cmake/SIO/*.cmake
 
 %package -n python3-lcio
 Summary: Event data model and persistency for Linear Collider detector (python files)
