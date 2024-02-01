@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.12.0
-%global _tagver 01-12-MC
+%global _pver 1.12.1
+%global _tagver 01-12-01-RC1
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/ConformalTracking-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -76,6 +76,8 @@ rm -f %{SOURCE0}
 %{_libdir}/*.so*
 
 %changelog
+* Thu Feb 01 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.12.1-1
+* New version of Conformal tracking
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.12.0-1
 - New version of Conformal tracking
 * Fri Nov 27 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.11.0-1
