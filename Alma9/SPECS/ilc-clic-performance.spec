@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 2.4.1
-%global _tagver 02-04-01
+%global _pver 2.5.0
+%global _tagver 02-05
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/CLICPerformance-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -79,6 +79,8 @@ rm -f %{SOURCE0}
 %{_libdir}/*.so*
 
 %changelog
+* Wed Jan 31 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.5.0-1
+- New version of CLICPerformance
 * Mon Mar 29 2021 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.4.1-1
 - Repackaging for CentOS 8
 

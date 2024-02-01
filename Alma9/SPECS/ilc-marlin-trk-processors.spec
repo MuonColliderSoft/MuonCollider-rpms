@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 2.15.0
-%global _tagver 02-15-MC
+%global _pver 2.15.1
+%global _tagver 02-15-01-RC1
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinTrkProcessors-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -74,6 +74,8 @@ rm -rf %{SOURCE0}
 %{_libdir}/*.so
 
 %changelog
+* Thu Feb 01 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.15.1-1
+- New version of MarlinTrk processor
 * Wed Apr 26 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.15.0-1
 - New version of MarlinTrk processor
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.13.0-1

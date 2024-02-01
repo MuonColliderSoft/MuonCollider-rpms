@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 %global _pver 2.20.2
-%global _tagver 02-20-02-MC
+%global _tagver 02-20-02-RC1
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/LCIO-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -28,8 +28,7 @@ BuildRequires: chrpath
 BuildRequires: root
 BuildRequires: ilc-lcio-headers
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-#Source0: https://github.com/MuonColliderSoft/LCIO/archive/refs/tags/v%{_tagver}.tar.gz
-Source0: v%{_tagver}.tar.gz
+Source0: https://github.com/MuonColliderSoft/LCIO/archive/refs/tags/v%{_tagver}.tar.gz
 Patch0: ilc-lcio-new-headers.patch
 AutoReqProv: yes
 
@@ -156,6 +155,8 @@ and persistency solution for Linear Collider detector R&D studies.
 %{_bindir}/*
 
 %changelog
+* Wed Jan 31 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.20.2-1
+- New version of LCIO
 * Tue Feb 28 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.17.0-1
 - New version of LCIO
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.16.1-1

@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.24.0
-%global _tagver 00-24-MC
+%global _pver 0.25.0
+%global _tagver 00-25-RC1
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/Overlay-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -74,6 +74,8 @@ rm -rf %{SOURCE0}
 %{_libdir}/*.so*
 
 %changelog
+* Wed Jan 31 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.25.0-1
+- New version of Overlay
 * Tue Feb 28 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.24.0-1
 - New version of Overlay
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.23.0-1

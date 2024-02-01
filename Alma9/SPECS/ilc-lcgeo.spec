@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 %global _pver 0.19.0
-%global _tagver 00-19-MC
+%global _tagver 00-19-RC2
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/lcgeo-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -22,8 +22,7 @@ BuildRequires: cmake
 BuildRequires: aida-dd4hep-devel
 BuildRequires: chrpath
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-#Source0: https://github.com/MuonColliderSoft/lcgeo/archive/refs/tags/v%{_tagver}.tar.gz
-Source0: v%{_tagver}.tar.gz
+Source0: https://github.com/MuonColliderSoft/lcgeo/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
