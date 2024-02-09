@@ -20,7 +20,6 @@ BuildRequires: make
 BuildRequires: key4hep-fw-core-devel
 BuildRequires: ilc-marlin-devel
 BuildRequires: key4hep-edm4hep2lcio-devel
-BuildRequires: key4hep-lcio-reader-devel
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/key4hep/k4MarlinWrapper/archive/refs/tags/v%{_tagver}.tar.gz

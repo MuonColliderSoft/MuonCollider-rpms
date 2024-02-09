@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.4.0
-%global _tagver 00-04
+%global _pver 0.7.0
+%global _tagver 00-07
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/k4EDM4hep2LcioConv-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -55,6 +55,7 @@ rm -f %{SOURCE0}
 %files
 %defattr(-,root,root)
 %{_libdir}/*.so
+%{_bindir}/lcio2edm4hep
 
 %package devel
 Summary: Tools and libraries for the conversion between EDM4hep and LCIO (development files).
@@ -71,9 +72,10 @@ Tools and libraries for the conversion between EDM4hep and LCIO.
 %{cmake_edm2lcio_dir}/*.cmake
 %dir %{_includedir}/k4EDM4hep2LcioConv
 %{_includedir}/k4EDM4hep2LcioConv/*.h
+%{_includedir}/k4EDM4hep2LcioConv/*.ipp
 
 %changelog
-* Fri Feb 09 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.4.0-1
+* Fri Feb 09 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.7.0-1
 - Porting to AlmaLinux 9
 
 
