@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.36.16
-%global _tagver v36r16
+%global _pver 0.37.2
+%global _tagver v37r2
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/Gaudi-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -161,6 +161,7 @@ processing applications.
 %dir %{_includedir}/Gaudi/Arena
 %dir %{_includedir}/Gaudi/Chrono
 %dir %{_includedir}/Gaudi/Details
+%dir %{_includedir}/Gaudi/Functional
 %dir %{_includedir}/Gaudi/Histograming
 %dir %{_includedir}/Gaudi/Histograming/Sink
 %dir %{_includedir}/Gaudi/Interfaces
@@ -174,12 +175,14 @@ processing applications.
 %dir %{_includedir}/GaudiUtils
 %dir %{_includedir}/RootCnv
 %{_includedir}/GAUDI_VERSION.h
+%{_includedir}/GaudiKernelVersion.h
 %{_includedir}/Gaudi/*.h
 %{_includedir}/Gaudi/Accumulators/*.h
 %{_includedir}/Gaudi/Allocator/*.h
 %{_includedir}/Gaudi/Arena/*.h
 %{_includedir}/Gaudi/Chrono/*.h
 %{_includedir}/Gaudi/Details/*.h
+%{_includedir}/Gaudi/Functional/*.h
 %{_includedir}/Gaudi/Histograming/Sink/*.h
 %{_includedir}/Gaudi/Interfaces/*.h
 %{_includedir}/Gaudi/Parsers/*.h
@@ -315,7 +318,7 @@ and services for building HEP experiment frameworks in the domain of event data
 processing applications.
 
 %changelog
-* Tue May 30 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.36.12-1
+* Fri Feb 09 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.37.2-1
 - Porting to AlmaLinux 9
 
 

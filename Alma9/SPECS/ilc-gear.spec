@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.9.1
-%global _tagver 01-09-01
+%global _pver 1.9.2
+%global _tagver 01-09-02
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/GEAR-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -106,6 +106,8 @@ GEometry Api for Reconstruction.
 
 
 %changelog
+* Wed Feb 07 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.9.2-1
+- New version of GEAR
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.9.1-1
 - New version of GEAR
 * Wed Mar 25 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.9.0-1

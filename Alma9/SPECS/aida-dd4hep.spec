@@ -34,6 +34,7 @@ BuildRequires: root-graf3d-eve7
 BuildRequires: root-gui-browserv7
 BuildRequires: root-histv7
 BuildRequires: HepMC3-devel
+BuildRequires: edm4hep-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 Source0: https://github.com/AIDASoft/DD4hep/archive/refs/tags/v%{_tagver}.tar.gz
@@ -65,6 +66,7 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DDD4HEP_USE_LCIO=ON \
       -DDD4HEP_USE_XERCESC=OFF \
       -DDD4HEP_USE_GEAR=ON \
+      -DDD4HEP_USE_EDM4HEP=ON \
       -DDD4HEP_USE_HEPMC3=ON \
       -DBUILD_TESTING=OFF \
       -DDD4HEP_SET_RPATH=OFF \
@@ -161,6 +163,7 @@ Requires: root-graf3d-eve7
 Requires: root-gui-browserv7
 Requires: root-histv7
 Requires: HepMC3-devel
+Requires: edm4hep-devel
 
 %description devel
 DD4hep is a software framework for providing a complete solution

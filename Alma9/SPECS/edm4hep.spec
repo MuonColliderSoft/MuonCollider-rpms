@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.9.0
-%global _tagver 00-09
+%global _pver 0.10.4
+%global _tagver 00-10-04
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/EDM4hep-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -49,6 +49,7 @@ make %{?_smp_mflags}
 %install
 cd %{_cbuilddir}
 make install
+rm -rf %{buildroot}%{_prefix}/python
 
 %clean
 rm -rf %{buildroot}
@@ -83,7 +84,7 @@ A generic event data model for future HEP collider experiments.
 %{_includedir}/edm4hep/utils/*.h
 
 %changelog
-* Fri Oct 20 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.9.0-1
+* Fri Feb 09 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.10.4-1
 - Porting to AlmaLinux 9
 
 

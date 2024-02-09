@@ -73,7 +73,7 @@ Tools and libraries for the conversion between EDM4hep and LCIO.
 %{_includedir}/k4EDM4hep2LcioConv/*.h
 
 %changelog
-* Wed Oct 25 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.4.0-1
+* Fri Feb 09 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.4.0-1
 - Porting to AlmaLinux 9
 
 

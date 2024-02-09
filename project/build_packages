@@ -12,11 +12,15 @@
 set -e
 
 rpmbuild -ba SPECS/ilc-utils.spec
+rpmbuild -ba SPECS/podio.spec
 rpmbuild -ba SPECS/ilc-lcio-headers.spec
 rpmbuild -ba SPECS/ilc-kaltest-headers.spec
+rpmbuild -ba SPECS/cpp-gsl-devel.spec
 sudo yum -y localinstall RPMS/x86_64/ilc-utils* \
+                         RPMS/x86_64/podio* RPMS/noarch/*podio* \
                          RPMS/x86_64/ilc-lcio-headers* \
-                         RPMS/x86_64/ilc-kaltest-headers*
+                         RPMS/x86_64/ilc-kaltest-headers* \
+                         RPMS/x86_64/cpp-gsl-devel-*
 
 rpmbuild -ba SPECS/ilc-ced.spec
 rpmbuild -ba SPECS/ilc-gear.spec
@@ -25,7 +29,7 @@ rpmbuild -ba SPECS/ilc-lcio.spec
 rpmbuild -ba SPECS/gbl-toolkit.spec
 rpmbuild -ba SPECS/ilc-root-aida.spec
 rpmbuild -ba SPECS/ilc-kaltest.spec
-QA_SKIP_BUILD_ROOT=1 rpmbuild -ba SPECS/pandora-pfa.spec
+rpmbuild -ba SPECS/pandora-pfa.spec
 sudo yum -y localinstall RPMS/x86_64/ilc-ced* \
                          RPMS/x86_64/ilc-gear* \
                          RPMS/x86_64/fastjet* \
@@ -36,6 +40,9 @@ sudo yum -y localinstall RPMS/x86_64/ilc-ced* \
                          RPMS/x86_64/ilc-kaltest-2* \
                          RPMS/x86_64/ilc-kaltest-dev* \
                          RPMS/x86_64/pandora-pfa*
+
+rpmbuild -ba SPECS/edm4hep.spec
+sudo yum -y localinstall RPMS/x86_64/edm4hep-*
 
 rpmbuild -ba SPECS/aida-dd4hep.spec
 rpmbuild -ba SPECS/fastjet-contrib.spec
@@ -117,18 +124,11 @@ sudo yum -y localinstall RPMS/x86_64/ilc-acts-tracking-* \
                          RPMS/noarch/python3-* \
                          RPMS/noarch/muonc-base-installation-*
 
-rpmbuild -ba SPECS/cpp-gsl-devel.spec
-sudo yum -y localinstall RPMS/x86_64/cpp-gsl-devel-*
-
 rpmbuild -ba SPECS/gaudi.spec
-rpmbuild -ba SPECS/podio.spec
-sudo yum -y localinstall RPMS/x86_64/*gaudi* \
-                         RPMS/x86_64/podio* RPMS/noarch/*podio*
+sudo yum -y localinstall RPMS/x86_64/*gaudi*
 
-rpmbuild -ba SPECS/edm4hep.spec
 rpmbuild -ba SPECS/key4hep-fw-core.spec
-sudo yum -y localinstall RPMS/x86_64/edm4hep-* \
-                         RPMS/x86_64/key4hep-fw-core-* \
+sudo yum -y localinstall RPMS/x86_64/key4hep-fw-core-* \
                          RPMS/noarch/*k4fwcore*
 
 rpmbuild -ba SPECS/key4hep-edm4hep2lcio.spec

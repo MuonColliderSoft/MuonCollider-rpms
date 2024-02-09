@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.16.5
-%global _tagver 00-16-05
+%global _pver 0.17.3
+%global _tagver 00-17-03
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/podio-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -112,9 +112,13 @@ PODIO is a C++ library to support the creation and handling of data models in pa
 %files -n python3-podio
 %defattr(-,root,root)
 %dir %{python3_sitelib}/podio
+%dir %{python3_sitelib}/podio_gen
 %dir %{python3_sitelib}/podio/__pycache__
+%dir %{python3_sitelib}/podio_gen/__pycache__
 %{python3_sitelib}/podio/*.py
 %{python3_sitelib}/podio/__pycache__/*
+%{python3_sitelib}/podio_gen/*.py
+%{python3_sitelib}/podio_gen/__pycache__/*
 
 %package -n python3-podio-utils
 Summary: Library handling data models in particle physics (tools and models).
@@ -141,7 +145,7 @@ PODIO is a C++ library to support the creation and handling of data models in pa
 %{_datadir}/podio/templates/schemaevolution/*.jinja2
 
 %changelog
-* Fri Oct 20 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.16.5-1
+* Fri Feb 09 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.17.3-1
 - Porting to AlmaLinux 9
 
 

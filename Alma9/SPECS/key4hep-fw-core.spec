@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.9.16
-%global _tagver 01-00pre16
+%global _pver 0.9.17
+%global _tagver 01-00pre17
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/k4FWCore-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -113,7 +113,7 @@ A generic event data model for future HEP collider experiments.
 %{python3_sitelib}/k4FWCore/__pycache__/*
 
 %changelog
-* Fri Oct 20 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.9.16-1
+* Fri Feb 09 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.9.17-1
 - Porting to AlmaLinux 9
 
 

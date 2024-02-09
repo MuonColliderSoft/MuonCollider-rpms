@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.19.0
-%global _tagver 01-19
+%global _pver 1.19.1
+%global _tagver 01-19-01
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/Marlin-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -96,6 +96,8 @@ Modular Analysis and Reconstruction for the LINear Collider.
 %{_includedir}/marlin/*.h
 
 %changelog
+* Wed Feb 07 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.19.1-1
+- New version of Marlin
 * Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.19.0-1
 - New version of Marlin
 * Fri Oct 02 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.17.1-1

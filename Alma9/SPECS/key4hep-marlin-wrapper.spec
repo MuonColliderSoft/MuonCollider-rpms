@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.6.0
-%global _tagver 00-06
+%global _pver 0.7.0
+%global _tagver 00-07
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/k4MarlinWrapper-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -92,6 +92,6 @@ Gaudi algorithm wrapping Marlin processors.
 
 
 %changelog
-* Wed Oct 25 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.6.0-1
+* Tue Feb 06 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.7.0-1
 - Porting to AlmaLinux 9
 
