@@ -26,6 +26,7 @@ BuildRequires: ilc-marlin-util-devel
 BuildRequires: ilc-marlin-trk-devel
 BuildRequires: ilc-kitrack-devel
 BuildRequires: ilc-kitrack-marlin-devel
+BuildRequires: ilc-ddkaltest-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/MuonColliderSoft/MarlinTrkProcessors/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
