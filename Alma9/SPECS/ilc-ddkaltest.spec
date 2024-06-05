@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.7.0
-%global _tagver 01-07
+%global _pver 1.7.1
+%global _tagver 01-07-01
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/DDKalTest-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -102,6 +102,8 @@ aidaTT. Material effects use averaged material from the DDRec:Surface.
 %{_includedir}/DDKalTest/*.h
 
 %changelog
+* Tue May 28 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.7.1-1
+- New version for DDKalTest
 * Fri Jul 03 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.6.0-1
 - Repackaging for CentOS 8
 

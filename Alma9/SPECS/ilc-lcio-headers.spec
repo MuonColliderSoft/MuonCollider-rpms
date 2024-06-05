@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 2.20.2
-%global _tagver 02-20-02-RC1
+%global _pver 2.22.0
+%global _tagver 02-22-RC1
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/LCIO-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -19,7 +19,9 @@ BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: root
+BuildRequires: ilc-sio-devel
 Requires: root
+Requires: ilc-sio-devel
 Requires: zlib-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/MuonColliderSoft/LCIO/archive/refs/tags/v%{_tagver}.tar.gz
@@ -47,7 +49,7 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
 %install
 mkdir -p %{buildroot}%{_includedir}/lcio
 cp -r %{_sbuilddir}/src/cpp/include/* %{buildroot}%{_includedir}/lcio
-cp -r %{_sbuilddir}/sio/include/sio %{buildroot}%{_includedir}
+#cp -r %{_sbuilddir}/sio/include/sio %{buildroot}%{_includedir}
 rm %{buildroot}%{_includedir}/lcio/DATA/README
 ln -s %{_includedir}/lcio/pre-generated/EVENT %{buildroot}%{_includedir}/lcio/EVENT
 ln -s %{_includedir}/lcio/pre-generated/IO %{buildroot}%{_includedir}/lcio/IO
@@ -69,8 +71,6 @@ rm -rf %{SOURCE0}
 %dir %{_includedir}/lcio/pre-generated
 %dir %{_includedir}/lcio/pre-generated/EVENT
 %dir %{_includedir}/lcio/pre-generated/IO
-%dir %{_includedir}/sio
-%dir %{_includedir}/sio/compression
 %{_includedir}/lcio/*.h
 %{_includedir}/lcio/DATA/*.h
 %{_includedir}/lcio/IMPL/*.h
@@ -83,13 +83,11 @@ rm -rf %{SOURCE0}
 %{_includedir}/lcio/SIO/*.h
 %{_includedir}/lcio/pre-generated/EVENT/*.h
 %{_includedir}/lcio/pre-generated/IO/*.h
-%{_includedir}/sio/*.h
-%{_includedir}/sio/compression/*.h
 %{_includedir}/lcio/EVENT
 %{_includedir}/lcio/IO
 
 %changelog
-* Wed Jan 31 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.20.2-1
+* Wed Jan 31 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.22.0-1
 - New version of LCIO
 * Tue Feb 28 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.17.0-1
 - New version of LCIO

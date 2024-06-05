@@ -2,8 +2,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.1.0
-%global _tagver 1.1.0
+%global _pver 1.2.0
+%global _tagver 01-02-RC2
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/ACTSTracking-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -11,7 +11,7 @@
 Summary: Marlin processor for running track reconstructions using the ACTS library
 Name: ilc-acts-tracking
 Version: %{_pver}
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL v.3
 Vendor: INFN
 URL: https://github.com/MuonColliderSoft/ACTSTracking

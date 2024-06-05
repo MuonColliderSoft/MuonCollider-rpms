@@ -13,19 +13,19 @@ set -e
 
 rpmbuild -ba SPECS/ilc-utils.spec
 rpmbuild -ba SPECS/podio.spec
-rpmbuild -ba SPECS/ilc-lcio-headers.spec
 rpmbuild -ba SPECS/ilc-kaltest-headers.spec
 rpmbuild -ba SPECS/cpp-gsl-devel.spec
+rpmbuild -ba SPECS/ilc-sio.spec
 sudo yum -y localinstall RPMS/x86_64/ilc-utils* \
                          RPMS/x86_64/podio* RPMS/noarch/*podio* \
-                         RPMS/x86_64/ilc-lcio-headers* \
                          RPMS/x86_64/ilc-kaltest-headers* \
-                         RPMS/x86_64/cpp-gsl-devel-*
+                         RPMS/x86_64/cpp-gsl-devel-* \
+                         RPMS/x86_64/ilc-sio-*
 
 rpmbuild -ba SPECS/ilc-ced.spec
 rpmbuild -ba SPECS/ilc-gear.spec
 rpmbuild -ba SPECS/fastjet.spec
-rpmbuild -ba SPECS/ilc-lcio.spec
+rpmbuild -ba SPECS/ilc-lcio-headers.spec
 rpmbuild -ba SPECS/gbl-toolkit.spec
 rpmbuild -ba SPECS/ilc-root-aida.spec
 rpmbuild -ba SPECS/ilc-kaltest.spec
@@ -33,16 +33,18 @@ rpmbuild -ba SPECS/pandora-pfa.spec
 sudo yum -y localinstall RPMS/x86_64/ilc-ced* \
                          RPMS/x86_64/ilc-gear* \
                          RPMS/x86_64/fastjet* \
-                         RPMS/x86_64/ilc-lcio-2* \
-                         RPMS/x86_64/ilc-lcio-dev* \
+                         RPMS/x86_64/ilc-lcio-headers* \
                          RPMS/x86_64/gbl-toolkit* \
                          RPMS/x86_64/ilc-root-aida* \
                          RPMS/x86_64/ilc-kaltest-2* \
                          RPMS/x86_64/ilc-kaltest-dev* \
                          RPMS/x86_64/pandora-pfa*
 
+rpmbuild -ba SPECS/ilc-lcio.spec
 rpmbuild -ba SPECS/edm4hep.spec
-sudo yum -y localinstall RPMS/x86_64/edm4hep-*
+sudo yum -y localinstall RPMS/x86_64/ilc-lcio-2* \
+                         RPMS/x86_64/ilc-lcio-dev* \
+                         RPMS/x86_64/edm4hep-*
 
 rpmbuild -ba SPECS/aida-dd4hep.spec
 rpmbuild -ba SPECS/fastjet-contrib.spec
@@ -95,7 +97,7 @@ rpmbuild -ba SPECS/ilc-clic-performance.spec
 rpmbuild -ba SPECS/ilc-marlin-reco.spec
 sudo yum -y localinstall RPMS/x86_64/ilc-kitrack-marlin*
 
-QA_SKIP_BUILD_ROOT=1 rpmbuild -ba SPECS/ilc-acts-tracking.spec
+rpmbuild -ba SPECS/ilc-acts-tracking.spec
 rpmbuild -ba SPECS/ilc-forward-tracking.spec
 rpmbuild -ba SPECS/ilc-marlin-trk-processors.spec
 rpmbuild -ba SPECS/muonc-tracker-digitizer.spec

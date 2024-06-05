@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 2.9.0
-%global _tagver 02-09-01
+%global _pver 2.9.2
+%global _tagver 02-09-02
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinTrk-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -99,7 +99,7 @@ track fitting in Marlin.
 %{_includedir}/MarlinTrk/*.h
 
 %changelog
-* Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.9.0-1
+* Tue May 28 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.9.2-1
 - New version of Marlin Tracking
 * Mon Jul 13 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.8.0-1
 - Repackaging for CentOS 8

@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.34.0
-%global _tagver 01-34
+%global _pver 1.35.0
+%global _tagver 01-35
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinReco-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -79,7 +79,7 @@ rm -f %{SOURCE0}
 %{_libdir}/*.so*
 
 %changelog
-* Wed Jan 31 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.34.0-1
+* Tue May 28 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.35.0-1
 - New version of MarlinReco
 * Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.33.1-1
 - New version of MarlinReco

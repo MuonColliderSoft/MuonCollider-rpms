@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 32.0.0
-%global _tagver 32.0.0
+%global _pver 32.1.0
+%global _tagver 32.1.0
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/acts-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -176,7 +176,7 @@ Toolkit for charged particle track reconstruction.
 
 
 %changelog
-* Mon Jan 29 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 32.0.0-1
+* Tue May 28 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 32.1.0-1
 - New major version for ACTS
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 13.0.0-1
 - Repackaging for CentOS 8

@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 %global _pver 2.15.1
-%global _tagver 02-15-01-RC1
+%global _tagver 02-15-01-RC2
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinTrkProcessors-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -10,7 +10,7 @@
 Summary: A collection of tracking related processors based on MarlinTrk
 Name: ilc-marlin-trk-processors
 Version: %{_pver}
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL v.3
 Vendor: INFN
 URL: https://github.com/MuonColliderSoft/MarlinTrkProcessors
@@ -45,8 +45,6 @@ cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
-      -DBOOST_INCLUDEDIR=%{_includedir}/boost \
-      -DBOOST_LIBRARYDIR=%{_libdir}/boost  \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}

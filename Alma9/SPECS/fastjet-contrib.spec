@@ -2,8 +2,8 @@
 # see https://docs.fedoraproject.org/en-US/packaging-guidelines/#_packaging_static_libraries
 %undefine _disable_source_fetch
 
-%global _pver 1.53.0
-%global _tagver 1.053
+%global _pver 1.54.0
+%global _tagver 1.054
 
 %global _maindir %{_builddir}/fjcontrib-%{_tagver}
 
@@ -66,7 +66,7 @@ Provides: libfastjetcontribfragile.so()(64bit)
 %{_includedir}/fastjet/contrib/*.hh
 
 %changelog
-* Fri Jan 19 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.53.0-1
+* Tue May 28 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.54.0-1
 - New version
 * Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.50.0-1
 - New version of FastJet contribution

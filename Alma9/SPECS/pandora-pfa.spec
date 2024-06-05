@@ -2,8 +2,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 4.6.2
-%global _tagver 04-06-02
+%global _pver 4.8.1
+%global _tagver 04-08-01
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/PandoraPFA-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -178,7 +178,7 @@ Suite for particle flow analysis.
 %{_includedir}/TTreeWrapper.h
 
 %changelog
-* Fri Jan 19 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 4.6.2-1
+* Wed May 22 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 4.8.1-1
 - New version of PandoraPFA
 * Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 4.2.0-1
 - New version of PandoraPFA
