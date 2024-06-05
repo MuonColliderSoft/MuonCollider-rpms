@@ -134,8 +134,7 @@ sudo yum -y localinstall RPMS/x86_64/key4hep-fw-core-* \
                          RPMS/noarch/*k4fwcore*
 
 rpmbuild -ba SPECS/key4hep-edm4hep2lcio.spec
-sudo yum -y localinstall RPMS/x86_64/key4hep-edm4hep2lcio-* \
-                         RPMS/x86_64/key4hep-lcio-reader-*
+sudo yum -y localinstall RPMS/x86_64/key4hep-edm4hep2lcio-*
 
 rpmbuild -ba SPECS/key4hep-marlin-wrapper.spec
 sudo yum -y localinstall RPMS/x86_64/key4hep-marlin-wrapper*

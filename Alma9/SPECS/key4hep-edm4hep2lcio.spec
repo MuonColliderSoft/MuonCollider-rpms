@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.7.0
-%global _tagver 00-07
+%global _pver 0.8.2
+%global _tagver 00-08-02
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/k4EDM4hep2LcioConv-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -37,6 +37,9 @@ mkdir -p %{buildroot}
 %build
 mkdir %{_cbuilddir}
 cd %{_cbuilddir}
+sed -i '1i include_directories(${LCIO_INCLUDE_DIRS})' \
+       %{_sbuilddir}/k4EDM4hep2LcioConv/CMakeLists.txt \
+       %{_sbuilddir}/standalone/CMakeLists.txt
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
@@ -75,7 +78,7 @@ Tools and libraries for the conversion between EDM4hep and LCIO.
 %{_includedir}/k4EDM4hep2LcioConv/*.ipp
 
 %changelog
-* Fri Feb 09 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.7.0-1
+* Tue May 28 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.8.2-1
 - Porting to AlmaLinux 9
 
 
