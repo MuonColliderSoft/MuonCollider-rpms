@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.19.0
-%global _tagver 00-19-RC2
+%global _pver 0.20.0
+%global _tagver 00-20-RC1
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/lcgeo-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -23,6 +23,7 @@ BuildRequires: aida-dd4hep-devel
 BuildRequires: chrpath
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/MuonColliderSoft/lcgeo/archive/refs/tags/v%{_tagver}.tar.gz
+Patch0: ilc-lcgeo_lcio_incdir.patch
 AutoReqProv: yes
 
 %description
@@ -30,6 +31,7 @@ Implementation of Linear Collider detector models in DD4hep.
 
 %prep
 %setup -c
+patch %{_sbuilddir}/CMakeLists.txt %{PATCH0}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
@@ -102,7 +104,7 @@ The Muon Collider detector geometry.
 %{_datadir}/%{_pgeoname}/MuColl_v1.1.3/include/*.xml
 
 %changelog
-* Mon Jan 29 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.19.0-1
+* Wed Jun 26 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.20.0-1
 - Imported changes from Key4HEP
 * Wed Apr 26 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.18.1-1
 - Imported changes from Key4HEP

@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.27.2
-%global _tagver 01-27-02
+%global _pver 1.29.0
+%global _tagver 01-29
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/DD4hep-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -41,6 +41,7 @@ Source0: https://github.com/AIDASoft/DD4hep/archive/refs/tags/v%{_tagver}.tar.gz
 Source1: aida-setup.sh
 Source2: aida-setup.csh
 Patch0: aida-dd4hep-python_dep.patch
+Patch1: aida-dd4hep-lcio_incdir.patch
 
 %description
 DD4hep is a software framework for providing a complete solution
@@ -52,6 +53,7 @@ cycle (detector concept development, detector optimization, construction, operat
 %setup -c
 
 patch %{_sbuilddir}/cmake/DD4hepBuild.cmake %{PATCH0}
+patch %{_sbuilddir}/CMakeLists.txt %{PATCH1}
 
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
@@ -266,7 +268,7 @@ cycle (detector concept development, detector optimization, construction, operat
 %{python3_sitelib}/DDSim/Helper/__pycache__/*.pyc
 
 %changelog
-* Mon Jan 29 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.27.2-1
+* Tue Jun 25 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.29.0-1
 - New version of DD4Hep
 * Mon Apr 17 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.25.1-1
 - New version of DD4Hep

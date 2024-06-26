@@ -1,8 +1,6 @@
-diff --git a/cmake/DD4hepBuild.cmake b/cmake/DD4hepBuild.cmake
-index a27e47b7..85764695 100644
 --- a/cmake/DD4hepBuild.cmake
 +++ b/cmake/DD4hepBuild.cmake
-@@ -688,8 +688,8 @@ macro(DD4HEP_SETUP_ROOT_TARGETS)
+@@ -705,8 +705,8 @@ macro(DD4HEP_SETUP_ROOT_TARGETS)
      dd4hep_debug("D++> Python version used for building ROOT ${ROOT_PYTHON_VERSION}" )
      if (NOT DD4HEP_RELAX_PYVER)
        dd4hep_debug("D++> Required python version ${REQUIRE_PYTHON_VERSION}")

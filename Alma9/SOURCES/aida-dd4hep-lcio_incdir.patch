@@ -1,0 +1,11 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index e80779bb..40047452 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -150,6 +150,7 @@ endif()
+ 
+ if(DD4HEP_USE_LCIO)
+   find_package(LCIO REQUIRED CONFIG)
++  include_directories(${LCIO_INCLUDE_DIRS})
+   DD4HEP_SETUP_LCIO_TARGETS()
+ endif()

@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d3b02ba..3c84280 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -53,6 +53,7 @@ message ( STATUS "ROOT_VERSION: ${ROOT_VERSION}" )
+ 
+ find_package( Geant4 REQUIRED ) 
+ find_package( LCIO REQUIRED)
++include_directories(${LCIO_INCLUDE_DIRS})
+ # Shim for older LCIO versions
+ if(NOT TARGET LCIO::lcio)
+   add_library(LCIO::lcio INTERFACE IMPORTED GLOBAL)
+
