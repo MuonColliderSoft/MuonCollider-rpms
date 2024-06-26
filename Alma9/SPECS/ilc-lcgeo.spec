@@ -56,6 +56,7 @@ mv %{buildroot}%{_prefix}/lib %{buildroot}%{_libdir}
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so
 rm -rf %{buildroot}%{_includedir}/detectorSegmentations
 rm -rf %{buildroot}%{_libdir}/cmake/k4geo
+rm -rf %{buildroot}%{_includedir}/detectorCommon
 
 %clean
 rm -rf %{buildroot}
