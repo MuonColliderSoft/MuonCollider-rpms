@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.37.2
-%global _tagver v37r2
+%global _pver 0.38.2
+%global _tagver v38r2
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/Gaudi-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -80,6 +80,8 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DGAUDI_USE_JEMALLOC=ON \
       -DGAUDI_USE_DOXYGEN=OFF \
       -DGAUDI_USE_XERCESC=ON \
+      -DGAUDI_BUILD_EXAMPLES=OFF \
+      -DGAUDI_ENABLE_GAUDIALG=ON \
       -DBUILD_TESTING=OFF \
       -DCPPGSL_ROOT_DIR=/opt/GSL/include \
       -DCMAKE_INSTALL_LIBDIR=%{buildroot}%{_libdir} \
@@ -160,13 +162,18 @@ processing applications.
 %dir %{_includedir}/Gaudi/Allocator
 %dir %{_includedir}/Gaudi/Arena
 %dir %{_includedir}/Gaudi/Chrono
+%dir %{_includedir}/Gaudi/Decays
 %dir %{_includedir}/Gaudi/Details
 %dir %{_includedir}/Gaudi/Functional
 %dir %{_includedir}/Gaudi/Histograming
 %dir %{_includedir}/Gaudi/Histograming/Sink
 %dir %{_includedir}/Gaudi/Interfaces
+%dir %{_includedir}/Gaudi/NTuple
 %dir %{_includedir}/Gaudi/Parsers
 %dir %{_includedir}/Gaudi/Timers
+%dir %{_includedir}/Gaudi/Tr
+%dir %{_includedir}/Gaudi/cxx
+%dir %{_includedir}/Gaudi/details
 %dir %{_includedir}/GaudiAlg
 %dir %{_includedir}/GaudiCommonSvc
 %dir %{_includedir}/GaudiKernel
@@ -181,12 +188,17 @@ processing applications.
 %{_includedir}/Gaudi/Allocator/*.h
 %{_includedir}/Gaudi/Arena/*.h
 %{_includedir}/Gaudi/Chrono/*.h
+%{_includedir}/Gaudi/Decays/*.h
 %{_includedir}/Gaudi/Details/*.h
 %{_includedir}/Gaudi/Functional/*.h
 %{_includedir}/Gaudi/Histograming/Sink/*.h
 %{_includedir}/Gaudi/Interfaces/*.h
+%{_includedir}/Gaudi/NTuple/*.h
 %{_includedir}/Gaudi/Parsers/*.h
 %{_includedir}/Gaudi/Timers/*.h
+%{_includedir}/Gaudi/Tr/*.h
+%{_includedir}/Gaudi/cxx/*.h
+%{_includedir}/Gaudi/details/*.h
 %{_includedir}/GaudiAlg/*.h
 %{_includedir}/GaudiAlg/*.icpp
 %{_includedir}/GaudiCommonSvc/*.h
@@ -246,6 +258,7 @@ processing applications.
 %{python3_sitelib}/GaudiMonitor/*.py
 %{python3_sitelib}/GaudiMP/*.py
 %{python3_sitelib}/GaudiPartProp/*.py
+%{python3_sitelib}/GaudiPartProp/default.ParticleTable.txt
 %{python3_sitelib}/GaudiProfiling/*.py
 %{python3_sitelib}/GaudiProfiling/*.so
 %{python3_sitelib}/GaudiPython/*.py
@@ -318,7 +331,7 @@ and services for building HEP experiment frameworks in the domain of event data
 processing applications.
 
 %changelog
-* Fri Feb 09 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.37.2-1
+* Wed Jun 26 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.38.2-1
 - Porting to AlmaLinux 9
 
 
