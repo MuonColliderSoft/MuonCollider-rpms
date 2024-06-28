@@ -58,6 +58,12 @@ rm -rf %{buildroot}%{_includedir}/detectorSegmentations
 rm -rf %{buildroot}%{_libdir}/cmake/k4geo
 rm -rf %{buildroot}%{_includedir}/detectorCommon
 
+mkdir -p %{buildroot}%{_sysconfdir}/profile.d
+printf "export MUCOLL_GEO=%{_datadir}/%{_pgeoname}/MuColl_v1/MuColl_v1.xml\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/%{_pgeoname}.sh
+printf "setenv MUCOLL_GEO %{_datadir}/%{_pgeoname}/MuColl_v1/MuColl_v1.xml\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/%{_pgeoname}.csh
+
 %clean
 rm -rf %{buildroot}
 rm -rf %{SOURCE0}
@@ -103,6 +109,8 @@ The Muon Collider detector geometry.
 %dir %{_datadir}/%{_pgeoname}/MuColl_v1.1.3/include
 %{_datadir}/%{_pgeoname}/MuColl_v1.1.3/*.xml
 %{_datadir}/%{_pgeoname}/MuColl_v1.1.3/include/*.xml
+%{_sysconfdir}/profile.d/*
+
 
 %changelog
 * Wed Jun 26 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.20.0-1

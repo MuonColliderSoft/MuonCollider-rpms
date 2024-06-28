@@ -53,10 +53,14 @@ make install
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libACTSTracking.so\n" \
-       | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-acts-tracking.sh
-printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libACTSTracking.so\n" \
-       | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-acts-tracking.csh
+printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libACTSTracking.so
+export ACTS_MatFile=%{_datadir}/ACTSTracking/data/material-maps.json
+export ACTS_TGeoFile=%{_datadir}/ACTSTracking/data/MuColl_v1.root\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/%{name}.sh
+printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libACTSTracking.so
+setenv ACTS_MatFile %{_datadir}/ACTSTracking/data/material-maps.json
+setenv ACTS_TGeoFile %{_datadir}/ACTSTracking/data/MuColl_v1.root\n" \
+       | tee %{buildroot}%{_sysconfdir}/profile.d/%{name}.csh
 
 %clean
 rm -rf %{buildroot}
