@@ -57,6 +57,9 @@ printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libLCTuple.s
 printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libLCTuple.so\n" \
        | tee %{buildroot}%{_sysconfdir}/profile.d/ilc-lctuple.csh
 
+mkdir -p %{buildroot}%{_includedir}/LCTuple
+cp %{_sbuilddir}/include/*.h %{buildroot}%{_includedir}/LCTuple
+
 %clean
 rm -rf %{buildroot}
 rm -rf %{SOURCE0}
@@ -66,6 +69,19 @@ rm -rf %{SOURCE0}
 %{_sysconfdir}/profile.d/*
 %{_libdir}/*.so.*
 %{_libdir}/*.so
+
+%package devel
+Summary: Marlin package that creates a ROOT TTree (header files).
+Requires: %{name}
+
+%description devel
+Header files for marlin package that creates a ROOT TTree
+with a column wise ntuple from LCIO collections.
+
+%files devel
+%defattr(-,root,root)
+%dir %{_includedir}/LCTuple
+%{_includedir}/LCTuple/*.h
 
 %changelog
 * Tue Feb 28 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.15.0-1
