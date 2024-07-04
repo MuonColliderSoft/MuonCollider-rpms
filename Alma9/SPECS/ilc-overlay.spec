@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 %global _pver 0.25.0
-%global _tagver 00-25-RC1
+%global _tagver 00-25-RC2
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/Overlay-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -10,7 +10,7 @@
 Summary: Event overlay with Marlin
 Name: ilc-overlay
 Version: %{_pver}
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL v.3
 Vendor: INFN
 URL: https://github.com/MuonColliderSoft/Overlay
@@ -74,7 +74,7 @@ rm -rf %{SOURCE0}
 %{_libdir}/*.so*
 
 %changelog
-* Wed Jan 31 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.25.0-1
+* Thu Jul 04 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.25.0-1
 - New version of Overlay
 * Tue Feb 28 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.24.0-1
 - New version of Overlay
