@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 %global _pver 2.22.0
-%global _tagver 02-22-RC2
+%global _tagver 02-22-MC
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/LCIO-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -10,7 +10,7 @@
 Summary: Event data model and persistency for Linear Collider detector (header files)
 Name: ilc-lcio-headers
 Version: %{_pver}
-Release: 2%{?dist}
+Release: 1%{?dist}
 License: BSD v.3
 Vendor: INFN
 URL: https://github.com/MuonColliderSoft/LCIO
@@ -87,7 +87,7 @@ rm -rf %{SOURCE0}
 %{_includedir}/lcio/IO
 
 %changelog
-* Mon Jun 17 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.22.0-2
+* Fri Jul 05 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.22.0-1
 - New version of LCIO
 * Tue Feb 28 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.17.0-1
 - New version of LCIO

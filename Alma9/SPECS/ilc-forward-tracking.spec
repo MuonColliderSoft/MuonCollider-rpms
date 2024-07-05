@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 %global _pver 1.14.2
-%global _tagver 01-14-02-RC1
+%global _tagver 01-14-02-MC
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/ForwardTracking-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -82,7 +82,7 @@ rm -f %{SOURCE0}
 %{_libdir}/*.so*
 
 %changelog
-* Thu Feb 01 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.14.2-1
+* Fri Jul 05 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.14.2-1
 - New version of Forward Tracking
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.14.1-1
 - Repackaging for CentOS 8

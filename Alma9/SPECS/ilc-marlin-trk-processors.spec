@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 %global _pver 2.15.1
-%global _tagver 02-15-01-RC2
+%global _tagver 02-15-01-MC
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinTrkProcessors-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -10,7 +10,7 @@
 Summary: A collection of tracking related processors based on MarlinTrk
 Name: ilc-marlin-trk-processors
 Version: %{_pver}
-Release: 2%{?dist}
+Release: 1%{?dist}
 License: GPL v.3
 Vendor: INFN
 URL: https://github.com/MuonColliderSoft/MarlinTrkProcessors
@@ -73,7 +73,7 @@ rm -rf %{SOURCE0}
 %{_libdir}/*.so
 
 %changelog
-* Thu Feb 01 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.15.1-1
+* Fri Jul 05 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.15.1-1
 - New version of MarlinTrk processor
 * Wed Apr 26 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.15.0-1
 - New version of MarlinTrk processor

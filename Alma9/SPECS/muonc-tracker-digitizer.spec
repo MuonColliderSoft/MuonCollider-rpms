@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 %global _pver 0.2.0
-%global _tagver 00-02-RC1
+%global _tagver 00-02-MC
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MuonCVXDDigitiser-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -74,7 +74,7 @@ rm -rf %{SOURCE0}
 %{_libdir}/*.so*
 
 %changelog
-* Fri May 31 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.2.0-1
+* Fri Jul 05 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.2.0-1
 - New version of Muon Collider Tracker Digitizer
 * Wed Apr 26 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.1.0-1
 - First version of Muon Collider Tracker Digitizer

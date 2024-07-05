@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 %global _pver 0.20.0
-%global _tagver 00-20-RC1
+%global _tagver 00-20-MC
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/lcgeo-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -113,7 +113,7 @@ The Muon Collider detector geometry.
 
 
 %changelog
-* Wed Jun 26 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.20.0-1
+* Fri Jul 05 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.20.0-1
 - Imported changes from Key4HEP
 * Wed Apr 26 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.18.1-1
 - Imported changes from Key4HEP
