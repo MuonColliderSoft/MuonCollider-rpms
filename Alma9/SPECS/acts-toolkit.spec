@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 32.1.0
-%global _tagver 32.1.0
+%global _pver 34.1.0
+%global _tagver 34.1.0
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/acts-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -119,6 +119,8 @@ Toolkit for charged particle track reconstruction.
 %{_includedir}/Acts/Material/*.hpp
 %dir %{_includedir}/Acts/Material/detail
 %{_includedir}/Acts/Material/detail/*.hpp
+%dir %{_includedir}/Acts/Material/interface
+%{_includedir}/Acts/Material/interface/*.hpp
 %dir %{_includedir}/Acts/Navigation
 %{_includedir}/Acts/Navigation/*.hpp
 %dir %{_includedir}/Acts/Propagator
@@ -143,6 +145,7 @@ Toolkit for charged particle track reconstruction.
 %{_includedir}/Acts/Surfaces/detail/*.hpp
 %dir %{_includedir}/Acts/TrackFinding
 %{_includedir}/Acts/TrackFinding/*.hpp
+%{_includedir}/Acts/TrackFinding/*.ipp
 %dir %{_includedir}/Acts/TrackFinding/detail
 %{_includedir}/Acts/TrackFinding/detail/*.hpp
 %dir %{_includedir}/Acts/TrackFitting
@@ -173,7 +176,7 @@ Toolkit for charged particle track reconstruction.
 %dir %{_includedir}/Acts/Plugins/TGeo
 %{_includedir}/Acts/Plugins/TGeo/*.hpp
 %{_bindir}/this_acts.sh
-
+%{_bindir}/this_acts_withdeps.sh
 
 %changelog
 * Tue May 28 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 32.1.0-1
