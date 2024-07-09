@@ -2,8 +2,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.2.0
-%global _tagver 01-02-MC
+%global _pver 1.2.1
+%global _tagver 01-02-01-MC
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/ACTSTracking-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -76,8 +76,20 @@ rm -f %{SOURCE0}
 %dir %{_datadir}/ACTSTracking/example
 %{_datadir}/ACTSTracking/example/*
 
+%package devel
+Summary: Marlin processor for track reconstructions using the ACTS library (header files).
+Requires: %{name}
+
+%description devel
+Marlin processor for track reconstructions using the ACTS library (header files).
+
+%files devel
+%defattr(-,root,root)
+%dir %{_includedir}/ACTSTracking
+%{_includedir}/ACTSTracking/*.hxx
+
 %changelog
-* Fri Jul 05 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.2.0-1
+* Tue Jul 09 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.2.1-1
 - New release of ACTS Tracking processor
 * Wed Jan 25 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.1.0-1
 - New release of ACTS Tracking processor
