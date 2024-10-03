@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 32.1.0
-%global _tagver 32.1.0
+%global _pver 35.2.0
+%global _tagver 35.2.0
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/acts-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -55,10 +55,12 @@ make %{?_smp_mflags}
 %install
 cd %{_cbuilddir}
 make install
+rm -rf %{buildroot}%{_includedir}/dfe %{buildroot}%{_libdir}/cmake/dfelibs-*
 
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_acts_dir}/*.cmake
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so
-sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{_bindir}/this_acts.sh
+sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{_bindir}/this_acts.sh \
+                                            %{buildroot}%{_bindir}/this_acts_withdeps.sh
 
 sed -i -e 's|Boost 1.75.0 CONFIG|Boost 1.75.0|g' %{buildroot}%{cmake_acts_dir}/ActsConfig.cmake
 
@@ -102,8 +104,6 @@ Toolkit for charged particle track reconstruction.
 %{_includedir}/Acts/Detector/detail/*.hpp
 %dir %{_includedir}/Acts/Detector/interface
 %{_includedir}/Acts/Detector/interface/*.hpp
-%dir %{_includedir}/Acts/Digitization
-%{_includedir}/Acts/Digitization/*.hpp
 %dir %{_includedir}/Acts/EventData
 %{_includedir}/Acts/EventData/*.hpp
 %{_includedir}/Acts/EventData/*.ipp
@@ -119,6 +119,8 @@ Toolkit for charged particle track reconstruction.
 %{_includedir}/Acts/Material/*.hpp
 %dir %{_includedir}/Acts/Material/detail
 %{_includedir}/Acts/Material/detail/*.hpp
+%dir %{_includedir}/Acts/Material/interface/
+%{_includedir}/Acts/Material/interface/*.hpp
 %dir %{_includedir}/Acts/Navigation
 %{_includedir}/Acts/Navigation/*.hpp
 %dir %{_includedir}/Acts/Propagator
@@ -143,6 +145,7 @@ Toolkit for charged particle track reconstruction.
 %{_includedir}/Acts/Surfaces/detail/*.hpp
 %dir %{_includedir}/Acts/TrackFinding
 %{_includedir}/Acts/TrackFinding/*.hpp
+%{_includedir}/Acts/TrackFinding/*.ipp
 %dir %{_includedir}/Acts/TrackFinding/detail
 %{_includedir}/Acts/TrackFinding/detail/*.hpp
 %dir %{_includedir}/Acts/TrackFitting
@@ -166,16 +169,16 @@ Toolkit for charged particle track reconstruction.
 %dir %{_includedir}/Acts/Plugins
 %dir %{_includedir}/Acts/Plugins/DD4hep
 %{_includedir}/Acts/Plugins/DD4hep/*.hpp
-%dir %{_includedir}/Acts/Plugins/Identification
-%{_includedir}/Acts/Plugins/Identification/*.hpp
 %dir %{_includedir}/Acts/Plugins/Json
 %{_includedir}/Acts/Plugins/Json/*.hpp
 %dir %{_includedir}/Acts/Plugins/TGeo
 %{_includedir}/Acts/Plugins/TGeo/*.hpp
-%{_bindir}/this_acts.sh
+%{_bindir}/*.sh
 
 
 %changelog
+* Thu Sep 12 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 35.2.0-1
+- New major version for ACTS
 * Tue May 28 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 32.1.0-1
 - New major version for ACTS
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 13.0.0-1
