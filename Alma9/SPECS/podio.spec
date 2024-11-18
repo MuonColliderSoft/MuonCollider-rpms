@@ -125,6 +125,7 @@ Summary: Library handling data models in particle physics (tools and models).
 BuildArch: noarch
 Requires: %{name}
 Requires: python3-podio
+Requires: python3-tabulate+widechars
 
 %description -n python3-podio-utils
 PODIO is a C++ library to support the creation and handling of data models in particle physics.
