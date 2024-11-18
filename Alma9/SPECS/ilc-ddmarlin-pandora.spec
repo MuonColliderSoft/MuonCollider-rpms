@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.14.0
-%global _tagver 00-14-MC
+%global _pver 0.14.1
+%global _tagver MuSICv2-pre01
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/DDMarlinPandora-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -10,7 +10,7 @@
 Summary: Interface between Marlin and PandoraPFA
 Name: ilc-ddmarlin-pandora
 Version: %{_pver}
-Release: 1%{?dist}
+Release: 1.exper%{?dist}
 License: GPL v.3
 Vendor: INFN
 URL: https://github.com/MuonColliderSoft/DDMarlinPandora
@@ -27,7 +27,7 @@ BuildRequires: ilc-marlin-trk-devel
 BuildRequires: ilc-marlin-util-devel
 BuildRequires: pandora-pfa-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://github.com/MuonColliderSoft/DDMarlinPandora/archive/refs/tags/v%{_tagver}.tar.gz
+Source0: https://github.com/MuonColliderSoft/DDMarlinPandora/archive/refs/tags/%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description

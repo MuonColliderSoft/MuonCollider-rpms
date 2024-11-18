@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 2.15.2
-%global _tagver 02-15-02-MC
+%global _pver 2.15.3
+%global _tagver MuSICv2-pre01
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinTrkProcessors-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -10,7 +10,7 @@
 Summary: A collection of tracking related processors based on MarlinTrk
 Name: ilc-marlin-trk-processors
 Version: %{_pver}
-Release: 1%{?dist}
+Release: 1.exper%{?dist}
 License: GPL v.3
 Vendor: INFN
 URL: https://github.com/MuonColliderSoft/MarlinTrkProcessors
@@ -28,7 +28,7 @@ BuildRequires: ilc-kitrack-devel
 BuildRequires: ilc-kitrack-marlin-devel
 BuildRequires: ilc-ddkaltest-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://github.com/MuonColliderSoft/MarlinTrkProcessors/archive/refs/tags/v%{_tagver}.tar.gz
+Source0: https://github.com/MuonColliderSoft/MarlinTrkProcessors/archive/refs/tags/%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description

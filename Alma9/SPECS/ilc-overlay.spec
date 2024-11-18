@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.25.0
-%global _tagver 00-25-MC
+%global _pver 0.25.1
+%global _tagver checkMCC_exper_01
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/Overlay-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -10,7 +10,7 @@
 Summary: Event overlay with Marlin
 Name: ilc-overlay
 Version: %{_pver}
-Release: 1%{?dist}
+Release: 1.exper%{?dist}
 License: GPL v.3
 Vendor: INFN
 URL: https://github.com/MuonColliderSoft/Overlay
@@ -27,7 +27,7 @@ BuildRequires: ilc-marlin-util-devel
 BuildRequires: ilc-root-aida-devel
 BuildRequires: clhep-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://github.com/MuonColliderSoft/Overlay/archive/refs/tags/v%{_tagver}.tar.gz
+Source0: https://github.com/MuonColliderSoft/Overlay/archive/refs/tags/%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description

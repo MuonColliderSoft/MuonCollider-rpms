@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.20.0
-%global _tagver 00-20-MC
+%global _pver 0.20.1
+%global _tagver MuSICv2-pre02
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/lcgeo-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -12,7 +12,7 @@
 Summary: Implementation of Linear Collider detector models in DD4hep.
 Name: ilc-lcgeo
 Version: %{_pver}
-Release: 1%{?dist}
+Release: 1.exper%{?dist}
 License: GPL v.3
 Vendor: INFN
 URL: https://github.com/MuonColliderSoft/lcgeo
@@ -22,7 +22,7 @@ BuildRequires: cmake
 BuildRequires: aida-dd4hep-devel
 BuildRequires: chrpath
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://github.com/MuonColliderSoft/lcgeo/archive/refs/tags/v%{_tagver}.tar.gz
+Source0: https://github.com/MuonColliderSoft/lcgeo/archive/refs/tags/%{_tagver}.tar.gz
 Patch0: ilc-lcgeo_lcio_incdir.patch
 AutoReqProv: yes
 
@@ -52,6 +52,9 @@ make %{?_smp_mflags}
 cd %{_cbuilddir}
 make install
 
+rm %{buildroot}%{_datadir}/%{_pgeoname}/MuSIC_v1/MuSIC_v1.root
+rm %{buildroot}%{_datadir}/%{_pgeoname}/MuSIC_v2/MuSIC_v2.root
+
 mv %{buildroot}%{_prefix}/lib %{buildroot}%{_libdir}
 chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so
 rm -rf %{buildroot}%{_includedir}/detectorSegmentations
@@ -59,9 +62,9 @@ rm -rf %{buildroot}%{_libdir}/cmake/k4geo
 rm -rf %{buildroot}%{_includedir}/detectorCommon
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-printf "export MUCOLL_GEO=%{_datadir}/%{_pgeoname}/MuColl_v1/MuColl_v1.xml\n" \
+printf "export MUCOLL_GEO=%{_datadir}/%{_pgeoname}/MuSIC_v2/MuSIC_v2.xml\n" \
        | tee %{buildroot}%{_sysconfdir}/profile.d/%{_pgeoname}.sh
-printf "setenv MUCOLL_GEO %{_datadir}/%{_pgeoname}/MuColl_v1/MuColl_v1.xml\n" \
+printf "setenv MUCOLL_GEO %{_datadir}/%{_pgeoname}/MuSIC_v2/MuSIC_v2.xml\n" \
        | tee %{buildroot}%{_sysconfdir}/profile.d/%{_pgeoname}.csh
 
 %clean
@@ -109,6 +112,10 @@ The Muon Collider detector geometry.
 %dir %{_datadir}/%{_pgeoname}/MuColl_v1.1.3/include
 %{_datadir}/%{_pgeoname}/MuColl_v1.1.3/*.xml
 %{_datadir}/%{_pgeoname}/MuColl_v1.1.3/include/*.xml
+%dir %{_datadir}/%{_pgeoname}/MuSIC_v1
+%{_datadir}/%{_pgeoname}/MuSIC_v1/*.xml
+%dir %{_datadir}/%{_pgeoname}/MuSIC_v2
+%{_datadir}/%{_pgeoname}/MuSIC_v2/*.xml
 %{_sysconfdir}/profile.d/*
 
 

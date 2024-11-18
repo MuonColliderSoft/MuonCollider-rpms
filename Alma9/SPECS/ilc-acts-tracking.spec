@@ -2,8 +2,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.2.2
-%global _tagver 01-02-02-MC
+%global _pver 1.2.3
+%global _tagver tbb_exper_01
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/ACTSTracking-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -11,7 +11,7 @@
 Summary: Marlin processor for running track reconstructions using the ACTS library
 Name: ilc-acts-tracking
 Version: %{_pver}
-Release: 1%{?dist}
+Release: 1.exper%{?dist}
 License: GPL v.3
 Vendor: INFN
 URL: https://github.com/MuonColliderSoft/ACTSTracking
@@ -24,8 +24,9 @@ BuildRequires: ilc-marlin-devel
 BuildRequires: aida-dd4hep-devel
 BuildRequires: acts-toolkit-devel
 BuildRequires: root
+BuildRequires: tbb-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://github.com/MuonColliderSoft/ACTSTracking/archive/refs/tags/v%{_tagver}.tar.gz
+Source0: https://github.com/MuonColliderSoft/ACTSTracking/archive/refs/tags/tbb_exper_01.tar.gz
 AutoReqProv: yes
 
 %description
@@ -42,6 +43,7 @@ cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=17 \
+      -DTBB_ENABLED=ON \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}
@@ -55,11 +57,13 @@ mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libACTSTracking.so
 export ACTS_MatFile=%{_datadir}/ACTSTracking/data/material-maps.json
-export ACTS_TGeoFile=%{_datadir}/ACTSTracking/data/MuColl_v1.root\n" \
+export ACTS_TGeoFile=%{_datadir}/ACTSTracking/data/MuSIC_v2.root
+export ACTS_TGeoDescrFile=%{_datadir}/ACTSTracking/data/MuSIC_v2.json\n" \
        | tee %{buildroot}%{_sysconfdir}/profile.d/%{name}.sh
 printf "setenv MARLIN_DLL \$MARLIN_DLL:%{_libdir}/libACTSTracking.so
 setenv ACTS_MatFile %{_datadir}/ACTSTracking/data/material-maps.json
-setenv ACTS_TGeoFile %{_datadir}/ACTSTracking/data/MuColl_v1.root\n" \
+setenv ACTS_TGeoFile %{_datadir}/ACTSTracking/data/MuSIC_v2.root
+setenv ACTS_TGeoDescrFile %{_datadir}/ACTSTracking/data/MuSIC_v2.json\n" \
        | tee %{buildroot}%{_sysconfdir}/profile.d/%{name}.csh
 
 %clean
@@ -79,6 +83,12 @@ rm -f %{SOURCE0}
 %package devel
 Summary: Marlin processor for track reconstructions using the ACTS library (header files).
 Requires: %{name}
+Requires: ilc-utils-devel
+Requires: ilc-marlin-devel
+Requires: aida-dd4hep-devel
+Requires: acts-toolkit-devel
+Requires: root
+Requires: tbb-devel
 
 %description devel
 Marlin processor for track reconstructions using the ACTS library (header files).

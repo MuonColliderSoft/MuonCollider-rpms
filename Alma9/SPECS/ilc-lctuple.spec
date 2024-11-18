@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.15.0
-%global _tagver 01-15-MC
+%global _pver 1.15.1
+%global _tagver MuSICv2-pre01
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/LCTuple-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -10,7 +10,7 @@
 Summary: Marlin package that creates a ROOT TTree with a column wise ntuple from LCIO collections
 Name: ilc-lctuple
 Version: %{_pver}
-Release: 1%{?dist}
+Release: 1.exper%{?dist}
 License: GPL v.3
 Vendor: INFN
 URL: https://github.com/MuonColliderSoft/LCTuple
@@ -23,7 +23,7 @@ BuildRequires: ilc-utils-devel
 BuildRequires: ilc-marlin-devel
 BuildRequires: root
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://github.com/MuonColliderSoft/LCTuple/archive/refs/tags/v%{_tagver}.tar.gz
+Source0: https://github.com/MuonColliderSoft/LCTuple/archive/refs/tags/%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
