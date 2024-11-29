@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.15.1
-%global _tagver MuSICv2-pre01
+%global _pver 1.15.2
+%global _tagver MuSICv2-pre02
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/LCTuple-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
