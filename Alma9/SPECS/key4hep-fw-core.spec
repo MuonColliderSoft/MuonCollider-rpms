@@ -47,6 +47,7 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DBUILD_TESTING=OFF \
       -DCPPGSL_INCLUDE_DIR=/opt/GSL/include \
       -DCMAKE_INSTALL_LIBDIR=%{buildroot}%{_libdir} \
+      -DGAUDI_INSTALL_PYTHONDIR=%{buildroot}%{python3_sitelib} \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}
@@ -56,10 +57,6 @@ cd %{_cbuilddir}
 make install
 mv %{buildroot}%{_prefix}/lib/cmake/k4FWCore/* %{buildroot}%{cmake_k4fwcore_dir}
 rm -rf %{buildroot}%{_prefix}/lib
-
-mkdir -p %{buildroot}/%{python3_sitelib}
-mv %{buildroot}/%{_prefix}/python/k4FWCore %{buildroot}/%{python3_sitelib}/
-rm -rf %{buildroot}/%{_prefix}/python
 
 sed -i -e 's|env python|env python3|g' %{buildroot}/%{_bindir}/*
 sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' %{buildroot}%{cmake_k4fwcore_dir}/*.cmake
