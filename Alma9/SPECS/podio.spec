@@ -76,7 +76,6 @@ rm -f %{SOURCE0}
 %{_libdir}/*.so
 %{_libdir}/*.pcm
 %{_libdir}/*.rootmap
-%{_bindir}/*
 %dir %{_datadir}/doc/podio
 %{_datadir}/doc/podio/NOTICE
 
@@ -126,6 +125,7 @@ BuildArch: noarch
 Requires: %{name}
 Requires: python3-podio
 Requires: python3-tabulate+widechars
+Requires: python3-pyyaml
 
 %description -n python3-podio-utils
 PODIO is a C++ library to support the creation and handling of data models in particle physics.
@@ -144,6 +144,9 @@ PODIO is a C++ library to support the creation and handling of data models in pa
 %{_datadir}/podio/templates/*.jinja2
 %{_datadir}/podio/templates/macros/*.jinja2
 %{_datadir}/podio/templates/schemaevolution/*.jinja2
+%{_bindir}/podio-dump
+%{_bindir}/podio-vis
+%{_bindir}/podio_test_hashes
 
 %changelog
 * Fri Feb 09 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.17.3-1

@@ -21,7 +21,7 @@ BuildRequires: cmake
 BuildRequires: make
 BuildRequires: podio-devel
 BuildRequires: python3-podio-utils
-
+BuildRequires: python3-jinja2
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/key4hep/EDM4hep/archive/refs/tags/v%{_tagver}.tar.gz
