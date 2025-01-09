@@ -76,7 +76,6 @@ rm -f %{SOURCE0}
 %{_libdir}/*.so
 %{_libdir}/*.pcm
 %{_libdir}/*.rootmap
-%{_bindir}/*
 %dir %{_datadir}/doc/podio
 %{_datadir}/doc/podio/NOTICE
 
@@ -126,12 +125,14 @@ BuildArch: noarch
 Requires: %{name}
 Requires: python3-podio
 Requires: python3-tabulate+widechars
+Requires: python3-pyyaml
 
 %description -n python3-podio-utils
 PODIO is a C++ library to support the creation and handling of data models in particle physics.
 
 %files -n python3-podio-utils
 %defattr(-,root,root)
+%{_bindir}/*
 %{python3_sitelib}/podio_class_generator.py
 %{python3_sitelib}/podio_schema_evolution.py
 %{python3_sitelib}/__pycache__
