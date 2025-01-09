@@ -74,7 +74,6 @@ rm -f %{SOURCE0}
 %{_libdir}/*.components
 %{_libdir}/*.confdb
 %{_libdir}/*.confdb2
-%{_bindir}/*
 
 %package devel
 Summary: Gaudi framework for podio-based event data models (development files).
@@ -107,6 +106,7 @@ A generic event data model for future HEP collider experiments.
 
 %files -n python3-k4fwcore
 %defattr(-,root,root)
+%{_bindir}/*
 %dir %{python3_sitelib}/k4FWCore
 %dir %{python3_sitelib}/k4FWCore/__pycache__
 %{python3_sitelib}/k4FWCore/*.py
