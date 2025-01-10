@@ -23,8 +23,8 @@
 #global _qtopt OFF
 #endif
 
-%global _pver 11.2.0
-%global _pname geant4-v11.2.0
+%global _pver 11.3.0
+%global _pname geant4-v11.3.0
 
 %global _sbuilddir %{_builddir}/geant4/%{_pname}
 %global _cbuilddir %{_builddir}/geant4/build
@@ -81,7 +81,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -DGEANT4_INSTALL_EXAMPLES=OFF \
       -DGEANT4_USE_GDML=ON \
       -DGEANT4_BUILD_MULTITHREADED=%{_g4mtopt} \
@@ -236,6 +236,9 @@ Nuclear Instruments and Methods in Physics Research A 506 (2003)
 %{_datadir}/Geant4/geant4make/config/sys/*
 
 %changelog
+* Thu Jan 09 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 11.3.0-1
+- New version
+
 * Fri Jan 19 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 11.2.0-1
 - New version
 
