@@ -1,0 +1,13 @@
+--- configure	2025-01-13 10:22:43.220839292 +0000
++++ configure_new	2025-01-13 10:22:30.314167465 +0000
+@@ -34812,6 +34812,9 @@
+   wo_lcio_includes="-I$LCIO/include"
+ elif test -n "$LCIO_DIR"; then
+   wo_lcio_includes="-I$LCIO_DIR/include"
++else
++  wo_lcio_includes="-I/usr/include/lcio"
++  LCIO_DIR=/usr
+ fi
+ 
+ if test "$enable_lcio" = "yes"; then
+
