@@ -35,6 +35,8 @@ BuildRequires: HepMC3-interfaces-devel
 BuildRequires: python3-lhapdf
 BuildRequires: ilc-lcio-devel
 BuildRequires: fastjet-contrib-devel
+BuildRequires: openmpi-devel
+BuildRequires: mpich
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: http://whizard.hepforge.org/whizard-%{_tagver}.tar.gz
 Patch0: whizard-lcio_setup.patch
@@ -53,7 +55,9 @@ patch %{_sbuilddir}/configure %{PATCH0}
 %build
 mkdir %{_cbuilddir}
 cd %{_cbuilddir}
-%{_sbuilddir}/configure --prefix=%{buildroot}%{_prefix} \
+PATH=$PATH:/usr/lib64/openmpi/bin \
+%{_sbuilddir}/configure FC=mpifort CC=mpicc CXX=mpic++ \
+    --prefix=%{buildroot}%{_prefix} \
     --libdir=%{buildroot}%{_libdir} \
     --enable-pythia8 \
     --disable-pythia6 \
@@ -61,12 +65,13 @@ cd %{_cbuilddir}
     --enable-lcio \
     --enable-fastjet \
     --enable-lhapdf \
+    --enable-fc-mpi \
     --enable-fc-openmp
-make %{?_smp_mflags}
+PATH=$PATH:/usr/lib64/openmpi/bin make %{?_smp_mflags}
 
 %install
 cd %{_cbuilddir}
-make install
+PATH=$PATH:/usr/lib64/openmpi/bin make install
 
 sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' \
     %{buildroot}%{_bindir}/*config %{buildroot}%{_bindir}/*sh \
