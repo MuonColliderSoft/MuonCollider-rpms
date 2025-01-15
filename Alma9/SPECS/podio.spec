@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.17.3
-%global _tagver 00-17-03
+%global _pver 1.1.0
+%global _tagver 01-01
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/podio-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -51,21 +51,17 @@ make %{?_smp_mflags}
 cd %{_cbuilddir}
 make install
 
-rm %{buildroot}/%{_prefix}/python/EventStore.py
+#mkdir -p %{buildroot}/%{_datadir}/podio
+#mv %{buildroot}/%{python3_sitelib}/templates %{buildroot}/%{_datadir}/podio
 
-mkdir -p %{buildroot}/%{_datadir}/podio
-mv %{buildroot}/%{_prefix}/python/templates %{buildroot}/%{_datadir}/podio
-mkdir -p %{buildroot}/%{python3_sitelib}
-mv %{buildroot}/%{_prefix}/python/* %{buildroot}/%{python3_sitelib}
+#sed -i 's|^TEMPLATE_DIR.*|TEMPLATE_DIR = "%{_datadir}/podio/templates"|g' \
+#    %{buildroot}/%{python3_sitelib}/podio_class_generator.py
 
-sed -i 's|^TEMPLATE_DIR.*|TEMPLATE_DIR = "%{_datadir}/podio/templates"|g' \
-    %{buildroot}/%{python3_sitelib}/podio_class_generator.py
+#sed -i 's|^set_and_check(podio_PYTHON_DIR.*|set_and_check(podio_PYTHON_DIR "%{python3_sitelib}")|g' \
+#    %{buildroot}/%{cmake_podio_dir}/podioConfig.cmake
 
-sed -i 's|^set_and_check(podio_PYTHON_DIR.*|set_and_check(podio_PYTHON_DIR "%{python3_sitelib}")|g' \
-    %{buildroot}/%{cmake_podio_dir}/podioConfig.cmake
-
-sed -i 's|${podio_PYTHON_DIR}/templates/CMakeLists.txt|%{_datadir}/podio/templates/CMakeLists.txt|g' \
-    %{buildroot}/%{cmake_podio_dir}/podioMacros.cmake
+#sed -i 's|${podio_PYTHON_DIR}/templates/CMakeLists.txt|%{_datadir}/podio/templates/CMakeLists.txt|g' \
+#    %{buildroot}/%{cmake_podio_dir}/podioMacros.cmake
 
 %clean
 rm -rf %{buildroot}
@@ -110,18 +106,26 @@ PODIO is a C++ library to support the creation and handling of data models in pa
 
 %files -n python3-podio
 %defattr(-,root,root)
-%dir %{python3_sitelib}/podio
-%dir %{python3_sitelib}/podio_gen
-%dir %{python3_sitelib}/podio/__pycache__
-%dir %{python3_sitelib}/podio_gen/__pycache__
-%{python3_sitelib}/podio/*.py
-%{python3_sitelib}/podio/__pycache__/*
-%{python3_sitelib}/podio_gen/*.py
-%{python3_sitelib}/podio_gen/__pycache__/*
+%dir %{python3_sitearch}/podio
+%dir %{python3_sitearch}/podio_gen
+%dir %{python3_sitearch}/podio/pythonizations
+%dir %{python3_sitearch}/podio/pythonizations/utils
+%dir %{python3_sitearch}/podio/__pycache__
+%dir %{python3_sitearch}/podio_gen/__pycache__
+%dir %{python3_sitearch}/podio/pythonizations/__pycache__
+%dir %{python3_sitearch}/podio/pythonizations/utils/__pycache__
+%{python3_sitearch}/podio_version.py
+%{python3_sitearch}/podio/*.py
+%{python3_sitearch}/podio/__pycache__/*
+%{python3_sitearch}/podio_gen/*.py
+%{python3_sitearch}/podio_gen/__pycache__/*
+%{python3_sitearch}/podio/pythonizations/*.py
+%{python3_sitearch}/podio/pythonizations/__pycache__/*
+%{python3_sitearch}/podio/pythonizations/utils/*.py
+%{python3_sitearch}/podio/pythonizations/utils/__pycache__/*
 
 %package -n python3-podio-utils
 Summary: Library handling data models in particle physics (tools and models).
-BuildArch: noarch
 Requires: %{name}
 Requires: python3-podio
 Requires: python3-tabulate+widechars
@@ -133,20 +137,28 @@ PODIO is a C++ library to support the creation and handling of data models in pa
 %files -n python3-podio-utils
 %defattr(-,root,root)
 %{_bindir}/*
-%{python3_sitelib}/podio_class_generator.py
-%{python3_sitelib}/podio_schema_evolution.py
-%{python3_sitelib}/__pycache__
-%{python3_sitelib}/__pycache__/*
-%dir %{_datadir}/podio
-%dir %{_datadir}/podio/templates
-%dir %{_datadir}/podio/templates/macros
-%dir %{_datadir}/podio/templates/schemaevolution
-%{_datadir}/podio/templates/CMakeLists.txt
-%{_datadir}/podio/templates/*.jinja2
-%{_datadir}/podio/templates/macros/*.jinja2
-%{_datadir}/podio/templates/schemaevolution/*.jinja2
+%{python3_sitearch}/podio_class_generator.py
+%{python3_sitearch}/podio_schema_evolution.py
+%{python3_sitearch}/__pycache__
+%{python3_sitearch}/__pycache__/*
+%{python3_sitearch}/templates/CMakeLists.txt
+%{python3_sitearch}/templates/*.jinja2
+%{python3_sitearch}/templates/macros/*.jinja2
+%{python3_sitearch}/templates/schemaevolution/*.jinja2
+%{python3_sitearch}/templates/.clang-format
+
+#%dir %{_datadir}/podio
+#%dir %{_datadir}/podio/templates
+#%dir %{_datadir}/podio/templates/macros
+#%dir %{_datadir}/podio/templates/schemaevolution
+#%{_datadir}/podio/templates/CMakeLists.txt
+#%{_datadir}/podio/templates/*.jinja2
+#%{_datadir}/podio/templates/macros/*.jinja2
+#%{_datadir}/podio/templates/schemaevolution/*.jinja2
 
 %changelog
+* Fri Jan 10 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.1.0-1
+- New version
 * Fri Feb 09 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.17.3-1
 - Porting to AlmaLinux 9
 

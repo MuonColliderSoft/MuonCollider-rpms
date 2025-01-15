@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.10.5
-%global _tagver 00-10-05
+%global _pver 0.99.0
+%global _tagver 00-99
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/EDM4hep-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -21,7 +21,7 @@ BuildRequires: cmake
 BuildRequires: make
 BuildRequires: podio-devel
 BuildRequires: python3-podio-utils
-
+BuildRequires: python3-jinja2
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/key4hep/EDM4hep/archive/refs/tags/v%{_tagver}.tar.gz
@@ -49,7 +49,7 @@ make %{?_smp_mflags}
 %install
 cd %{_cbuilddir}
 make install
-rm -rf %{buildroot}%{_prefix}/python
+rm -rf %{buildroot}%{_libdir}/python3.9
 
 %clean
 rm -rf %{buildroot}
@@ -84,6 +84,8 @@ A generic event data model for future HEP collider experiments.
 %{_includedir}/edm4hep/utils/*.h
 
 %changelog
+* Fri Jan 10 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.99.0-1
+- New version
 * Wed May 22 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.10.5-1
 - Porting to AlmaLinux 9
 
