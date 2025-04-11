@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.0.1
-%global _tagver 00-00-01
+%global _pver 0.0.2
+%global _tagver 00-00-02
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinMuonID-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -67,6 +67,8 @@ rm -rf %{SOURCE0}
 %{_libdir}/*.so
 
 %changelog
+* Thu Apr 15 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.0.2-1
+- Improved muon ID algorithm using the time information
 * Wed Jan 15 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.0.1-1
 - First release
 

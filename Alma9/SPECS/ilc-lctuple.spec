@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.15.2
-%global _tagver MuSICv2-pre02
+%global _pver 1.15.3
+%global _tagver MuSICv2-pre03
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/LCTuple-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -84,6 +84,8 @@ with a column wise ntuple from LCIO collections.
 %{_includedir}/LCTuple/*.h
 
 %changelog
+* Thu Apr 03 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.15.3-1
+- New version of LCtuple
 * Tue Feb 28 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.15.0-1
 - New version of LCtuple
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.14.0-1
