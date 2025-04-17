@@ -2,8 +2,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.2.3
-%global _tagver tbb_exper_01
+%global _pver 1.2.4
+%global _tagver tbb_exper_02
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/ACTSTracking-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -26,7 +26,7 @@ BuildRequires: acts-toolkit-devel
 BuildRequires: root
 BuildRequires: tbb-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://github.com/MuonColliderSoft/ACTSTracking/archive/refs/tags/tbb_exper_01.tar.gz
+Source0: https://github.com/MuonColliderSoft/ACTSTracking/archive/refs/tags/%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description

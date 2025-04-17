@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 2.5.1
-%global _tagver 02-05-01-MC
+%global _pver 2.5.2
+%global _tagver 02-05-02-MC
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/CLICPerformance-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -75,6 +75,8 @@ rm -f %{SOURCE0}
 %{_libdir}/*.so*
 
 %changelog
+* Thu Apr 17 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.5.2-1
+- New version of CLICPerformance
 * Wed Jan 15 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.5.1-1
 - Forked version for MuonCollider
 * Wed Jan 31 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.5.0-1
