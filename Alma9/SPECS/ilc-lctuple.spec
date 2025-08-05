@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.15.0
-%global _tagver 01-15-MC
+%global _pver 1.15.3
+%global _tagver MuSICv2-pre03
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/LCTuple-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -10,7 +10,7 @@
 Summary: Marlin package that creates a ROOT TTree with a column wise ntuple from LCIO collections
 Name: ilc-lctuple
 Version: %{_pver}
-Release: 1%{?dist}
+Release: 1.custom%{?dist}
 License: GPL v.3
 Vendor: INFN
 URL: https://github.com/MuonColliderSoft/LCTuple
@@ -23,7 +23,7 @@ BuildRequires: ilc-utils-devel
 BuildRequires: ilc-marlin-devel
 BuildRequires: root
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://github.com/MuonColliderSoft/LCTuple/archive/refs/tags/v%{_tagver}.tar.gz
+Source0: https://github.com/MuonColliderSoft/LCTuple/archive/refs/tags/%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
@@ -84,6 +84,8 @@ with a column wise ntuple from LCIO collections.
 %{_includedir}/LCTuple/*.h
 
 %changelog
+* Thu Apr 03 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.15.3-1
+- New version of LCtuple
 * Tue Feb 28 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.15.0-1
 - New version of LCtuple
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.14.0-1

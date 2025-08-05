@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.11.0
-%global _tagver 00-11
+%global _pver 0.11.1
+%global _tagver MuSICv2-pre01
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/LCFIPlus-%{_tagver}
 
@@ -11,14 +11,14 @@
 Summary: Flavor tagging code for ILC detectors (header files)
 Name: lcfi-plus-headers
 Version: %{_pver}
-Release: 1%{?dist}
+Release: 1.custom%{?dist}
 License: GPL v.3
 Vendor: INFN
-URL: https://github.com/lcfiplus/LCFIPlus
+URL: https://github.com/MuonColliderSoft/LCFIPlus
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://github.com/lcfiplus/LCFIPlus/archive/refs/tags/v%{_tagver}.tar.gz
+Source0: https://github.com/MuonColliderSoft/LCFIPlus/archive/refs/tags/%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
@@ -46,6 +46,8 @@ rm -f %{SOURCE0}
 %{_prefix}/include/lcfiplus/*.h
 
 %changelog
+* Tue Aug 05 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.11.1-1
+- New version
 * Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.11.0-1
 - New version
 * Thu Aug 27 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.10.0-1

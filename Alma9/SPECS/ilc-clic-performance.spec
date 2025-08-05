@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 2.5.1
-%global _tagver 02-05-01
+%global _pver 2.5.2
+%global _tagver 02-05-02-MC
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/CLICPerformance-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -10,10 +10,10 @@
 Summary: Processors and configurations to determine the performance of the CLIC detector model
 Name: ilc-clic-performance
 Version: %{_pver}
-Release: 1%{?dist}
+Release: 1.custom%{?dist}
 License: GPL v.3
 Vendor: INFN
-URL: https://github.com/iLCSoft/CLICPerformance
+URL: https://github.com/MuonColliderSoft/CLICPerformance
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: cmake
@@ -29,7 +29,7 @@ BuildRequires: ilc-root-aida-devel
 BuildRequires: root
 BuildRequires: gsl-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://github.com/iLCSoft/CLICPerformance/archive/refs/tags/v%{_tagver}.tar.gz
+Source0: https://github.com/MuonColliderSoft/CLICPerformance/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
@@ -75,6 +75,8 @@ rm -f %{SOURCE0}
 %{_libdir}/*.so*
 
 %changelog
+* Tue Aug 05 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.5.2-1
+- New version
 * Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.5.1-1
 - New version
 * Wed Jan 31 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.5.0-1
