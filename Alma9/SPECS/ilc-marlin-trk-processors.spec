@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 2.15.2
-%global _tagver 02-15-02-MC
+%global _pver 2.16.0
+%global _tagver 02-16-MC
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinTrkProcessors-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -44,7 +44,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}
@@ -54,7 +54,7 @@ cd %{_cbuilddir}
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.*
+chrpath --delete %{buildroot}%{_libdir}/*.so.*
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libMarlinTrkProcessors.so\n" \
@@ -73,6 +73,8 @@ rm -rf %{SOURCE0}
 %{_libdir}/*.so
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.16.0-1
+- New version
 * Wed Jul 10 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.15.2-1
 - New version of MarlinTrk processor
 * Wed Apr 26 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.15.0-1
