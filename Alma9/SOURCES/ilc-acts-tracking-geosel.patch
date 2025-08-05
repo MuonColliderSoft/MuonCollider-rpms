@@ -1,0 +1,10 @@
+--- a/src/GeometryIdSelector.cxx
++++ b/src/GeometryIdSelector.cxx
+@@ -1,5 +1,7 @@
+ #include "GeometryIdSelector.hxx"
+ 
++#include <algorithm>
++
+ using namespace ACTSTracking;
+ 
+ GeometryIdSelector::GeometryIdSelector(

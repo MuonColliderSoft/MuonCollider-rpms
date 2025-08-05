@@ -27,6 +27,7 @@ BuildRequires: acts-toolkit-devel
 BuildRequires: root
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/MuonColliderSoft/ACTSTracking/archive/refs/tags/v%{_tagver}.tar.gz
+Patch0: ilc-acts-tracking-geosel.patch
 AutoReqProv: yes
 
 %description
@@ -36,6 +37,7 @@ Marlin processor for running track reconstructions using the ACTS library
 %setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
+patch %{_sbuilddir}/src/GeometryIdSelector.cxx %{PATCH0}
 
 %build
 mkdir %{_cbuilddir}
@@ -53,7 +55,7 @@ make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 
-chrpath --delete %{buildroot}%{_libdir}/*.s0
+chrpath --delete %{buildroot}%{_libdir}/*.so
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libACTSTracking.so

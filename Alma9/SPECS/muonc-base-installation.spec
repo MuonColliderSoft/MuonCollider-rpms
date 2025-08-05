@@ -1,7 +1,7 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 2.8.0
+%global _pver 2.8.1
 %global _tagver 02-08-MC
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MuonCutil-%{_tagver}
@@ -33,6 +33,7 @@ Requires: ilc-clic-performance
 Requires: ilc-acts-tracking
 Requires: ilc-lcio-tools
 Requires: muonc-tracker-digitizer
+Requires: ilc-marlin-muon-id
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/MuonColliderSoft/MuonCutil/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
@@ -72,6 +73,8 @@ rm -rf %{SOURCE0}
 %{_datadir}/%{name}/SoftCheck/confile/PandoraSettings/*.xml
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.8.1-1
+- New version
 * Thu Apr 27 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.8.0-1
 - First release of the base installation
 
