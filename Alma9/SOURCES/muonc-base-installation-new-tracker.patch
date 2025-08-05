@@ -1,0 +1,20 @@
+--- a/SoftCheck/confile/Tracking.xml
++++ b/SoftCheck/confile/Tracking.xml
+@@ -187,14 +187,14 @@
+ <!-- ======================================================================================================== -->
+ <!-- ======================================================================================================== -->
+ 
+-<processor name="MyCKFTracking" type="ACTSSeededCKFTrackingProc">
++<processor name="MyCKFTracking" type="ACTSCKFSeededTracker">
+   <!-- Path to material description -->
+   <parameter name="MatFile" type="string">
+-    /opt/ilcsoft/muonc/ACTSTracking/v1.1.0/data/material-maps.json
++    /usr/share/MarlinACTS/data/material-maps.json
+   </parameter>
+   <!-- Path to tracking geometry -->
+   <parameter name="TGeoFile" type="string">
+-    /opt/ilcsoft/muonc/ACTSTracking/v1.1.0/data/MuColl_v1.root
++    /usr/share/MarlinACTS/data/MuColl_v1.root
+   </parameter>
+   <!-- Vol Layer, use -1 for all, ACTS numbers -->
+   <parameter name="SeedingLayers" type="string">

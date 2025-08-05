@@ -30,12 +30,13 @@ Requires: ilc-ced-viewer
 Requires: ilc-ddmarlin-pandora
 Requires: ilc-lctuple
 Requires: ilc-clic-performance
-Requires: ilc-acts-tracking
+Requires: ilc-marlin-acts
 Requires: ilc-lcio-tools
 Requires: muonc-tracker-digitizer
 Requires: ilc-marlin-muon-id
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/MuonColliderSoft/MuonCutil/archive/refs/tags/v%{_tagver}.tar.gz
+Patch0: muonc-base-installation-new-tracker.patch
 AutoReqProv: yes
 
 %description
@@ -54,8 +55,9 @@ sed -i -e 's|opt/ilcsoft/muonc/detector-simulation/geometries|usr/share/muonc-de
        %{buildroot}%{_datadir}/%{name}/SoftCheck/ced2go_steering.xml \
        %{buildroot}%{_datadir}/%{name}/SoftCheck/confile/InitDD4hep.xml \
        %{buildroot}%{_datadir}/%{name}/SoftCheck/sim_steer.py
-sed -i -e 's|opt/ilcsoft/muonc/ACTSTracking/v1.1.0|usr/share/ACTSTracking|g' \
-       %{buildroot}%{_datadir}/%{name}/SoftCheck/confile/Tracking.xml
+
+patch %{buildroot}%{_datadir}/%{name}/SoftCheck/confile/Tracking.xml %{PATCH0}
+       
 
 %clean
 rm -rf %{buildroot}
