@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.1.0
-%global _tagver 01-01
+%global _pver 1.3.0
+%global _tagver 01-03
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/podio-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -19,10 +19,12 @@ Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRequires: make
+BuildRequires: chrpath
 BuildRequires: root
 BuildRequires: root-tpython
 BuildRequires: python3-devel
 BuildRequires: python3-rpm-macros
+BuildRequires: fmt-devel
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/AIDASoft/podio/archive/refs/tags/v%{_tagver}.tar.gz
@@ -41,7 +43,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -DBUILD_TESTING=OFF \
       -Wno-dev \
       %{_sbuilddir}
@@ -50,18 +52,6 @@ make %{?_smp_mflags}
 %install
 cd %{_cbuilddir}
 make install
-
-#mkdir -p %{buildroot}/%{_datadir}/podio
-#mv %{buildroot}/%{python3_sitelib}/templates %{buildroot}/%{_datadir}/podio
-
-#sed -i 's|^TEMPLATE_DIR.*|TEMPLATE_DIR = "%{_datadir}/podio/templates"|g' \
-#    %{buildroot}/%{python3_sitelib}/podio_class_generator.py
-
-#sed -i 's|^set_and_check(podio_PYTHON_DIR.*|set_and_check(podio_PYTHON_DIR "%{python3_sitelib}")|g' \
-#    %{buildroot}/%{cmake_podio_dir}/podioConfig.cmake
-
-#sed -i 's|${podio_PYTHON_DIR}/templates/CMakeLists.txt|%{_datadir}/podio/templates/CMakeLists.txt|g' \
-#    %{buildroot}/%{cmake_podio_dir}/podioMacros.cmake
 
 %clean
 rm -rf %{buildroot}
@@ -73,7 +63,7 @@ rm -f %{SOURCE0}
 %{_libdir}/*.pcm
 %{_libdir}/*.rootmap
 %dir %{_datadir}/doc/podio
-%{_datadir}/doc/podio/NOTICE
+%{_datadir}/doc/podio/*
 
 
 %package devel
@@ -82,6 +72,7 @@ Requires: %{name}
 Requires: root
 Requires: root-tpython
 Requires: python3-devel
+Requires: fmt-devel
 
 %description devel
 PODIO is a C++ library to support the creation and handling of data models in particle physics.
@@ -91,8 +82,10 @@ PODIO is a C++ library to support the creation and handling of data models in pa
 %dir %{cmake_podio_dir}
 %{cmake_podio_dir}/*.cmake
 %dir %{_includedir}/podio
+%dir %{_includedir}/podio/detail
 %dir %{_includedir}/podio/utilities
 %{_includedir}/podio/*.h
+%{_includedir}/podio/detail/*.h
 %{_includedir}/podio/utilities/*.h
 
 
@@ -115,6 +108,7 @@ PODIO is a C++ library to support the creation and handling of data models in pa
 %dir %{python3_sitearch}/podio/pythonizations/__pycache__
 %dir %{python3_sitearch}/podio/pythonizations/utils/__pycache__
 %{python3_sitearch}/podio_version.py
+%{python3_sitearch}/__pycache__/podio_version.*
 %{python3_sitearch}/podio/*.py
 %{python3_sitearch}/podio/__pycache__/*
 %{python3_sitearch}/podio_gen/*.py
@@ -139,24 +133,17 @@ PODIO is a C++ library to support the creation and handling of data models in pa
 %{_bindir}/*
 %{python3_sitearch}/podio_class_generator.py
 %{python3_sitearch}/podio_schema_evolution.py
-%{python3_sitearch}/__pycache__
-%{python3_sitearch}/__pycache__/*
+%{python3_sitearch}/__pycache__/podio_class_generator.*
+%{python3_sitearch}/__pycache__/podio_schema_evolution.*
 %{python3_sitearch}/templates/CMakeLists.txt
 %{python3_sitearch}/templates/*.jinja2
 %{python3_sitearch}/templates/macros/*.jinja2
 %{python3_sitearch}/templates/schemaevolution/*.jinja2
 %{python3_sitearch}/templates/.clang-format
 
-#%dir %{_datadir}/podio
-#%dir %{_datadir}/podio/templates
-#%dir %{_datadir}/podio/templates/macros
-#%dir %{_datadir}/podio/templates/schemaevolution
-#%{_datadir}/podio/templates/CMakeLists.txt
-#%{_datadir}/podio/templates/*.jinja2
-#%{_datadir}/podio/templates/macros/*.jinja2
-#%{_datadir}/podio/templates/schemaevolution/*.jinja2
-
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.3.0-1
+- New version
 * Fri Jan 10 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.1.0-1
 - New version
 * Fri Feb 09 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.17.3-1

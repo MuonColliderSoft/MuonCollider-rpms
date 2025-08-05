@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.29.0
-%global _tagver 01-29
+%global _pver 1.32.1
+%global _tagver 01-32-01
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/DD4hep-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -32,7 +32,6 @@ BuildRequires: root-genvector
 BuildRequires: root-tpython
 BuildRequires: root-graf3d-eve7
 BuildRequires: root-gui-browserv7
-BuildRequires: root-histv7
 BuildRequires: HepMC3-devel
 BuildRequires: edm4hep-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -63,7 +62,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -DDD4HEP_USE_GEANT4=ON \
       -DDD4HEP_USE_LCIO=ON \
       -DDD4HEP_USE_XERCESC=OFF \
@@ -123,6 +122,7 @@ rm -f %{SOURCE0}
 %{_bindir}/dumpBfield
 %{_bindir}/dumpdetector
 %{_bindir}/g4FromXML
+%{_bindir}/g4GraphicalScan
 %{_bindir}/g4gdmlDisplay
 %{_bindir}/geoConverter
 %{_bindir}/geoDisplay
@@ -163,7 +163,6 @@ Requires: root-genvector
 Requires: root-tpython
 Requires: root-graf3d-eve7
 Requires: root-gui-browserv7
-Requires: root-histv7
 Requires: HepMC3-devel
 Requires: edm4hep-devel
 
@@ -268,6 +267,8 @@ cycle (detector concept development, detector optimization, construction, operat
 %{python3_sitelib}/DDSim/Helper/__pycache__/*.pyc
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.32.1-1
+- New version
 * Tue Jun 25 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.29.0-1
 - New version of DD4Hep
 * Mon Apr 17 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.25.1-1

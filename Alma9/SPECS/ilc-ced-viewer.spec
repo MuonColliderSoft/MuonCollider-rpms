@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.19.1
-%global _tagver 01-19-01
+%global _pver 1.20.0
+%global _tagver 01-20
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/CEDViewer-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -45,7 +45,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}
@@ -59,8 +59,8 @@ sed -i -e 's|/bin/env python|/usr/bin/python3|g' \
        -e 's|sys.path\[0\]|"%{_cedv_datadir}"|g' %{buildroot}%{_bindir}/ced2go
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
-chrpath --replace %{_libdir} %{buildroot}%{_bindir}/extractdetector
+chrpath --delete %{buildroot}%{_libdir}/*.so.%{version}
+chrpath --delete %{buildroot}%{_bindir}/extractdetector
 mkdir -p %{buildroot}%{_cedv_datadir}
 mv %{buildroot}/usr/bin/*.xml %{buildroot}%{_cedv_datadir}
 
@@ -84,6 +84,8 @@ rm -f %{SOURCE0}
 %{_cedv_datadir}/*.xml
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.10.0-1
+- New version
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.19.1-1
 - New version of CED viewer
 * Mon Aug 24 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.17.1-1

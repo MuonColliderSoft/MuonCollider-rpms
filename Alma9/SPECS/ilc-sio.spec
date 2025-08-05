@@ -20,7 +20,7 @@ Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRequires: make
-BuildRequires: chrpath
+#BuildRequires: chrpath
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/iLCSoft/SIO/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
@@ -38,7 +38,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -DSIO_EXAMPLES=OFF \
       -DSIO_SET_RPATH=OFF \
       -Wno-dev \

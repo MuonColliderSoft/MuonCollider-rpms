@@ -7,8 +7,6 @@
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinFastJet-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
-%global _boostp boost
-
 Summary: Interface between Marlin and FastJet
 Name: ilc-marlin-fastjet
 Version: %{_pver}
@@ -23,7 +21,7 @@ BuildRequires: make
 BuildRequires: chrpath
 BuildRequires: ilc-marlin-devel
 BuildRequires: fastjet-contrib-devel
-BuildRequires: %{_boostp}-devel
+BuildRequires: boost-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/iLCSoft/MarlinFastJet/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
@@ -41,9 +39,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
-      -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
-      -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
+      -DCMAKE_CXX_STANDARD=20 \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}
@@ -52,7 +48,7 @@ make %{?_smp_mflags}
 cd %{_cbuilddir}
 make install
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
+chrpath --delete %{buildroot}%{_libdir}/*.so.%{version}
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libMarlinFastJet.so\n" \

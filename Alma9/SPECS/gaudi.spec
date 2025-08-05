@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.38.2
-%global _tagver v38r2
+%global _pver 0.40.0
+%global _tagver v40r0
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/Gaudi-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -36,7 +36,6 @@ BuildRequires: libuuid-devel
 BuildRequires: range-v3-devel
 BuildRequires: fmt-devel
 BuildRequires: xerces-c-devel
-BuildRequires: jemalloc-devel
 BuildRequires: libunwind-devel
 BuildRequires: ilc-root-aida-devel
 BuildRequires: clhep-devel
@@ -54,13 +53,6 @@ processing applications.
 
 %prep
 %setup -c
-sed -i -e 's|CONFIG REQUIRED system filesystem|REQUIRED system filesystem|g' \
-       -e 's|thread python unit_test|thread python39 unit_test|g' \
-    %{_sbuilddir}/cmake/GaudiDependencies.cmake
-sed -i -e 's|Boost::python|Boost::python39|g' \
-    %{_sbuilddir}/GaudiCoreSvc/CMakeLists.txt \
-    %{_sbuilddir}/GaudiExamples/CMakeLists.txt \
-    %{_sbuilddir}/GaudiProfiling/CMakeLists.txt
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
@@ -69,7 +61,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -DGAUDI_USE_AIDA=ON \
       -DGAUDI_USE_HEPPDT=OFF \
       -DGAUDI_USE_CLHEP=ON \
@@ -77,11 +69,10 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DGAUDI_USE_CPPUNIT=OFF \
       -DGAUDI_USE_UNWIND=ON \
       -DGAUDI_USE_INTELAMPLIFIER=OFF \
-      -DGAUDI_USE_JEMALLOC=ON \
+      -DGAUDI_USE_JEMALLOC=OFF \
       -DGAUDI_USE_DOXYGEN=OFF \
       -DGAUDI_USE_XERCESC=ON \
       -DGAUDI_BUILD_EXAMPLES=OFF \
-      -DGAUDI_ENABLE_GAUDIALG=ON \
       -DBUILD_TESTING=OFF \
       -DCPPGSL_ROOT_DIR=/opt/GSL/include \
       -DCMAKE_INSTALL_LIBDIR=%{buildroot}%{_libdir} \
@@ -98,9 +89,8 @@ make install
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_gaudi_dir}/*.cmake
 sed -i -e 's|env python|python3|g' \
        %{buildroot}%{_bindir}/quick-merge \
-       %{buildroot}%{_bindir}/GaudiProfiler
+       %{buildroot}%{_bindir}/gaudi-test-run
 
-rm -f %{buildroot}%{_bindir}/*.bat
 rm -rf %{buildroot}%{python3_sitelib}/GaudiConfig/__pycache__ \
        %{buildroot}%{python3_sitelib}/GaudiKernel/__pycache__ \
        %{buildroot}%{python3_sitelib}/Gaudi/__pycache__
@@ -135,7 +125,6 @@ Requires: libuuid-devel
 Requires: range-v3-devel
 Requires: fmt-devel
 Requires: xerces-c-devel
-Requires: jemalloc-devel
 Requires: libunwind-devel
 Requires: ilc-root-aida-devel
 Requires: clhep-devel
@@ -152,7 +141,6 @@ processing applications.
 %dir %{cmake_gaudi_dir}
 %dir %{cmake_gaudi_dir}/modules
 %{cmake_gaudi_dir}/*.cmake
-%{cmake_gaudi_dir}/extract_qmtest_metadata.py
 %{cmake_gaudi_dir}/header_build_test.tpl
 %{cmake_gaudi_dir}/headers_db.csv
 %{cmake_gaudi_dir}/scan_dict_deps.py
@@ -172,9 +160,9 @@ processing applications.
 %dir %{_includedir}/Gaudi/Parsers
 %dir %{_includedir}/Gaudi/Timers
 %dir %{_includedir}/Gaudi/Tr
+%dir %{_includedir}/Gaudi/Utils
 %dir %{_includedir}/Gaudi/cxx
 %dir %{_includedir}/Gaudi/details
-%dir %{_includedir}/GaudiAlg
 %dir %{_includedir}/GaudiCommonSvc
 %dir %{_includedir}/GaudiKernel
 %dir %{_includedir}/GaudiMP
@@ -184,6 +172,7 @@ processing applications.
 %{_includedir}/GAUDI_VERSION.h
 %{_includedir}/GaudiKernelVersion.h
 %{_includedir}/Gaudi/*.h
+%{_includedir}/Gaudi/*.cuh
 %{_includedir}/Gaudi/Accumulators/*.h
 %{_includedir}/Gaudi/Allocator/*.h
 %{_includedir}/Gaudi/Arena/*.h
@@ -196,11 +185,10 @@ processing applications.
 %{_includedir}/Gaudi/NTuple/*.h
 %{_includedir}/Gaudi/Parsers/*.h
 %{_includedir}/Gaudi/Timers/*.h
+%{_includedir}/Gaudi/Utils/*.h
 %{_includedir}/Gaudi/Tr/*.h
 %{_includedir}/Gaudi/cxx/*.h
 %{_includedir}/Gaudi/details/*.h
-%{_includedir}/GaudiAlg/*.h
-%{_includedir}/GaudiAlg/*.icpp
 %{_includedir}/GaudiCommonSvc/*.h
 %{_includedir}/GaudiKernel/*.h
 %{_includedir}/GaudiKernel/*.icpp
@@ -229,14 +217,12 @@ processing applications.
 %dir %{python3_sitelib}/GaudiCoreSvc
 %dir %{python3_sitelib}/GaudiUtils
 %dir %{python3_sitelib}/Gaudi
-%dir %{python3_sitelib}/GaudiAlg
 %dir %{python3_sitelib}/GaudiAud
 %dir %{python3_sitelib}/GaudiCommonSvc
 %dir %{python3_sitelib}/GaudiHive
 %dir %{python3_sitelib}/GaudiMonitor
 %dir %{python3_sitelib}/GaudiMP
 %dir %{python3_sitelib}/GaudiPartProp
-%dir %{python3_sitelib}/GaudiProfiling
 %dir %{python3_sitelib}/GaudiPython
 %dir %{python3_sitelib}/GaudiSvc
 %dir %{python3_sitelib}/RootCnv
@@ -251,7 +237,6 @@ processing applications.
 %{python3_sitelib}/GaudiCoreSvc/*.py
 %{python3_sitelib}/GaudiUtils/*.py
 %{python3_sitelib}/Gaudi/*.py
-%{python3_sitelib}/GaudiAlg/*.py
 %{python3_sitelib}/GaudiAud/*.py
 %{python3_sitelib}/GaudiCommonSvc/*.py
 %{python3_sitelib}/GaudiHive/*.py
@@ -259,8 +244,6 @@ processing applications.
 %{python3_sitelib}/GaudiMP/*.py
 %{python3_sitelib}/GaudiPartProp/*.py
 %{python3_sitelib}/GaudiPartProp/default.ParticleTable.txt
-%{python3_sitelib}/GaudiProfiling/*.py
-%{python3_sitelib}/GaudiProfiling/*.so
 %{python3_sitelib}/GaudiPython/*.py
 %{python3_sitelib}/GaudiSvc/*.py
 %{python3_sitelib}/RootCnv/*.py
@@ -274,14 +257,12 @@ processing applications.
 %dir %{python3_sitelib}/GaudiCoreSvc/__pycache__
 %dir %{python3_sitelib}/GaudiUtils/__pycache__
 %dir %{python3_sitelib}/Gaudi/__pycache__
-%dir %{python3_sitelib}/GaudiAlg/__pycache__
 %dir %{python3_sitelib}/GaudiAud/__pycache__
 %dir %{python3_sitelib}/GaudiCommonSvc/__pycache__
 %dir %{python3_sitelib}/GaudiHive/__pycache__
 %dir %{python3_sitelib}/GaudiMonitor/__pycache__
 %dir %{python3_sitelib}/GaudiMP/__pycache__
 %dir %{python3_sitelib}/GaudiPartProp/__pycache__
-%dir %{python3_sitelib}/GaudiProfiling/__pycache__
 %dir %{python3_sitelib}/GaudiPython/__pycache__
 %dir %{python3_sitelib}/GaudiSvc/__pycache__
 %dir %{python3_sitelib}/RootCnv/__pycache__
@@ -296,19 +277,18 @@ processing applications.
 %{python3_sitelib}/GaudiCoreSvc/__pycache__/*.pyc
 %{python3_sitelib}/GaudiUtils/__pycache__/*.pyc
 %{python3_sitelib}/Gaudi/__pycache__/*.pyc
-%{python3_sitelib}/GaudiAlg/__pycache__/*.pyc
 %{python3_sitelib}/GaudiAud/__pycache__/*.pyc
 %{python3_sitelib}/GaudiCommonSvc/__pycache__/*.pyc
 %{python3_sitelib}/GaudiHive/__pycache__/*.pyc
 %{python3_sitelib}/GaudiMonitor/__pycache__/*.pyc
 %{python3_sitelib}/GaudiMP/__pycache__/*.pyc
 %{python3_sitelib}/GaudiPartProp/__pycache__/*.pyc
-%{python3_sitelib}/GaudiProfiling/__pycache__/*.pyc
 %{python3_sitelib}/GaudiPython/__pycache__/*.pyc
 %{python3_sitelib}/GaudiSvc/__pycache__/*.pyc
 %{python3_sitelib}/RootCnv/__pycache__/*.pyc
 %{python3_sitelib}/RootHistCnv/__pycache__/*.pyc
-
+%dir %{python3_sitelib}/GaudiTesting.dist-info
+%{python3_sitelib}/GaudiTesting.dist-info/*
 
 %package tools
 Summary: Interfaces and services for building HEP experiment frameworks (tools)
@@ -331,6 +311,8 @@ and services for building HEP experiment frameworks in the domain of event data
 processing applications.
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.40.0-1
+- New version
 * Wed Jun 26 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.38.2-1
 - Porting to AlmaLinux 9
 

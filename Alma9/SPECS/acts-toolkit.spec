@@ -8,7 +8,6 @@
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 %global cmake_acts_dir %{_libdir}/cmake/Acts
-%global _boostp boost
 
 Summary: Toolkit for charged particle track reconstruction
 Name: acts-toolkit
@@ -22,7 +21,7 @@ BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
-BuildRequires: %{_boostp}-devel
+BuildRequires: boost-devel
 BuildRequires: eigen3-devel
 BuildRequires: json-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -42,7 +41,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -DACTS_USE_SYSTEM_BOOST=ON \
       -DACTS_USE_SYSTEM_EIGEN3=ON \
       -DACTS_USE_SYSTEM_NLOHMANN_JSON=ON \
@@ -57,7 +56,7 @@ cd %{_cbuilddir}
 make install
 
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_acts_dir}/*.cmake
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so
+chrpath --delete %{buildroot}%{_libdir}/*.so
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{_bindir}/this_acts.sh
 
 sed -i -e 's|Boost 1.75.0 CONFIG|Boost 1.75.0|g' %{buildroot}%{cmake_acts_dir}/ActsConfig.cmake
@@ -73,7 +72,7 @@ rm -f %{SOURCE0}
 %package devel
 Summary: Toolkit for charged particle track reconstruction (development files)
 Requires: %{name}
-Requires: %{_boostp}-devel
+Requires: boost-devel
 Requires: eigen3-devel
 Requires: json-devel
 

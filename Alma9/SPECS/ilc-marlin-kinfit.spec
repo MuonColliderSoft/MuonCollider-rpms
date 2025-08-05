@@ -43,7 +43,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-       -DCMAKE_CXX_STANDARD=17 \
+       -DCMAKE_CXX_STANDARD=20 \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}
@@ -65,7 +65,7 @@ sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' \
        -e 's|/include|/include/MarlinKinfit|g' \
        -e 's|lib/cmake|lib64/cmake/MarlinKinfit|g' \
     %{buildroot}%{cmake_marlkin_dir}/*.cmake
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
+chrpath --delete %{buildroot}%{_libdir}/*.so.%{version}
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libMarlinKinfit.so\n" \

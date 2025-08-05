@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.19.1
-%global _tagver 01-19-01
+%global _pver 1.19.5
+%global _tagver 01-19-05
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/Marlin-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -31,6 +31,7 @@ BuildRequires: ilc-root-aida-devel
 Requires: %{_pypkg}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/iLCSoft/Marlin/archive/refs/tags/v%{_tagver}.tar.gz
+Patch0: ilc-marlin-cmake.patch
 AutoReqProv: yes
 
 %description
@@ -40,13 +41,14 @@ Modular Analysis and Reconstruction for the LINear Collider.
 %setup -c
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
+patch %{_sbuilddir}/CMakeLists.txt %{PATCH0}
 
 %build
 mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -DMARLIN_LCCD=OFF \
       -DMARLIN_GUI=OFF \
       -Wno-dev \
@@ -57,14 +59,13 @@ make %{?_smp_mflags}
 cd %{_cbuilddir}
 make install
 
-mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{cmake_marlin_dir}
 mv %{buildroot}/usr/*.cmake %{buildroot}%{cmake_marlin_dir}
 
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_marlin_dir}/*.cmake
 sed -i -e 's|bin/env python|usr/bin/python3|g' %{buildroot}%{_bindir}/*.py
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
-chrpath --replace %{_libdir} %{buildroot}%{_bindir}/Marlin
+chrpath --delete %{buildroot}%{_libdir}/*.so.%{version}
+chrpath --delete %{buildroot}%{_bindir}/Marlin
 
 %clean
 rm -rf %{buildroot}
@@ -96,6 +97,8 @@ Modular Analysis and Reconstruction for the LINear Collider.
 %{_includedir}/marlin/*.h
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.19.5-1
+- New version
 * Wed Feb 07 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.19.1-1
 - New version of Marlin
 * Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.19.0-1

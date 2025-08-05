@@ -1,13 +1,11 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.35.0
-%global _tagver 01-35
+%global _pver 1.36.2
+%global _tagver 01-36-02
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinReco-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
-
-%global _boostp boost
 
 Summary: Assembly of various Marlin processor for reconstruction
 Name: ilc-marlin-reco
@@ -22,7 +20,7 @@ BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
 BuildRequires: root
-BuildRequires: %{_boostp}-devel
+BuildRequires: boost-devel
 BuildRequires: ilc-utils-devel
 BuildRequires: ilc-marlin-devel
 BuildRequires: ilc-marlin-util-devel
@@ -48,10 +46,8 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -DMARLINRECO_FORTRAN=OFF \
-      -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
-      -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}
@@ -61,7 +57,7 @@ cd %{_cbuilddir}
 make install
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.*
+chrpath --delete %{buildroot}%{_libdir}/*.so.*
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libMarlinReco.so\n" \
@@ -79,6 +75,8 @@ rm -f %{SOURCE0}
 %{_libdir}/*.so*
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.36.2-1
+- New version
 * Tue May 28 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.35.0-1
 - New version of MarlinReco
 * Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.33.1-1

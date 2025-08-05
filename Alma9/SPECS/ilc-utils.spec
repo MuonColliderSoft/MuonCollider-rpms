@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.7.2
-%global _tagver 01-07-02
+%global _pver 1.7.3
+%global _tagver 01-07-03
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/iLCUtil-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -41,7 +41,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -DINSTALL_DOC=OFF \
       -Wno-dev \
       %{_sbuilddir}
@@ -59,7 +59,7 @@ sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_ilcutil_dir}/*.c
 sed -i -e 's|/usr/cmakemodules|%{cmake_ilcutil_dir}/cmakemodules|g' %{buildroot}%{cmake_ilcutil_dir}/*.cmake
 sed -i -e 's|/usr|%{cmake_ilcutil_dir}|g' %{buildroot}%{cmake_ilcutil_dir}/ILCUTILConfig.cmake
 sed -i -e 's|/usr|%{cmake_ilcutil_dir}|g' %{buildroot}%{cmake_ilcutil_dir}/ILCTESTConfig.cmake
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.0.4.0
+chrpath --delete %{buildroot}%{_libdir}/*.so.0.4.0
 
 %clean
 rm -rf %{buildroot}
@@ -103,6 +103,8 @@ It is intended to be a "meta-package" which packages together a set of independe
 utility packages living in separate sub-directories.
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.7.3-1
+- New version
 * Wed Feb 07 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.7.2-1
 - New version
 * Fri Jan 19 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.7.1-1

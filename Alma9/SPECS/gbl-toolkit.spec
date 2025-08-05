@@ -41,7 +41,7 @@ cd %{_cbuilddir}
 sed -i -e 's|Eigen3 REQUIRED|Eigen3 CONFIG REQUIRED|g' %{_sbuilddir}/CMakeLists.txt
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -DSUPPORT_ROOT=ON \
       -Wno-dev \
       %{_sbuilddir}
@@ -56,8 +56,8 @@ mv %{buildroot}%{_prefix}/GBLConfig.cmake %{buildroot}%{cmake_gbl_dir}
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_gbl_dir}/GBLConfig.cmake
 sed -i -e 's|PATH_SUFFIXES lib|PATH_SUFFIXES lib64|g' \
        -e 's|usr/lib |usr/lib64 |g' %{buildroot}%{cmake_gbl_dir}/GBLConfig.cmake
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so
-chrpath --replace %{_libdir} %{buildroot}%{_bindir}/GBLpp
+chrpath --delete %{buildroot}%{_libdir}/*.so
+chrpath --delete %{buildroot}%{_bindir}/GBLpp
 
 %clean
 rm -rf %{buildroot}

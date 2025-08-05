@@ -1,9 +1,11 @@
+# workaround: QA_SKIP_BUILD_ROOT=1 rpmbuild -ba geant4
+
+%undefine _disable_source_fetch
 %global debug_package %{nil}
 
 # Conditional parameters
 %bcond_with g4mt
 %bcond_with OpenGL
-#bcond_with Qt5
 
 %if %{with g4mt}
 %global _g4mtopt ON
@@ -17,14 +19,8 @@
 %global _glopt OFF
 %endif
 
-#if #{with Qt5}
-#global _qtopt ON
-#else
-#global _qtopt OFF
-#endif
-
-%global _pver 11.3.0
-%global _pname geant4-v11.3.0
+%global _pver 11.3.2
+%global _pname geant4-v11.3.2
 
 %global _sbuilddir %{_builddir}/geant4/%{_pname}
 %global _cbuilddir %{_builddir}/geant4/build
@@ -46,9 +42,6 @@ BuildRequires: zlib-devel
 BuildRequires: expat-devel
 BuildRequires: xerces-c-devel
 BuildRequires: clhep-devel
-##if #{with Qt5}
-#BuildRequires: qt5-devel
-#endif
 %if %{with OpenGL}
 BuildRequires: libX11-devel
 BuildRequires: libXmu-devel
@@ -56,7 +49,6 @@ BuildRequires: libXmu-devel
 Requires: python3
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
-%undefine _disable_source_fetch
 Source0: http://cern.ch/geant4-data/releases/%{_pname}.tar.gz
 Source1: geant4-dataset-download.in
 Source2: geant4-setup.sh.in
@@ -91,14 +83,14 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DGEANT4_USE_SYSTEM_CLHEP=ON \
       -DGEANT4_USE_OPENGL_X11=%{_glopt} \
       %{_sbuilddir}
-#      -DGEANT4_USE_QT=%{_qtopt} \
-#      #{_sbuilddir}
 
 make %{?_smp_mflags}
 
 %install
 cd %{_cbuilddir}
 make install
+
+chrpath --delete %{buildroot}%{_libdir}/*.so
 
 rm -f %{buildroot}%{_bindir}/*.sh %{buildroot}%{_bindir}/*.csh
 
@@ -236,6 +228,9 @@ Nuclear Instruments and Methods in Physics Research A 506 (2003)
 %{_datadir}/Geant4/geant4make/config/sys/*
 
 %changelog
+* Fri Jul 11 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 11.3.2-1
+- New version
+
 * Thu Jan 09 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 11.3.0-1
 - New version
 

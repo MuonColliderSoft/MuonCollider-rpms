@@ -19,7 +19,7 @@ BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
-Source: https://proj-clhep.web.cern.ch/proj-clhep/dist1/%{name}-%{version}.%{_prel}.tgz
+Source0: https://proj-clhep.web.cern.ch/proj-clhep/dist1/%{name}-%{version}.%{_prel}.tgz
 
 %description
 CLHEP is a set of HEP-specific foundation and utility classes such as
@@ -47,6 +47,7 @@ sed -i 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}/usr/bin/*-config
 
 %clean
 rm -rf %{buildroot}
+rm -f %{SOURCE0}
 
 %files
 %defattr(-,root,root)

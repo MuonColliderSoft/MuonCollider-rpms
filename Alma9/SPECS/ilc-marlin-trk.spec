@@ -7,7 +7,6 @@
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinTrk-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
-%global _boostp boost
 %global cmake_martrk_dir %{_libdir}/cmake/MarlinTrk
 
 Summary: Tracking Package for Marlin
@@ -22,7 +21,7 @@ BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
-BuildRequires: %{_boostp}-devel
+BuildRequires: boost-devel
 BuildRequires: root
 BuildRequires: ilc-utils-devel
 BuildRequires: ilc-lcio-devel
@@ -49,9 +48,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
-      -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
-      -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
+      -DCMAKE_CXX_STANDARD=20 \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}
@@ -64,7 +61,7 @@ mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{cmake_martrk_dir}
 mv %{buildroot}/usr/*.cmake %{buildroot}%{cmake_martrk_dir}
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_martrk_dir}/*.cmake
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.*
+chrpath --delete %{buildroot}%{_libdir}/*.so.*
 
 %clean
 rm -rf %{buildroot}
@@ -99,7 +96,7 @@ track fitting in Marlin.
 %{_includedir}/MarlinTrk/*.h
 
 %changelog
-* Tue May 28 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.9.2-1
+* Tue May 31 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.9.2-1
 - New version of Marlin Tracking
 * Mon Jul 13 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.8.0-1
 - Repackaging for CentOS 8

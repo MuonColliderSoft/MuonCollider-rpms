@@ -8,7 +8,6 @@
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 %global cmake_aidatt_dir %{_libdir}/cmake/aidaTT
-%global _boostp boost
 
 Summary: Tracking Toolkit from the AIDA project
 Name: aida-tracking-toolkit
@@ -44,9 +43,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
-      -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
-      -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
+      -DCMAKE_CXX_STANDARD=20 \
       -Dstreamlog_DIR=%{_libdir}/cmake/ilcutil/ \
       -Wno-dev \
       %{_sbuilddir}

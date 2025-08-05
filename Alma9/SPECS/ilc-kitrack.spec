@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.10.0
-%global _tagver 01-10
+%global _pver 1.10.1
+%global _tagver 01-10-01
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/KiTrack-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -43,7 +43,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}
@@ -60,7 +60,7 @@ mv %{buildroot}%{_libdir}/cmake/*.cmake %{buildroot}%{cmake_kitrack_dir}
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' \
        -e 's|lib/cmake|lib64/cmake/KiTrack|g' \
        %{buildroot}%{cmake_kitrack_dir}/*.cmake
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
+chrpath --delete %{buildroot}%{_libdir}/*.so.%{version}
 
 %clean
 rm -rf %{buildroot}
@@ -92,6 +92,8 @@ and track classes) and Criteria (the criteria classes)
 %{_includedir}/KiTrack/*.h
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.10.1-1
+- New version
 * Tue Aug 25 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.10.0-1
 - Repackaging for CentOS 8
 

@@ -8,7 +8,6 @@
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
 %global cmake_ddkalt_dir %{_libdir}/cmake/DDKalTest
-%global _boostp boost
 
 Summary: Interface between KalTest fitter and DD4hep based geometry
 Name: ilc-ddkaltest
@@ -48,9 +47,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
-      -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
-      -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
+      -DCMAKE_CXX_STANDARD=20 \
       -Dstreamlog_DIR=%{_libdir}/cmake/ilcutil/ \
       -Wno-dev \
       %{_sbuilddir}
@@ -65,8 +62,8 @@ mkdir -p %{buildroot}%{cmake_ddkalt_dir}
 mv %{buildroot}%{_prefix}/*.cmake %{buildroot}%{cmake_ddkalt_dir}
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_ddkalt_dir}/*.cmake
 
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.*
-chrpath --replace %{_libdir} %{buildroot}%{_bindir}/printSurfaces
+chrpath --delete %{buildroot}%{_libdir}/*.so.*
+chrpath --delete %{buildroot}%{_bindir}/printSurfaces
 
 %clean
 rm -rf %{buildroot}

@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.10.1
-%global _tagver 00-10-01
+%global _pver 0.11.0
+%global _tagver 00-11
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/LCFIPlus-%{_tagver}
 
@@ -46,6 +46,8 @@ rm -f %{SOURCE0}
 %{_prefix}/include/lcfiplus/*.h
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.11.0-1
+- New version
 * Thu Aug 27 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.10.0-1
 - Repackaging for CentOS 8
 

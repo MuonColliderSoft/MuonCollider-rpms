@@ -2,8 +2,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 4.8.1
-%global _tagver 04-08-01
+%global _pver 4.16.0
+%global _tagver 04-16-00
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/PandoraPFA-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -26,6 +26,8 @@ BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
 BuildRequires: root
+BuildRequires: root-graf3d-eve
+BuildRequires: root-genvector
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/PandoraPFA/PandoraPFA/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
@@ -43,11 +45,10 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -DPANDORA_MONITORING=ON \
       -DLC_PANDORA_CONTENT=ON \
       -DEXAMPLE_PANDORA_CONTENT=OFF \
-      -DCMAKE_CXX_FLAGS="-std=c++17" \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}
@@ -59,10 +60,8 @@ rm -rf %{buildroot}/usr/doc
 
 mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 
-mkdir -p %{buildroot}%{cmake_panutil_dir}
-cp %{_sbuilddir}/cmakemodules/MacroCheckPackageLibs.cmake \
-   %{_sbuilddir}/cmakemodules/MacroCheckPackageVersion.cmake \
-   %{buildroot}%{cmake_panutil_dir}
+mv %{buildroot}/usr/cmakemodules %{buildroot}%{_libdir}/cmake
+mv %{buildroot}%{_libdir}/cmake/cmakemodules %{buildroot}%{cmake_panutil_dir}
 
 mkdir -p %{buildroot}%{cmake_pansdk_dir}
 mv %{buildroot}/usr/PandoraSDKConfig* \
@@ -93,9 +92,9 @@ sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' \
        -e 's|usr/lib/lib|usr/lib64/lib|g' \
     %{buildroot}%{cmake_panlcc_dir}/*.cmake
 
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/libLCContent.so.*
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/libPandoraMonitoring.so.*
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/libPandoraSDK.so.*
+chrpath --delete %{buildroot}%{_libdir}/libLCContent.so.*
+chrpath --delete %{buildroot}%{_libdir}/libPandoraMonitoring.so.*
+chrpath --delete %{buildroot}%{_libdir}/libPandoraSDK.so.*
 
 %clean
 rm -rf %{buildroot}
@@ -109,6 +108,8 @@ rm -f %{SOURCE0}
 Summary: Suite for particle flow analysis (development files)
 Requires: %{name}
 Requires: root
+Requires: root-graf3d-eve
+Requires: root-genvector
 
 %description devel
 Suite for particle flow analysis.
@@ -178,6 +179,10 @@ Suite for particle flow analysis.
 %{_includedir}/TTreeWrapper.h
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 4.16.0-1
+- New version
+* Fri Jul 11 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 4.11.2-1
+- New version
 * Wed May 22 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 4.8.1-1
 - New version of PandoraPFA
 * Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 4.2.0-1

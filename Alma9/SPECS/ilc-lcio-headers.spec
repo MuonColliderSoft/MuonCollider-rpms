@@ -41,7 +41,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -DBUILD_ROOTDICT=ON  \
       -Wno-dev \
       %{_sbuilddir}
@@ -49,7 +49,6 @@ cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
 %install
 mkdir -p %{buildroot}%{_includedir}/lcio
 cp -r %{_sbuilddir}/src/cpp/include/* %{buildroot}%{_includedir}/lcio
-#cp -r %{_sbuilddir}/sio/include/sio %{buildroot}%{_includedir}
 rm %{buildroot}%{_includedir}/lcio/DATA/README
 ln -s %{_includedir}/lcio/pre-generated/EVENT %{buildroot}%{_includedir}/lcio/EVENT
 ln -s %{_includedir}/lcio/pre-generated/IO %{buildroot}%{_includedir}/lcio/IO

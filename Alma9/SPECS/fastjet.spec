@@ -1,7 +1,7 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 3.4.3
+%global _pver 3.5.1
 
 %global _maindir %{_builddir}/fastjet-%{_pver}
 
@@ -14,6 +14,7 @@ URL: http://fastjet.fr/
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: make
+BuildRequires: chrpath
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
 Source: https://fastjet.fr/repo/fastjet-%{_pver}.tar.gz
@@ -42,8 +43,9 @@ make %{?_smp_mflags}
 %install
 cd %{_maindir}/build
 make install
+chrpath --delete %{buildroot}%{_libdir}/*.so.*
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{_bindir}/fastjet-config
-sed -i -e 's|%{buildroot}/usr/lib|%{_libdir}|g' %{buildroot}%{_libdir}/*.la
+#sed -i -e 's|%{buildroot}/usr/lib|%{_libdir}|g' %{buildroot}%{_libdir}/*.la
 
 %clean
 rm -rf %{buildroot}
@@ -92,9 +94,11 @@ jet-algorithm, and the inclusive anti-kt algorithm.
 %files static
 %defattr(-,root,root)
 %{_libdir}/*.a
-%{_libdir}/*.la
+#%{_libdir}/*.la
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 3.5.1-1
+- New version
 * Fri Jan 10 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 3.4.3-1
 - New version
 * Fri Jan 19 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 3.4.2-1

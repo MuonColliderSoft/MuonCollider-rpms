@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.9.19
-%global _tagver 01-00pre19
+%global _pver 1.3.0
+%global _tagver 01-03
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/k4FWCore-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -19,6 +19,7 @@ Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRequires: make
+BuildRequires: chrpath
 BuildRequires: podio-devel
 BuildRequires: python3-podio-utils
 BuildRequires: gaudi-devel
@@ -43,7 +44,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -DBUILD_TESTING=OFF \
       -DCPPGSL_INCLUDE_DIR=/opt/GSL/include \
       -DCMAKE_INSTALL_LIBDIR=%{buildroot}%{_libdir} \
@@ -60,6 +61,8 @@ rm -rf %{buildroot}%{_prefix}/lib
 mkdir -p %{buildroot}/%{python3_sitelib}
 mv %{buildroot}/%{_prefix}/python/k4FWCore %{buildroot}/%{python3_sitelib}/
 rm -rf %{buildroot}/%{_prefix}/python
+
+chrpath --delete %{buildroot}%{_libdir}/*.so
 
 sed -i -e 's|env python|env python3|g' %{buildroot}/%{_bindir}/*
 sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' %{buildroot}%{cmake_k4fwcore_dir}/*.cmake
@@ -113,6 +116,8 @@ A generic event data model for future HEP collider experiments.
 %{python3_sitelib}/k4FWCore/__pycache__/*
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.3.0-1
+- New version
 * Tue May 28 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.9.19-1
 - Porting to AlmaLinux 9
 

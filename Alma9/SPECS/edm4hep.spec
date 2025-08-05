@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.99.0
-%global _tagver 00-99
+%global _pver 0.99.2
+%global _tagver 00-99-02
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/EDM4hep-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -19,6 +19,7 @@ Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRequires: make
+BuildRequires: chrpath
 BuildRequires: podio-devel
 BuildRequires: python3-podio-utils
 BuildRequires: python3-jinja2
@@ -40,7 +41,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -DBUILD_TESTING=OFF \
       -Wno-dev \
       %{_sbuilddir}
@@ -49,7 +50,9 @@ make %{?_smp_mflags}
 %install
 cd %{_cbuilddir}
 make install
-rm -rf %{buildroot}%{_libdir}/python3.9
+chrpath --delete %{buildroot}%{_libdir}/*.so
+chrpath --delete %{buildroot}%{_bindir}/edm4hep2json
+rm -rf %{buildroot}%{_libdir}/python3.12
 
 %clean
 rm -rf %{buildroot}
@@ -84,6 +87,8 @@ A generic event data model for future HEP collider experiments.
 %{_includedir}/edm4hep/utils/*.h
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.99.2-1
+- New version
 * Fri Jan 10 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.99.0-1
 - New version
 * Wed May 22 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.10.5-1

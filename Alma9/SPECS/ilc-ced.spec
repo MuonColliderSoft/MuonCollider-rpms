@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.9.4
-%global _tagver 01-09-04
+%global _pver 1.10.0
+%global _tagver 01-10
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/CED-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -40,7 +40,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}/usr \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}
@@ -54,8 +54,8 @@ mv %{buildroot}/usr/*.cmake %{buildroot}%{_libdir}/cmake/*.cmake %{buildroot}%{c
 sed -i -e 's|%{buildroot}/usr|/usr|g' \
        -e 's|lib/cmake|lib64/cmake/CED|g' \
        %{buildroot}%{cmake_ced_dir}/*.cmake
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.1.9.4
-chrpath --replace %{_libdir} %{buildroot}%{_bindir}/*
+chrpath --delete %{buildroot}%{_libdir}/*.so.*
+chrpath --delete %{buildroot}%{_bindir}/*
 
 %clean
 rm -rf %{buildroot}
@@ -85,6 +85,8 @@ CED is a server client application for OpenGL drawing
 %{_includedir}/*.h
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.10.0-1
+- New version
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.9.4-1
 - New version of CED
 * Fri Mar 06 2020 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.9.3-1

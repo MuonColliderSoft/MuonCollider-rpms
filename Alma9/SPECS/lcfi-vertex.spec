@@ -7,8 +7,6 @@
 %global _sbuilddir %{_builddir}/%{name}-%{version}/LCFIVertex-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
 
-%global _boostp boost
-
 %global cmake_lcfivtx_dir %{_libdir}/cmake/LCFIVertex
 
 Summary: Package for vertex finding
@@ -23,7 +21,7 @@ BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: chrpath
-BuildRequires: %{_boostp}-devel
+BuildRequires: boost-devel
 BuildRequires: ilc-utils-devel
 BuildRequires: ilc-marlin-devel
 BuildRequires: ilc-marlin-util-devel
@@ -46,9 +44,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
-      -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
-      -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
+      -DCMAKE_CXX_STANDARD=20 \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}
@@ -68,7 +64,7 @@ mkdir -p %{buildroot}%{cmake_lcfivtx_dir}
 
 mv %{buildroot}/usr/*.cmake %{buildroot}%{cmake_lcfivtx_dir}
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_lcfivtx_dir}/*.cmake
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
+chrpath --delete %{buildroot}%{_libdir}/*.so.%{version}
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 printf "export MARLIN_DLL=\${MARLIN_DLL:+\${MARLIN_DLL}:}%{_libdir}/libLCFIVertexProcessors.so\n" \
@@ -89,7 +85,7 @@ rm -f %{SOURCE0}
 %package devel
 Summary: Package for vertex finding (development files)
 Requires: %{name}
-Requires: %{_boostp}-devel
+Requires: boost-devel
 Requires: root
 Requires: ilc-utils-devel
 Requires: ilc-marlin-devel

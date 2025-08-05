@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.9.2
-%global _tagver 01-09-02
+%global _pver 1.9.5
+%global _tagver 01-09-05
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/GEAR-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -42,7 +42,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -DGEAR_TGEO=ON \
       -DINSTALL_DOC=OFF \
       -Wno-dev \
@@ -52,12 +52,11 @@ make %{?_smp_mflags}
 %install
 cd %{_cbuilddir}
 make install
-mv %{buildroot}%{_prefix}/lib %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{cmake_gear_dir}
 mv %{buildroot}%{_prefix}/*.cmake %{buildroot}%{cmake_gear_dir}
 sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' %{buildroot}%{cmake_gear_dir}/*.cmake
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.%{version}
-chrpath --replace %{_libdir} %{buildroot}%{_bindir}/*
+chrpath --delete %{buildroot}%{_libdir}/*.so.%{version}
+chrpath --delete %{buildroot}%{_bindir}/*
 
 %clean
 rm -rf %{buildroot}
@@ -106,6 +105,8 @@ GEometry Api for Reconstruction.
 
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.9.5-1
+- New version
 * Wed Feb 07 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.9.2-1
 - New version of GEAR
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.9.1-1

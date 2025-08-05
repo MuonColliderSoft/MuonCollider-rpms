@@ -47,7 +47,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -DBUILD_ROOTDICT=ON  \
       -Wno-dev \
       %{_sbuilddir}
@@ -65,9 +65,8 @@ mv %{buildroot}%{_libdir}/cmake/*.cmake %{buildroot}%{cmake_lcio_dir}
 sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' \
        -e 's|lib64/cmake|lib64/cmake/LCIO|g' %{buildroot}%{cmake_lcio_dir}/*.cmake
 sed -i -e 's|PATHS|PATHS %{_includedir}/lcio|g' %{buildroot}%{cmake_lcio_dir}/LCIOConfig.cmake
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.*
-chrpath --replace %{_libdir} \
-                  %{buildroot}%{_bindir}/addRandomAccess \
+chrpath --delete %{buildroot}%{_libdir}/*.so.*
+chrpath --delete %{buildroot}%{_bindir}/addRandomAccess \
                   %{buildroot}%{_bindir}/c* \
                   %{buildroot}%{_bindir}/dumpevent \
                   %{buildroot}%{_bindir}/dumpmctree-dot \

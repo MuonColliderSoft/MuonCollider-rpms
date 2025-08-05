@@ -47,7 +47,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}
@@ -63,7 +63,7 @@ mv %{buildroot}%{_libdir}/cmake/*.cmake \
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' \
        -e 's|lib/cmake|lib64/cmake/KalTest|g' \
     %{buildroot}%{cmake_kaltest_dir}/*.cmake
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.*
+chrpath --delete %{buildroot}%{_libdir}/*.so.*
 rm -rf %{buildroot}/usr/include
 
 %clean

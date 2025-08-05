@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 4.0.0
-%global _tagver 4.0.0
+%global _pver 4.2.0
+%global _tagver 4.2.0
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/GSL-%{_tagver}
 %global _gsldir /opt/GSL
@@ -48,6 +48,8 @@ rm -f %{SOURCE0}
 %{_gsldir}/include/gsl/*
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 4.2.0-1
+- New version
 * Tue May 30 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 4.0.0-1
 - Porting to AlmaLinux 9
 

@@ -1,13 +1,11 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.17.2
-%global _tagver 01-17-02
+%global _pver 1.18.2
+%global _tagver 01-18-02
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinUtil-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
-
-%global _boostp boost
 
 %global cmake_marlutil_dir %{_libdir}/cmake/MarlinUtil
 
@@ -27,7 +25,7 @@ BuildRequires: ilc-marlin-devel
 BuildRequires: ilc-ced-devel
 BuildRequires: gsl-devel
 BuildRequires: aida-dd4hep-devel
-BuildRequires: %{_boostp}-devel
+BuildRequires: boost-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/iLCSoft/MarlinUtil/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
@@ -46,9 +44,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
-      -DBOOST_INCLUDEDIR=%{_includedir}/%{_boostp} \
-      -DBOOST_LIBRARYDIR=%{_libdir}/%{_boostp}  \
+      -DCMAKE_CXX_STANDARD=20 \
       -DUSE_EXTERNAL_CATCH2=OFF \
       -Wno-dev \
       %{_sbuilddir}
@@ -62,7 +58,7 @@ mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{cmake_marlutil_dir}
 mv %{buildroot}/usr/*.cmake %{buildroot}%{cmake_marlutil_dir}
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_marlutil_dir}/*.cmake
-chrpath --replace %{_libdir} %{buildroot}%{_libdir}/*.so.*
+chrpath --delete %{buildroot}%{_libdir}/*.so.*
 
 %clean
 rm -rf %{buildroot}
@@ -79,7 +75,7 @@ Requires: ilc-marlin-devel
 Requires: ilc-ced-devel
 Requires: gsl-devel
 Requires: aida-dd4hep-devel
-Requires: %{_boostp}-devel
+Requires: boost-devel
 
 %description devel
 This library that containes classes and functions that are used by
@@ -99,6 +95,8 @@ more than one processor.
 %{_includedir}/marlinutil/mille/*.h
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.18.2-1
+- New version
 * Mon Jan 29 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.17.2-1
 - New version of Marlin utils
 * Mon Jan 23 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.17.0-1

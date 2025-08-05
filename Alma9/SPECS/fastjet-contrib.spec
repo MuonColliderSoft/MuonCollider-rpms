@@ -2,8 +2,8 @@
 # see https://docs.fedoraproject.org/en-US/packaging-guidelines/#_packaging_static_libraries
 %undefine _disable_source_fetch
 
-%global _pver 1.100.0
-%global _tagver 1.100
+%global _pver 1.101.0
+%global _tagver 1.101
 
 %global _maindir %{_builddir}/fjcontrib-%{_tagver}
 
@@ -16,6 +16,7 @@ URL: http://fastjet.hepforge.org/contrib/
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: make
+BuildRequires: chrpath
 BuildRequires: fastjet-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 AutoReqProv: yes
@@ -41,6 +42,7 @@ mv %{buildroot}%{_prefix}/lib %{buildroot}%{_libdir}/libfastjetcontribfragile.so
 ln -s %{_libdir}/libfastjetcontribfragile.so.%{version} %{buildroot}%{_libdir}/libfastjetcontribfragile.so.1
 ln -s %{_libdir}/libfastjetcontribfragile.so.%{version} %{buildroot}%{_libdir}/libfastjetcontribfragile.so
 make %{?_smp_mflags} install
+chrpath --delete %{buildroot}%{_libdir}/*.so.1.*
 rm -rf %{buildroot}%{_prefix}/lib
 
 %clean
@@ -66,7 +68,9 @@ Provides: libfastjetcontribfragile.so()(64bit)
 %{_includedir}/fastjet/contrib/*.hh
 
 %changelog
-* Fri Jan 10 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 3.100.0-1
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.101.0-1
+- New version
+* Fri Jan 10 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.100.0-1
 - New version
 * Tue May 28 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.54.0-1
 - New version

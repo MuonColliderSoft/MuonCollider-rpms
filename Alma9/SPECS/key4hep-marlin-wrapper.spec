@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.8.0
-%global _tagver 00-08
+%global _pver 0.12.0
+%global _tagver 00-12
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/k4MarlinWrapper-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -17,6 +17,7 @@ Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: cmake
 BuildRequires: make
+BuildRequires: chrpath
 BuildRequires: key4hep-fw-core-devel
 BuildRequires: ilc-marlin-devel
 BuildRequires: key4hep-edm4hep2lcio-devel
@@ -38,7 +39,7 @@ mkdir %{_cbuilddir}
 cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=20 \
       -DBUILD_TESTING=OFF \
       -DCPPGSL_INCLUDE_DIR=/opt/GSL/include \
       -DCMAKE_INSTALL_LIBDIR=%{buildroot}%{_libdir} \
@@ -49,6 +50,7 @@ make %{?_smp_mflags}
 %install
 cd %{_cbuilddir}
 make install
+chrpath --delete %{buildroot}%{_libdir}/*.so
 
 rm -rf %{buildroot}%{_prefix}/lib
 
@@ -91,6 +93,8 @@ Gaudi algorithm wrapping Marlin processors.
 
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.12.0-1
+- New version
 * Tue May 28 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.8.0-1
 - Porting to AlmaLinux 9
 
