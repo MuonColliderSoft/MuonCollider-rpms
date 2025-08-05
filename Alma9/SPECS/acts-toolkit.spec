@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 32.1.0
-%global _tagver 32.1.0
+%global _pver 42.0.0
+%global _tagver 42.0.0
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/acts-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -42,11 +42,11 @@ cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=20 \
-      -DACTS_USE_SYSTEM_BOOST=ON \
       -DACTS_USE_SYSTEM_EIGEN3=ON \
       -DACTS_USE_SYSTEM_NLOHMANN_JSON=ON \
       -DACTS_BUILD_PLUGIN_DD4HEP=ON \
       -DACTS_BUILD_PLUGIN_JSON=ON \
+      -DACTS_BUILD_PLUGIN_ROOT=ON \
       -Wno-dev \
       %{_sbuilddir}
 make %{?_smp_mflags}
@@ -54,12 +54,14 @@ make %{?_smp_mflags}
 %install
 cd %{_cbuilddir}
 make install
+rm -rf %{buildroot}%{_includedir}/dfe %{buildroot}%{_libdir}/cmake/dfelibs-*
 
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_acts_dir}/*.cmake
 chrpath --delete %{buildroot}%{_libdir}/*.so
-sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{_bindir}/this_acts.sh
+sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{_bindir}/this_acts.sh \
+                                            %{buildroot}%{_bindir}/this_acts_withdeps.sh
 
-sed -i -e 's|Boost 1.75.0 CONFIG|Boost 1.75.0|g' %{buildroot}%{cmake_acts_dir}/ActsConfig.cmake
+# sed -i -e 's|Boost 1.83.0 CONFIG|Boost 1.83.0|g' %{buildroot}%{cmake_acts_dir}/ActsConfig.cmake
 
 %clean
 rm -rf %{buildroot}
@@ -101,8 +103,6 @@ Toolkit for charged particle track reconstruction.
 %{_includedir}/Acts/Detector/detail/*.hpp
 %dir %{_includedir}/Acts/Detector/interface
 %{_includedir}/Acts/Detector/interface/*.hpp
-%dir %{_includedir}/Acts/Digitization
-%{_includedir}/Acts/Digitization/*.hpp
 %dir %{_includedir}/Acts/EventData
 %{_includedir}/Acts/EventData/*.hpp
 %{_includedir}/Acts/EventData/*.ipp
@@ -110,14 +110,15 @@ Toolkit for charged particle track reconstruction.
 %{_includedir}/Acts/EventData/detail/*.hpp
 %dir %{_includedir}/Acts/Geometry
 %{_includedir}/Acts/Geometry/*.hpp
-%dir %{_includedir}/Acts/Geometry/detail
-%{_includedir}/Acts/Geometry/detail/*.ipp
+%{_includedir}/Acts/Geometry/*.ipp
 %dir %{_includedir}/Acts/MagneticField
 %{_includedir}/Acts/MagneticField/*.hpp
 %dir %{_includedir}/Acts/Material
 %{_includedir}/Acts/Material/*.hpp
 %dir %{_includedir}/Acts/Material/detail
 %{_includedir}/Acts/Material/detail/*.hpp
+%dir %{_includedir}/Acts/Material/interface/
+%{_includedir}/Acts/Material/interface/*.hpp
 %dir %{_includedir}/Acts/Navigation
 %{_includedir}/Acts/Navigation/*.hpp
 %dir %{_includedir}/Acts/Propagator
@@ -131,10 +132,13 @@ Toolkit for charged particle track reconstruction.
 %dir %{_includedir}/Acts/Seeding/detail
 %{_includedir}/Acts/Seeding/detail/*.hpp
 %{_includedir}/Acts/Seeding/detail/*.ipp
+%dir %{_includedir}/Acts/Seeding2
+%{_includedir}/Acts/Seeding2/*.hpp
+%dir %{_includedir}/Acts/Seeding2/detail
+%{_includedir}/Acts/Seeding2/detail/*.hpp
 %dir %{_includedir}/Acts/SpacePointFormation
 %{_includedir}/Acts/SpacePointFormation/*.hpp
-%dir %{_includedir}/Acts/SpacePointFormation/detail
-%{_includedir}/Acts/SpacePointFormation/detail/*.ipp
+%{_includedir}/Acts/SpacePointFormation/*.ipp
 %dir %{_includedir}/Acts/Surfaces
 %{_includedir}/Acts/Surfaces/*.hpp
 %{_includedir}/Acts/Surfaces/*.ipp
@@ -142,6 +146,7 @@ Toolkit for charged particle track reconstruction.
 %{_includedir}/Acts/Surfaces/detail/*.hpp
 %dir %{_includedir}/Acts/TrackFinding
 %{_includedir}/Acts/TrackFinding/*.hpp
+%{_includedir}/Acts/TrackFinding/*.ipp
 %dir %{_includedir}/Acts/TrackFinding/detail
 %{_includedir}/Acts/TrackFinding/detail/*.hpp
 %dir %{_includedir}/Acts/TrackFitting
@@ -153,28 +158,27 @@ Toolkit for charged particle track reconstruction.
 %{_includedir}/Acts/Utilities/*.ipp
 %dir %{_includedir}/Acts/Utilities/detail
 %{_includedir}/Acts/Utilities/detail/*.hpp
-%dir %{_includedir}/Acts/Utilities/detail/MPL
-%{_includedir}/Acts/Utilities/detail/MPL/*.hpp
 %dir %{_includedir}/Acts/Vertexing
 %{_includedir}/Acts/Vertexing/*.hpp
 %{_includedir}/Acts/Vertexing/*.ipp
+%dir %{_includedir}/Acts/Vertexing/detail
+%{_includedir}/Acts/Vertexing/detail/*.hpp
 %dir %{_includedir}/Acts/Visualization
 %{_includedir}/Acts/Visualization/*.hpp
-%dir %{_includedir}/Acts/Visualization/detail
-%{_includedir}/Acts/Visualization/detail/*.ipp
+%{_includedir}/Acts/Visualization/*.ipp
 %dir %{_includedir}/Acts/Plugins
 %dir %{_includedir}/Acts/Plugins/DD4hep
 %{_includedir}/Acts/Plugins/DD4hep/*.hpp
-%dir %{_includedir}/Acts/Plugins/Identification
-%{_includedir}/Acts/Plugins/Identification/*.hpp
 %dir %{_includedir}/Acts/Plugins/Json
 %{_includedir}/Acts/Plugins/Json/*.hpp
-%dir %{_includedir}/Acts/Plugins/TGeo
-%{_includedir}/Acts/Plugins/TGeo/*.hpp
-%{_bindir}/this_acts.sh
+%dir %{_includedir}/Acts/Plugins/Root
+%{_includedir}/Acts/Plugins/Root/*.hpp
+%{_bindir}/*.sh
 
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 42.0.0-1
+- New version
 * Tue May 28 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 32.1.0-1
 - New major version for ACTS
 * Wed Jul 13 2022 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 13.0.0-1
