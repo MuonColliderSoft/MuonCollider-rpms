@@ -2,8 +2,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.0.0
-%global _tagver 1.0.0
+%global _pver 1.0.1
+%global _tagver 1.0.1
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinACTS-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -80,6 +80,8 @@ rm -f %{SOURCE0}
 %{_datadir}/MarlinACTS/data/*
 
 %changelog
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.0.1-1
+- New version
 * Tue Jul 22 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.0.0-1
 - New release of ACTS Tracking processor
 
