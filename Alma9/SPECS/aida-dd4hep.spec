@@ -30,6 +30,7 @@ BuildRequires: boost-devel
 BuildRequires: geant4-devel
 BuildRequires: root-genvector
 BuildRequires: root-tpython
+BuildRequires: root-graf3d-eve
 BuildRequires: root-graf3d-eve7
 BuildRequires: root-gui-browserv7
 BuildRequires: HepMC3-devel
@@ -96,10 +97,11 @@ mv %{buildroot}%{_prefix}/include %{buildroot}%{_prefix}/dd4hep
 mkdir -p %{buildroot}%{_includedir}
 mv %{buildroot}%{_prefix}/dd4hep %{buildroot}%{_includedir}
 
-sed -i -e 's|env python3.9|env python3|g' %{buildroot}%{_bindir}/ddsim
-sed -i -e 's|env python|env python3|g' %{buildroot}%{_bindir}/check* \
-                                       %{buildroot}%{_bindir}/g4MaterialScan \
-                                       %{buildroot}%{_bindir}/g4GeometryScan
+sed -i -e 's|env python3.12|python3|g' %{buildroot}%{_bindir}/ddsim
+sed -i -e 's|env python3|python3|g' %{buildroot}%{_bindir}/g4MaterialScan \
+                                    %{buildroot}%{_bindir}/g4GeometryScan \
+                                    %{buildroot}%{_bindir}/g4GraphicalScan
+sed -i -e 's|env python|python3|g' %{buildroot}%{_bindir}/check*
 sed -i -e 's|%{buildroot}%{_prefix}|%{_prefix}|g' %{buildroot}%{_bindir}/run_test.sh
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
@@ -161,6 +163,7 @@ Requires: boost-devel
 Requires: geant4-devel
 Requires: root-genvector
 Requires: root-tpython
+Requires: root-graf3d-eve
 Requires: root-graf3d-eve7
 Requires: root-gui-browserv7
 Requires: HepMC3-devel
