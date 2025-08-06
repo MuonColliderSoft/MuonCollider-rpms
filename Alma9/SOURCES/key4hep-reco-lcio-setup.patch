@@ -1,0 +1,11 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -39,6 +39,7 @@ find_package(ROOT REQUIRED COMPONENTS RIO Tree)
+ find_package(k4SimGeant4 REQUIRED)
+ 
+ include(cmake/Key4hepConfig.cmake)
++include_directories(${LCIO_INCLUDE_DIRS})
+ 
+ include(GNUInstallDirs)
+ 
+
