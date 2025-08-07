@@ -2,8 +2,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.0.1
-%global _tagver 1.0.1
+%global _pver 1.0.2
+%global _tagver 1.0.2-pre1
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinACTS-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -11,7 +11,7 @@
 Summary: Marlin processor for running track reconstructions using the ACTS library
 Name: ilc-marlin-acts
 Version: %{_pver}
-Release: 1%{?dist}
+Release: 1.custom%{?dist}
 License: GPL v.3
 Vendor: INFN
 URL: https://github.com/MuonColliderSoft/MarlinACTS
@@ -25,11 +25,10 @@ BuildRequires: ilc-marlin-devel
 BuildRequires: aida-dd4hep-devel
 BuildRequires: acts-toolkit-devel
 BuildRequires: root
+BuildRequires: tbb-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/MuonColliderSoft/MarlinACTS/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
-Provides: ilc-acts-tracking
-Obsoletes: ilc-acts-tracking
 
 %description
 Marlin processor for running track reconstructions using the ACTS library
