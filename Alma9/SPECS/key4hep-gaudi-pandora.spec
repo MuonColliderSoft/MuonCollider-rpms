@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.1.0
-%global _tagver 0.1.0
+%global _pver 0.1.99
+%global _tagver 0.1.99
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/k4GaudiPandora-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -14,7 +14,7 @@ Name: key4hep-gaudi-pandora
 Version: %{_pver}
 Release: 1%{?dist}
 License: Apache License 2.0
-URL: https://github.com/key4hep/k4GaudiPandora
+URL: https://github.com/MuonColliderSoft/k4GaudiPandora
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: cmake
@@ -23,9 +23,12 @@ BuildRequires: chrpath
 BuildRequires: key4hep-fw-core-devel
 BuildRequires: python3-podio-utils
 BuildRequires: pandora-pfa-devel
+BuildRequires: ilc-marlin-trk-devel
+BuildRequires: aida-dd4hep-devel
+BuildRequires: edm4hep-devel
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://github.com/key4hep/k4GaudiPandora/archive/refs/tags/v%{_tagver}.tar.gz
+Source0: https://nexus.pd.infn.it/artifacts/repository/misc/k4GaudiPandora-v%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
@@ -42,7 +45,6 @@ cd %{_cbuilddir}
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=20 \
-      -DBUILD_TESTING=OFF \
       -DCPPGSL_INCLUDE_DIR=/opt/GSL/include \
       -DCMAKE_INSTALL_LIBDIR=%{buildroot}%{_libdir} \
       -Wno-dev \
@@ -81,6 +83,9 @@ Summary: GGaudi algorithms based on Pandora PFA (development files).
 Requires: %{name}
 Requires: key4hep-fw-core-devel
 Requires: pandora-pfa-devel
+Requires: ilc-marlin-trk-devel
+Requires: aida-dd4hep-devel
+Requires: edm4hep-devel
 
 %description devel
 Gaudi algorithms based on Pandora PFA.
@@ -112,6 +117,6 @@ Gaudi algorithms based on Pandora PFA.
 
 
 %changelog
-* Wed Aug 06 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.1.0-1
+* Tue Aug 26 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.1.99-1
 - Porting to AlmaLinux
 
