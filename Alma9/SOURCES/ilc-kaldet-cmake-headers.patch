@@ -1,5 +1,4 @@
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index c72fd9d..ba67e30 100644
+index c72fd9d..b827d8e 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -64,7 +64,7 @@ INCLUDE( "${ILCUTIL_ROOT}/cmakemodules/MacroRootDict.cmake" )
@@ -11,3 +10,13 @@ index c72fd9d..ba67e30 100644
  ENDFOREACH()
  
  LIST( APPEND ROOT_DICT_INCLUDE_DIRS ${KalTest_INCLUDE_DIRS} )
+@@ -77,7 +77,7 @@ FOREACH( lib_input_dir ${lib_input_dirs} )
+ 
+     AUX_SOURCE_DIRECTORY( ${lib_input_dir} lib_sources )
+ 
+-    PREPARE_ROOT_DICT_HEADERS( ${lib_input_dir} )
++    PREPARE_ROOT_DICT_HEADERS( /usr/include/kaldet/${lib_input_dir} )
+ 
+     INSTALL_DIRECTORY( ${lib_input_dir}/ DESTINATION "include/kaldet"
+         FILES_MATCHING PATTERN "*.h" PATTERN "LinkDef.h" EXCLUDE
+
