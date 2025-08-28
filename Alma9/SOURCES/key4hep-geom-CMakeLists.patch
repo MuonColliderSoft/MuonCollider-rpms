@@ -1,0 +1,21 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6a65baa6..78814915 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -21,7 +21,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
+ include(cmake/Key4hepConfig.cmake)
+ 
+ include(GNUInstallDirs)
+-set(CMAKE_INSTALL_LIBDIR lib)
++set(CMAKE_INSTALL_LIBDIR lib64)
+ set(CMAKE_INSTALL_CMAKEDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
+ 
+ #------------- set the default installation directory to be the source directory
+@@ -146,6 +146,7 @@ target_link_libraries(${PackageName}   DD4hep::DDCore DD4hep::DDRec DD4hep::DDPa
+ target_link_libraries(${PackageName}G4 DD4hep::DDCore DD4hep::DDRec DD4hep::DDParsers DD4hep::DDG4 ROOT::Core detectorSegmentations podio::podioRootIO EDM4HEP::edm4hep ${Geant4_LIBRARIES})
+ 
+ if(K4GEO_USE_LCIO)
++  include_directories(${LCIO_INCLUDE_DIRS})
+   target_link_libraries(${PackageName}   LCIO::lcio)
+   target_link_libraries(${PackageName}G4 LCIO::lcio)
+ endif()

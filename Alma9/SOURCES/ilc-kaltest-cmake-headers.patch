@@ -1,5 +1,5 @@
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index ec172c6..10c2d85 100644
+index ec172c6..67734cf 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
 @@ -3,7 +3,7 @@
@@ -11,3 +11,13 @@ index ec172c6..10c2d85 100644
  ENDFOREACH()
  
  #MESSAGE( STATUS "ROOT_DICT_INCLUDE_DIRS: ${ROOT_DICT_INCLUDE_DIRS}" )
+@@ -13,7 +13,7 @@ FOREACH( lib_input_dir ${lib_input_dirs} )
+ 
+     AUX_SOURCE_DIRECTORY( ${lib_input_dir} lib_sources )
+ 
+-    PREPARE_ROOT_DICT_HEADERS( ${lib_input_dir} )
++    PREPARE_ROOT_DICT_HEADERS( /usr/include/kaltest/${lib_input_dir} )
+ 
+     INSTALL_DIRECTORY( ${lib_input_dir}/ DESTINATION "include/kaltest"
+         FILES_MATCHING PATTERN "*.h" PATTERN "LinkDef.h" EXCLUDE
+
