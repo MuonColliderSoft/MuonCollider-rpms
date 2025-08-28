@@ -1,11 +1,12 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 499d337..f179b1d 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -39,6 +39,7 @@ find_package(ROOT REQUIRED COMPONENTS RIO Tree)
- find_package(k4SimGeant4 REQUIRED)
+@@ -40,6 +40,7 @@ find_package(k4geo REQUIRED)
+ find_package(CLHEP REQUIRED)
  
  include(cmake/Key4hepConfig.cmake)
 +include_directories(${LCIO_INCLUDE_DIRS})
  
  include(GNUInstallDirs)
  
-

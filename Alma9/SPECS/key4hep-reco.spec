@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.2.1
-%global _tagver 0.2.1
+%global _pver 0.2.99
+%global _tagver 0.2.99
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/k4Reco-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -24,9 +24,11 @@ BuildRequires: key4hep-fw-core-devel
 BuildRequires: python3-podio-utils
 BuildRequires: ilc-lcio-devel
 BuildRequires: ilc-ddkaltest-devel
+BuildRequires: key4hep-sim-geant4-devel
+BuildRequires: key4hep-geo-devel
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://github.com/key4hep/k4Reco/archive/refs/tags/v%{_tagver}.tar.gz
+Source0: https://nexus.pd.infn.it/artifacts/repository/misc/k4Reco-%{_tagver}.tar.gz
 Patch0: key4hep-reco-lcio-setup.patch
 AutoReqProv: yes
 
@@ -65,11 +67,10 @@ mkdir -p %{buildroot}%{python3_sitelib}
 mv %{buildroot}%{_prefix}/python/k4Reco \
    %{buildroot}%{_prefix}/python/conformal_tracking_utils \
    %{buildroot}%{python3_sitelib}
-
 rm -rf %{buildroot}%{_prefix}/python
 
-mv %{buildroot}%{_includedir}/k4Reco/GaudiTrkUtils/include/*.h %{buildroot}%{_includedir}/k4Reco
-rm -rf %{buildroot}%{_includedir}/k4Reco/GaudiTrkUtils
+# mv %{buildroot}%{_includedir}/k4Reco/GaudiTrkUtils/include/*.h %{buildroot}%{_includedir}/k4Reco
+# rm -rf %{buildroot}%{_includedir}/k4Reco/GaudiTrkUtils
 
 %clean
 rm -rf %{buildroot}
@@ -89,6 +90,8 @@ Requires: %{name}
 Requires: key4hep-fw-core-devel
 Requires: ilc-lcio-devel
 Requires: ilc-ddkaltest-devel
+Requires: key4hep-sim-geant4-devel
+Requires: key4hep-geo-devel
 
 %description devel
 Gaudi algorithms for reconstruction using EDM4hep natively.
@@ -123,6 +126,6 @@ Gaudi algorithms for reconstruction using EDM4hep natively.
 
 
 %changelog
-* Wed Aug 06 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.2.1-1
+* Tue Aug 26 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.2.99-1
 - Porting to AlmaLinux
 

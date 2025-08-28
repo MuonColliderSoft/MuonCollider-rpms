@@ -23,6 +23,7 @@ BuildRequires: make
 BuildRequires: chrpath
 BuildRequires: aida-dd4hep-devel
 BuildRequires: ilc-lcio-devel
+BuildRequires: python3-podio-utils
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/pandreetto/k4geo/archive/refs/tags/%{_tagver}.tar.gz
 Patch0: key4hep-geom-CMakeLists.patch
