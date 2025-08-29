@@ -44,6 +44,12 @@ patch %{_sbuilddir}/CMakeLists.txt %{PATCH0}
 %build
 mkdir %{_cbuilddir}
 cd %{_cbuilddir}
+
+# TODO investigate the following workaround (RPM custom options for the build)
+unset CFLAGS
+unset CXXFLAGS
+unset LDFLAGS
+
 cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_CXX_STANDARD=20 \
@@ -99,7 +105,7 @@ Gaudi algorithms for reconstruction using EDM4hep natively.
 %files devel
 %defattr(-,root,root)
 %dir %{cmake_k4reco_dir}
-%{cmake_k4reco_dir}/*.csv
+%{cmake_k4reco_dir}/*
 %dir %{_includedir}/k4Reco
 %{_includedir}/k4Reco/*.h
 
