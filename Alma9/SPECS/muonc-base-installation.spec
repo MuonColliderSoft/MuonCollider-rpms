@@ -1,10 +1,10 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 2.8.1
-%global _tagver 02-08-MC
+%global _pver 2.9.1
+%global _tagver 2.9.1
 
-%global _sbuilddir %{_builddir}/%{name}-%{version}/MuonCutil-%{_tagver}
+%global _sbuilddir %{_builddir}/%{name}-%{version}/%{name}-%{_tagver}
 
 Summary: Base installation for the Muon Collider framework
 Name: muonc-base-installation
@@ -34,9 +34,11 @@ Requires: ilc-marlin-acts
 Requires: ilc-lcio-tools
 Requires: muonc-tracker-digitizer
 Requires: ilc-marlin-muon-id
+Requires: python3-k4marlin-wrapper
+Requires: gaudi-tools
+Requires: gaudi-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://github.com/MuonColliderSoft/MuonCutil/archive/refs/tags/v%{_tagver}.tar.gz
-Patch0: muonc-base-installation-new-tracker.patch
+Source0: https://nexus.pd.infn.it/artifacts/repository/misc/%{name}-%{_tagver}.tar.gz
 AutoReqProv: yes
 
 %description
@@ -49,15 +51,8 @@ Base installation for the Muon Collider framework.
 echo "Nothing to compile"
 
 %install
-mkdir -p %{buildroot}%{_datadir}/%{name}
-cp -R %{_sbuilddir}/SoftCheck %{buildroot}%{_datadir}/%{name}
-sed -i -e 's|opt/ilcsoft/muonc/detector-simulation/geometries|usr/share/muonc-detector-geometry|g' \
-       %{buildroot}%{_datadir}/%{name}/SoftCheck/ced2go_steering.xml \
-       %{buildroot}%{_datadir}/%{name}/SoftCheck/confile/InitDD4hep.xml \
-       %{buildroot}%{_datadir}/%{name}/SoftCheck/sim_steer.py
-
-patch %{buildroot}%{_datadir}/%{name}/SoftCheck/confile/Tracking.xml %{PATCH0}
-       
+mkdir -p %{buildroot}%{_datadir}/%{name}/examples
+cp -R %{_sbuilddir}/* %{buildroot}%{_datadir}/%{name}/examples
 
 %clean
 rm -rf %{buildroot}
@@ -66,15 +61,17 @@ rm -rf %{SOURCE0}
 %files
 %defattr(-,root,root)
 %dir %{_datadir}/%{name}
-%dir %{_datadir}/%{name}/SoftCheck
-%dir %{_datadir}/%{name}/SoftCheck/confile
-%dir %{_datadir}/%{name}/SoftCheck/confile/PandoraSettings
-%{_datadir}/%{name}/SoftCheck/*.xml
-%{_datadir}/%{name}/SoftCheck/*.py
-%{_datadir}/%{name}/SoftCheck/confile/*.xml
-%{_datadir}/%{name}/SoftCheck/confile/PandoraSettings/*.xml
+%dir %{_datadir}/%{name}/examples
+%dir %{_datadir}/%{name}/examples/config-files
+%dir %{_datadir}/%{name}/examples/config-files/PandoraSettings
+%{_datadir}/%{name}/examples/*.xml
+%{_datadir}/%{name}/examples/*.py
+%{_datadir}/%{name}/examples/config-files/*.xml
+%{_datadir}/%{name}/examples/config-files/PandoraSettings/*.xml
 
 %changelog
+* Fri Aug 29 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.9.1-1
+- New examples
 * Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.8.1-1
 - New version
 * Thu Apr 27 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.8.0-1
