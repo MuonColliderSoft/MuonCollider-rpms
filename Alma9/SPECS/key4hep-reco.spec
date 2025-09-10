@@ -115,6 +115,7 @@ Summary: Gaudi algorithms for reconstruction using EDM4hep natively (python modu
 BuildArch: noarch
 Requires: %{name}
 Requires: python3-k4fwcore
+Requires: key4hep-sim-geant4
 
 %description -n python3-k4reco
 Gaudi algorithms for reconstruction using EDM4hep natively.
