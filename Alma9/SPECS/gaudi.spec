@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.40.0
-%global _tagver v40r0
+%global _pver 0.39.4
+%global _tagver v39r4
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/Gaudi-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -89,7 +89,8 @@ make install
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{cmake_gaudi_dir}/*.cmake
 sed -i -e 's|env python|python3|g' \
        %{buildroot}%{_bindir}/quick-merge \
-       %{buildroot}%{_bindir}/gaudi-test-run
+       %{buildroot}%{_bindir}/gaudi-test-run \
+       %{buildroot}%{_bindir}/GaudiProfiler
 
 rm -rf %{buildroot}%{python3_sitelib}/GaudiConfig/__pycache__ \
        %{buildroot}%{python3_sitelib}/GaudiKernel/__pycache__ \
@@ -143,7 +144,7 @@ processing applications.
 %{cmake_gaudi_dir}/*.cmake
 %{cmake_gaudi_dir}/header_build_test.tpl
 %{cmake_gaudi_dir}/headers_db.csv
-%{cmake_gaudi_dir}/scan_dict_deps.py
+%{cmake_gaudi_dir}/*.py
 %{cmake_gaudi_dir}/modules/*.cmake
 %dir %{_includedir}/Gaudi
 %dir %{_includedir}/Gaudi/Accumulators
@@ -209,6 +210,7 @@ processing applications.
 %files -n python3-gaudi
 %defattr(-,root,root)
 %dir %{python3_sitelib}/GaudiPluginService
+%dir %{python3_sitelib}/GaudiProfiling
 %dir %{python3_sitelib}/GaudiTesting
 %dir %{python3_sitelib}/GaudiTesting/pytest
 %dir %{python3_sitelib}/GaudiConfig
@@ -229,6 +231,8 @@ processing applications.
 %dir %{python3_sitelib}/RootHistCnv
 %{python3_sitelib}/*.py
 %{python3_sitelib}/GaudiPluginService/*.py
+%{python3_sitelib}/GaudiProfiling/*.py
+%{python3_sitelib}/GaudiProfiling/*.so
 %{python3_sitelib}/GaudiTesting/*.py
 %{python3_sitelib}/GaudiTesting/pytest/*.py
 %{python3_sitelib}/GaudiConfig/*.py
@@ -249,6 +253,7 @@ processing applications.
 %{python3_sitelib}/RootCnv/*.py
 %{python3_sitelib}/RootHistCnv/*.py
 %dir %{python3_sitelib}/GaudiPluginService/__pycache__
+%dir %{python3_sitelib}/GaudiProfiling/__pycache__
 %dir %{python3_sitelib}/GaudiTesting/__pycache__
 %dir %{python3_sitelib}/GaudiTesting/pytest/__pycache__
 %dir %{python3_sitelib}/GaudiConfig/__pycache__
@@ -269,6 +274,7 @@ processing applications.
 %dir %{python3_sitelib}/RootHistCnv/__pycache__
 %{python3_sitelib}/__pycache__/*.pyc
 %{python3_sitelib}/GaudiPluginService/__pycache__/*.pyc
+ %{python3_sitelib}/GaudiProfiling/__pycache__/*.pyc
 %{python3_sitelib}/GaudiTesting/__pycache__/*.pyc
 %{python3_sitelib}/GaudiTesting/pytest/__pycache__/*.pyc
 %{python3_sitelib}/GaudiConfig/__pycache__/*.pyc
@@ -304,14 +310,8 @@ processing applications.
 %defattr(-,root,root)
 %{_bindir}/*
 
-
-%description tools
-The Gaudi project is an open project for providing the necessary interfaces
-and services for building HEP experiment frameworks in the domain of event data
-processing applications.
-
 %changelog
-* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.40.0-1
+* Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.39.4-1
 - New version
 * Wed Jun 26 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.38.2-1
 - Porting to AlmaLinux 9
