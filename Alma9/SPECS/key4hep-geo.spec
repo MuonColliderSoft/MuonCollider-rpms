@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 %global _pver 0.22.99
-%global _tagver MuSIC_0_23_pre01
+%global _tagver MuSIC_0_23_pre02
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/k4geo-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
