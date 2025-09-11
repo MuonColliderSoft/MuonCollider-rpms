@@ -52,7 +52,6 @@ cd %{_cbuilddir}
 make install
 chrpath --delete %{buildroot}%{_libdir}/*.so
 chrpath --delete %{buildroot}%{_bindir}/edm4hep2json
-rm -rf %{buildroot}%{_libdir}/python3.12
 
 %clean
 rm -rf %{buildroot}
@@ -85,6 +84,22 @@ A generic event data model for future HEP collider experiments.
 %dir %{_includedir}/edm4hep/utils
 %{_includedir}/edm4hep/*.h
 %{_includedir}/edm4hep/utils/*.h
+
+%package -n python3-edm4hep
+Summary: A generic event data model for future HEP collider experiments (python modules).
+BuildArch: noarch
+Requires: %{name}
+Requires: python3-podio
+
+%description -n python3-edm4hep
+A generic event data model for future HEP collider experiments.
+
+%files -n python3-edm4hep
+%defattr(-,root,root)
+%dir %{python3_sitearch}/edm4hep
+%dir %{python3_sitearch}/edm4hep/__pycache__
+%{python3_sitearch}/edm4hep/*.py
+%{python3_sitearch}/edm4hep/__pycache__/*.pyc
 
 %changelog
 * Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.99.2-1
