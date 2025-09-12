@@ -124,6 +124,7 @@ Requires: %{name}
 Requires: python3-podio
 Requires: python3-tabulate+widechars
 Requires: python3-pyyaml
+Requires: python3-graphviz
 
 %description -n python3-podio-utils
 PODIO is a C++ library to support the creation and handling of data models in particle physics.
