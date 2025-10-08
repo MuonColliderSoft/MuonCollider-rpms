@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.22.99
-%global _tagver MuSIC_0_23_pre02
+%global _pver 0.23.0
+%global _tagver MuSIC_0_23_0
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/k4geo-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -65,8 +65,7 @@ cp -r %{_sbuilddir}/MuColl/MuColl/compact/MuColl_v1.1 %{buildroot}%{_datadir}/%{
 cp -r %{_sbuilddir}/MuColl/MuColl/compact/MuColl_v1.1.1 %{buildroot}%{_datadir}/%{_pgeoname}
 cp -r %{_sbuilddir}/MuColl/MuColl/compact/MuColl_v1.1.2 %{buildroot}%{_datadir}/%{_pgeoname}
 cp -r %{_sbuilddir}/MuColl/MuColl/compact/MuColl_v1.1.3 %{buildroot}%{_datadir}/%{_pgeoname}
-cp -r %{_sbuilddir}/MuColl/MuColl/compact/MuSIC_v1 %{buildroot}%{_datadir}/%{_pgeoname}
-cp -r %{_sbuilddir}/MuColl/MuColl/compact/MuSIC_v2 %{buildroot}%{_datadir}/%{_pgeoname}
+cp -r %{_sbuilddir}/MuColl/MuSIC/compact/MuSIC_v2 %{buildroot}%{_datadir}/%{_pgeoname}
 find %{buildroot}%{_datadir}/%{_pgeoname} -name '*.md' -exec rm '{}' \;
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
@@ -139,13 +138,11 @@ The Muon Collider detector geometry.
 %dir %{_datadir}/%{_pgeoname}/MuColl_v1.1.3/include
 %{_datadir}/%{_pgeoname}/MuColl_v1.1.3/*.xml
 %{_datadir}/%{_pgeoname}/MuColl_v1.1.3/include/*.xml
-%dir %{_datadir}/%{_pgeoname}/MuSIC_v1
-%{_datadir}/%{_pgeoname}/MuSIC_v1/*.xml
 %dir %{_datadir}/%{_pgeoname}/MuSIC_v2
 %{_datadir}/%{_pgeoname}/MuSIC_v2/*.xml
 %{_sysconfdir}/profile.d/*
 
 %changelog
-* Tue Aug 26 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.22.99-1
+* Fri Sep 26 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.23.0-1
 - Packages for AlmaLinux 10
 
