@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 42.0.0
-%global _tagver 42.0.0
+%global _pver 43.3.0
+%global _tagver 43.3.0
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/acts-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -61,8 +61,6 @@ chrpath --delete %{buildroot}%{_libdir}/*.so
 sed -i -e 's|%{buildroot}/usr|%{_prefix}|g' %{buildroot}%{_bindir}/this_acts.sh \
                                             %{buildroot}%{_bindir}/this_acts_withdeps.sh
 
-# sed -i -e 's|Boost 1.83.0 CONFIG|Boost 1.83.0|g' %{buildroot}%{cmake_acts_dir}/ActsConfig.cmake
-
 %clean
 rm -rf %{buildroot}
 rm -f %{SOURCE0}
@@ -111,6 +109,8 @@ Toolkit for charged particle track reconstruction.
 %dir %{_includedir}/Acts/Geometry
 %{_includedir}/Acts/Geometry/*.hpp
 %{_includedir}/Acts/Geometry/*.ipp
+%dir %{_includedir}/Acts/Geometry/detail
+%{_includedir}/Acts/Geometry/detail/*.hpp
 %dir %{_includedir}/Acts/MagneticField
 %{_includedir}/Acts/MagneticField/*.hpp
 %dir %{_includedir}/Acts/Material
@@ -158,6 +158,7 @@ Toolkit for charged particle track reconstruction.
 %{_includedir}/Acts/Utilities/*.ipp
 %dir %{_includedir}/Acts/Utilities/detail
 %{_includedir}/Acts/Utilities/detail/*.hpp
+%{_includedir}/Acts/Utilities/detail/*.ipp
 %dir %{_includedir}/Acts/Vertexing
 %{_includedir}/Acts/Vertexing/*.hpp
 %{_includedir}/Acts/Vertexing/*.ipp
@@ -177,6 +178,8 @@ Toolkit for charged particle track reconstruction.
 
 
 %changelog
+* Wed Oct 08 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 43.3.0-1
+- New version
 * Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 42.0.0-1
 - New version
 * Tue May 28 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 32.1.0-1

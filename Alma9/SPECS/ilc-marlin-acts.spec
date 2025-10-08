@@ -2,8 +2,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 1.0.2
-%global _tagver 1.0.2-pre1
+%global _pver 1.0.3
+%global _tagver 1.0.3
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinACTS-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -26,6 +26,8 @@ BuildRequires: aida-dd4hep-devel
 BuildRequires: acts-toolkit-devel
 BuildRequires: root
 BuildRequires: tbb-devel
+BuildRequires: eigen3-devel
+BuildRequires: lua-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: https://github.com/MuonColliderSoft/MarlinACTS/archive/refs/tags/v%{_tagver}.tar.gz
 AutoReqProv: yes
@@ -79,6 +81,10 @@ rm -f %{SOURCE0}
 %{_datadir}/MarlinACTS/data/*
 
 %changelog
+* Wed Oct 08 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.0.3-1
+- New version
+* Fri Sep 26 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.0.2-1
+- New version
 * Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.0.1-1
 - New version
 * Tue Jul 22 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 1.0.0-1
