@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 2.22.0
-%global _tagver 02-22-MC
+%global _pver 2.22.4
+%global _tagver 02-22-04-MC
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/LCIO-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -86,6 +86,8 @@ rm -rf %{SOURCE0}
 %{_includedir}/lcio/IO
 
 %changelog
+* Wed Sep 17 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.22.4-1
+- New version of LCIO
 * Fri Jul 05 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.22.0-1
 - New version of LCIO
 * Tue Feb 28 2023 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.17.0-1
