@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.2.99
-%global _tagver 0.2.99
+%global _pver 0.3.0
+%global _tagver f1f62bbf20ae94c7905a05390ff3e6650f645567
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/k4Reco-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -14,7 +14,7 @@ Name: key4hep-reco
 Version: %{_pver}
 Release: 1%{?dist}
 License: Apache License 2.0
-URL: https://github.com/key4hep/k4Reco
+URL: https://github.com/MuonColliderSoft/k4Reco
 Group: Development/Libraries
 BuildArch: %{_arch}
 BuildRequires: cmake
@@ -28,7 +28,7 @@ BuildRequires: key4hep-sim-geant4-devel
 BuildRequires: key4hep-geo-devel
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://nexus.pd.infn.it/artifacts/repository/misc/k4Reco-%{_tagver}.tar.gz
+Source0: https://github.com/MuonColliderSoft/k4Reco/archive/%{_tagver}.zip
 Patch0: key4hep-reco-lcio-setup.patch
 AutoReqProv: yes
 
@@ -133,6 +133,6 @@ Gaudi algorithms for reconstruction using EDM4hep natively.
 
 
 %changelog
-* Tue Aug 26 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.2.99-1
+* Mon Oct 13 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.3.0-1
 - Porting to AlmaLinux
 

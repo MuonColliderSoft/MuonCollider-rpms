@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.0.99
-%global _tagver 0.0.99
+%global _pver 0.1.0
+%global _tagver eaffaff7ddb57c673769371ea7fa7b8ef9eeee1e
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/k4ActsTracking-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -25,8 +25,9 @@ BuildRequires: aida-dd4hep-devel
 BuildRequires: acts-toolkit-devel
 BuildRequires: root
 BuildRequires: edm4hep-devel
+BuildRequires: lua-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://nexus.pd.infn.it/artifacts/repository/misc/k4ActsTracking-%{_tagver}.tar.gz
+Source0: https://github.com/MuonColliderSoft/k4ActsTracking/archive/%{_tagver}.zip
 AutoReqProv: yes
 
 %description
@@ -85,6 +86,7 @@ Requires: aida-dd4hep-devel
 Requires: acts-toolkit-devel
 Requires: edm4hep-devel
 Requires: root
+Requires: lua-devel
 
 %description devel
 Gaudi algorithms for running track reconstructions using the ACTS library.
@@ -115,6 +117,6 @@ Gaudi algorithms for running track reconstructions using the ACTS library.
 
 
 %changelog
-* Fri Aug 29 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.0.99-1
+* Mon Oct 13 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 0.1.0-1
 - Porting to AlmaLinux
 

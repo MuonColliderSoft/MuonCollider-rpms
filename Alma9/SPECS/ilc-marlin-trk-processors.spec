@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 2.15.6
-%global _tagver MuSICv2-pre04
+%global _pver 2.15.7
+%global _tagver 13393dac5ee1512da9a6a485d8e8d4c52a623a2e
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/MarlinTrkProcessors-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -28,7 +28,7 @@ BuildRequires: ilc-kitrack-devel
 BuildRequires: ilc-kitrack-marlin-devel
 BuildRequires: ilc-ddkaltest-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://github.com/MuonColliderSoft/MarlinTrkProcessors/archive/refs/tags/%{_tagver}.tar.gz
+Source0: https://github.com/MuonColliderSoft/MarlinTrkProcessors/archive/%{_tagver}.zip
 AutoReqProv: yes
 
 %description
@@ -73,6 +73,8 @@ rm -rf %{SOURCE0}
 %{_libdir}/*.so
 
 %changelog
+* Mon Oct 13 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.15.7-1
+- New version
 * Mon Aug 04 2025 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.15.6-1
 - New version
 * Wed Jul 10 2024 Paolo Andreetto <paolo.andreetto@pd.infn.it> - 2.15.2-1

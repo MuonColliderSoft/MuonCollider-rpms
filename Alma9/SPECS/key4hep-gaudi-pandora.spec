@@ -1,8 +1,8 @@
 %undefine _disable_source_fetch
 %global debug_package %{nil}
 
-%global _pver 0.1.99
-%global _tagver 0.1.99
+%global _pver 0.2.0
+%global _tagver c94845a4718ed74fbf5ee9eff97a61f8741b7e95
 
 %global _sbuilddir %{_builddir}/%{name}-%{version}/k4GaudiPandora-%{_tagver}
 %global _cbuilddir %{_builddir}/%{name}-%{version}/build
@@ -28,7 +28,7 @@ BuildRequires: aida-dd4hep-devel
 BuildRequires: edm4hep-devel
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Source0: https://nexus.pd.infn.it/artifacts/repository/misc/k4GaudiPandora-v%{_tagver}.tar.gz
+Source0: https://github.com/MuonColliderSoft/k4GaudiPandora/archive/%{_tagver}.zip
 AutoReqProv: yes
 
 %description
